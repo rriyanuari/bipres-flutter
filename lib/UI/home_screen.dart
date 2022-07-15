@@ -155,12 +155,12 @@ class HomeScreen extends StatelessWidget {
                             Row(children: [
                               Flexible(
                                   fit: FlexFit.loose,
-                                  child: menu("Latihan", Icons.model_training,
+                                  child: menu("Test", Icons.scoreboard,
                                       RouteName.sekolah_screen)),
                               SizedBox(width: 20),
                               Flexible(
                                   fit: FlexFit.loose,
-                                  child: menu("Test", Icons.score,
+                                  child: menu("SPP", Icons.attach_money,
                                       RouteName.sekolah_screen)),
                             ]),
                             SizedBox(height: 50),

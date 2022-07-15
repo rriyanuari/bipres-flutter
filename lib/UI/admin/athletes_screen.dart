@@ -1,14 +1,12 @@
 import 'dart:convert';
 
-// import 'package:asik/screens/master_data/jabatan/add.dart';
-// import 'package:asik/screens/master_data/jabatan/edit.dart';
+import 'package:bipres/api/api.dart';
+import 'package:bipres/models/athletes_model.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import '../../../api/api.dart';
-// import '../../../models/jabatan_model.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class AhtletesScreen extends StatefulWidget {
   @override
@@ -32,23 +30,33 @@ class _AhtletesScreenState extends State<AhtletesScreen> {
       loading = false;
     });
 
-    // final response = await http.get(Uri.parse(BaseUrl.urlListJabatan));
+    final response = await http.get(Uri.parse(BaseUrl.urlListAtlet));
 
-    // if (response.contentLength == 2) {
-    //   print(response);
-    // } else {
-    //   print(response);
-    //   final data = jsonDecode(response.body);
-    //   data.forEach((api) {
-    //     final ab = new JabatanModel(
-    //         api['id_jabatan'], api['nama_jabatan'], api['log_datetime']);
-    //     list.add(ab);
-    //   });
+    if (response.contentLength == 2) {
+      print(response);
+    } else {
+      print(response);
+      final data = jsonDecode(response.body);
+      data.forEach((api) {
+        final ab = new AthletesModel(
+            api['id_user'], 
+            api['username'], 
+            api['password'],
+            api['email'],
+            api['status'],
+            api['nama_lengkap'],
+            api['jenis_kelamin'],
+            api['tanggal_lahir'],
+            api['id_sekolah'],
+            api['log_datetime'],
+            );
+        list.add(ab);
+      });
 
-    //   setState(() {
-    //     loading = false;
-    //   });
-    // }
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   // _proseshapus(String idJabatan) async {
@@ -121,34 +129,6 @@ class _AhtletesScreenState extends State<AhtletesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _item(data) {
-      return Container(
-          margin: EdgeInsets.symmetric(vertical: 10.0),
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          color: Colors.amber[100],
-          child: Row(children: [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(data.idJabatan + ".     "),
-                  Text(data.namaJabatan),
-                ],
-              ),
-            ),
-            IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //     builder: (context) => EditJabatan(data, _lihatData)));
-                }),
-            IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {
-                  // dialogHapus(data.idJabatan.toString());
-                }),
-          ]));
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -171,9 +151,9 @@ class _AhtletesScreenState extends State<AhtletesScreen> {
             child: loading
                 ? Center(child: CircularProgressIndicator())
                 : ListView.builder(
-                    itemCount: 2, // list.length
+                    itemCount: list.length, // list.length
                     itemBuilder: (context, i) {
-                      // final data = list[i];
+                      final data = list[i];
                       return Column(
                         children: [
                           Padding(
@@ -187,23 +167,23 @@ class _AhtletesScreenState extends State<AhtletesScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Usman Sidiq A.",
+                                    Text(data.nama_lengkap,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16,
+                                          color: Color(0xfff009c3d),
+                                          fontSize: 18,
                                         )),
-                                    Text(
-                                      "( Putra )",
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),
-                                    ),
                                   ],
                                 ),
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("2009"),
-                                    Text("MTS - Al Hikmah Curug"),
+                                    Text(data.tanggal_lahir + " || " + data.jenis_kelamin, style: const TextStyle(
+                                          // fontStyle: FontStyle.italic,
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        )),
+                                    Text(data.id_sekolah),
                                   ],
                                 )),
                           ),

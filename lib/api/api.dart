@@ -17,4 +17,10 @@ class BaseUrl {
   static String urlUbahKategoriStats = url + "api/kategori-stats/edit.php";
   static String urlHapusKategoriStats = url + "api/kategori-stats/delete.php";
 
+  // ATLET
+  static String urlListAtlet = url + "api/atlet/list.php";
+  static String urlTambahAtlet = url + "api/atlet/add.php";
+  static String urlUbahAtlet = url + "api/atlet/edit.php";
+  static String urlHapusAtlet = url + "api/atlet/delete.php";
+
 }
