@@ -1,9 +1,37 @@
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      String? saved_status = preferences.getString('saved_status');
+      String? saved_username = preferences.getString('saved_username');
+    });
+  }
+
+  signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove('saved_status');
+    preferences.remove('saved_username');
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Berhasil logout, anda akan dialihkan"),
+      backgroundColor: Colors.red,
+    ));
+
+    Future.delayed(
+      const Duration(seconds: 3),
+      () => Get.offNamed(RouteName.login_screen),
+    );
+  }
 
   Widget menu(String textTitle, textIcon, textRoutes) {
     return Container(
@@ -36,6 +64,12 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPref();
   }
 
   @override
@@ -104,14 +138,10 @@ class HomeScreen extends StatelessWidget {
                                                     child: const Text('Cancel'),
                                                   ),
                                                   TextButton(
-                                                    onPressed: () =>
-                                                        Future.delayed(
-                                                            const Duration(
-                                                                seconds: 1),
-                                                            () {
-                                                      Get.offNamed(RouteName
-                                                          .login_screen);
-                                                    }),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      signOut();
+                                                    },
                                                     child: const Text('Ok'),
                                                   ),
                                                 ],

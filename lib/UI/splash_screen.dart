@@ -19,10 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> autoLogin() async {
     // Get.offNamed(RouteName.login_screen);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? userToken = prefs.getString("user-token");
-    if (userToken != null) {
+    final String? saved_status = prefs.getString("saved_status");
+    if (saved_status != null) {
       Future.delayed(const Duration(seconds: 4), () {
-        // Get.offNamed(RouteName.home_screen);
+        Get.offNamed(RouteName.main_user_screen);
       });
     } else {
       Future.delayed(const Duration(seconds: 4), () {
