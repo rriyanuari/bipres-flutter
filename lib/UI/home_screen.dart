@@ -148,7 +148,7 @@ class HomeScreen extends StatelessWidget {
                               Flexible(
                                 fit: FlexFit.loose,
                                 child: menu("Kategori", Icons.category,
-                                    RouteName.sekolah_screen),
+                                    RouteName.kategori_stats_screen),
                               ),
                             ]),
                             SizedBox(height: 20),

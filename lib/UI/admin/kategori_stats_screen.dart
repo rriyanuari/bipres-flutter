@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:bipres/UI/admin/kategoriAdd_screen.dart';
+import 'package:bipres/UI/admin/kategoriEdit_screen.dart';
 import 'package:bipres/UI/admin/sekolahAdd_screen.dart';
 import 'package:bipres/UI/admin/sekolahEdit_screen.dart';
 import 'package:bipres/api/api.dart';
+import 'package:bipres/models/kategori_stats_model.dart';
 import 'package:bipres/models/sekolah_model.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +13,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-class SekolahScreen extends StatefulWidget {
+class KategoriStatsScreen extends StatefulWidget {
   @override
-  State<SekolahScreen> createState() => _SekolahScreenState();
+  State<KategoriStatsScreen> createState() => _KategoriStatsScreen();
 }
 
-class _SekolahScreenState extends State<SekolahScreen> {
+class _KategoriStatsScreen extends State<KategoriStatsScreen> {
   bool loading = true;
 
   final list = [];
@@ -32,14 +35,14 @@ class _SekolahScreenState extends State<SekolahScreen> {
       loading = false;
     });
 
-    final response = await http.get(Uri.parse(BaseUrl.urlListSekolah));
+    final response = await http.get(Uri.parse(BaseUrl.urlListKategoriStats));
 
     if (response.contentLength == 2) {
     } else {
       final data = jsonDecode(response.body);
       data.forEach((api) {
-        final ab = new SekolahModel(
-            api['id_sekolah'], api['nama_sekolah'], api['jenjang_sekolah'], api['log_datetime']);
+        final ab = new KategoriStatsModel(
+            api['id_kategori_stats'], api['nama_kategori_stats'], api['deskripsi_kategori_stats'], api['log_datetime']);
         list.add(ab);
       });
 
@@ -49,9 +52,9 @@ class _SekolahScreenState extends State<SekolahScreen> {
     }
   }
 
-  _proseshapus(String id_sekolah) async {
-    final response = await http.post(Uri.parse(BaseUrl.urlHapusSekolah),
-        body: {"id_sekolah": id_sekolah});
+  _proseshapus(String id_kategori_stats) async {
+    final response = await http.post(Uri.parse(BaseUrl.urlHapusKategoriStats),
+        body: {"id_kategori_stats": id_kategori_stats});
     final data = jsonDecode(response.body);
     int value = data['success'];
     String pesan = data['message'];
@@ -67,12 +70,13 @@ class _SekolahScreenState extends State<SekolahScreen> {
       });
       
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(pesan), backgroundColor: Colors.red,));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(pesan), backgroundColor: Colors.red,));
+
     }
   }
 
-  dialogHapus(String id_sekolah) {
+  dialogHapus(String id_kategori_stats) {
     showDialog(
       context: context,
       builder: (context) {
@@ -102,7 +106,7 @@ class _SekolahScreenState extends State<SekolahScreen> {
                     SizedBox(width: 25.0),
                     InkWell(
                       onTap: () {
-                        _proseshapus(id_sekolah);
+                        _proseshapus(id_kategori_stats);
                       },
                       child: Text(
                         "Ya",
@@ -126,44 +130,15 @@ class _SekolahScreenState extends State<SekolahScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _item(data) {
-      return Container(
-          margin: EdgeInsets.symmetric(vertical: 10.0),
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          color: Colors.amber[100],
-          child: Row(children: [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(data.idJabatan + ".     "),
-                  Text(data.namaJabatan),
-                ],
-              ),
-            ),
-            IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => sekolahEditScreen(data, _lihatData)));
-                }),
-            IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {
-                  // dialogHapus(data.idJabatan.toString());
-                }),
-          ]));
-    }
-
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xfff009c3d),
           title: Row(
             children: [
-              Icon(Icons.school),
+              Icon(Icons.category),
               SizedBox(width: 10),
               Text(
-                'Sekolah',
+                'Kategori Stats',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
@@ -188,14 +163,14 @@ class _SekolahScreenState extends State<SekolahScreen> {
                                 Expanded(
                                   child: ListTile(
                                       leading: Icon(
-                                        Icons.school,
+                                        Icons.category,
                                         size: 40,
                                       ), // Image.asset("assets/images/logo.png"),
                                       title: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(data.nama_sekolah,
+                                          Text(data.nama_kategori_stats,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 16,
@@ -205,7 +180,7 @@ class _SekolahScreenState extends State<SekolahScreen> {
                                       subtitle: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(data.jenjang_sekolah),
+                                          Text(data.deskripsi_kategori_stats),
                                         ],
                                       )),
                                 ),
@@ -213,12 +188,12 @@ class _SekolahScreenState extends State<SekolahScreen> {
                                   icon: Icon(Icons.edit, color: Colors.blue,),
                                   onPressed: () {
                                     Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) => sekolahEditScreen(data, _lihatData)));
+                                        builder: (context) => kategoriEditScreen(data, _lihatData)));
                                   }),
                                 IconButton(
                                     icon: Icon(Icons.delete, color: Colors.red,),
                                     onPressed: () {
-                                      dialogHapus(data.id_sekolah.toString());
+                                      dialogHapus(data.id_kategori_stats.toString());
                                     }) 
                               ],
                             ),
@@ -235,7 +210,7 @@ class _SekolahScreenState extends State<SekolahScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => sekolahAddScreen(_lihatData)));
+            builder: (context) => kategoriAddScreen(_lihatData)));
 
         },
         backgroundColor: Color(0xfff009c3d),

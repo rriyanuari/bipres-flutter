@@ -8,17 +8,16 @@ import 'package:flutter/services.dart';
 import 'package:async/async.dart';
 import 'package:path/path.dart' as path;
 
-class sekolahAddScreen extends StatefulWidget {
+class kategoriAddScreen extends StatefulWidget {
   final VoidCallback reload;
-  sekolahAddScreen(this.reload);
+  kategoriAddScreen(this.reload);
 
   @override
-  sekolahAddScreenState createState() => sekolahAddScreenState();
+  kategoriAddScreenState createState() => kategoriAddScreenState();
 }
 
-class sekolahAddScreenState extends State<sekolahAddScreen> {
-  String? nama_sekolah;
-  String jenjang_sekolah = 'SMA/SMK';
+class kategoriAddScreenState extends State<kategoriAddScreen> {
+  String? nama_kategori_stats, deskripsi_kategori_stats;
 
   final _key = new GlobalKey<FormState>();
 
@@ -32,10 +31,10 @@ class sekolahAddScreenState extends State<sekolahAddScreen> {
 
   proses() async {
     try {
-      var uri = Uri.parse(BaseUrl.urlTambahSekolah);
+      var uri = Uri.parse(BaseUrl.urlTambahKategoriStats);
       var request = http.MultipartRequest("POST", uri);
-      request.fields['nama_sekolah'] = nama_sekolah!;
-      request.fields['jenjang_sekolah'] = jenjang_sekolah;
+      request.fields['nama_kategori_stats'] = nama_kategori_stats!;
+      request.fields['deskripsi_kategori_stats'] = deskripsi_kategori_stats!;
 
       var response = await request.send();
       if (response.statusCode > 2) {
@@ -72,7 +71,7 @@ class sekolahAddScreenState extends State<sekolahAddScreen> {
         appBar: AppBar(
             backgroundColor: Color(0xfff009c3d),
             title: const Text(
-              'Tambah Sekolah',
+              'Tambah Kategori Stats',
               style: TextStyle(fontWeight: FontWeight.bold),
             )),
         body: Form(
@@ -83,37 +82,21 @@ class sekolahAddScreenState extends State<sekolahAddScreen> {
               TextFormField(
                 validator: (e) {
                   if ((e as dynamic).isEmpty) {
-                    return "Silahkan isi nama sekolah";
+                    return "Silahkan isi nama kategori stats";
                   }
                 },
-                onSaved: (e) => nama_sekolah = e,
-                decoration: InputDecoration(labelText: "Nama Sekolah"),
+                onSaved: (e) => nama_kategori_stats = e,
+                decoration: InputDecoration(labelText: "Nama kategori stats"),
               ),
               SizedBox(height: 10),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
-                child: (DropdownButton<String>(
-                  value: jenjang_sekolah,
-                  icon: const Icon(Icons.arrow_downward),
-                  elevation: 16,
-                  style: const TextStyle(fontSize: 16, color: Colors.black),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.grey,
-                  ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      jenjang_sekolah = newValue!;
-                    });
-                  },
-                  items: <String>['SMA/SMK', 'SMP', 'SD']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                )),
+              TextFormField(
+                validator: (e) {
+                  if ((e as dynamic).isEmpty) {
+                    return "Silahkan isi deskripsi kategori stats";
+                  }
+                },
+                onSaved: (e) => deskripsi_kategori_stats = e,
+                decoration: InputDecoration(labelText: "Deskripsi kategori stats"),
               ),
               SizedBox(height: 10),
               MaterialButton(

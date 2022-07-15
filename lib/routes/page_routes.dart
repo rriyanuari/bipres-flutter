@@ -1,5 +1,7 @@
 import 'package:bipres/UI/admin/athletes_screen.dart';
+import 'package:bipres/UI/admin/kategori_stats_screen.dart';
 import 'package:bipres/UI/admin/sekolahAdd_screen.dart';
+import 'package:bipres/UI/admin/sekolahEdit_screen.dart';
 import 'package:bipres/UI/admin/sekolah_screen.dart';
 import 'package:bipres/UI/auth/login_screen.dart';
 import 'package:bipres/UI/onBoard_screen.dart';
@@ -11,6 +13,7 @@ import 'package:bipres/routes/route_name.dart';
 // import 'package:final_project/UI/register_screen.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
 class pageRouteApp {
   static final pages = [
@@ -21,7 +24,11 @@ class pageRouteApp {
 
     // Sekolah
     GetPage(name: RouteName.sekolah_screen, page: () => SekolahScreen()),
-    GetPage(name: RouteName.sekolah_add_screen, page: () => sekolahAddScreen()),
+    // GetPage(name: RouteName.sekolah_add_screen, page: () => sekolahAddScreen()),
+    // GetPage(name: RouteName.sekolah_edit_screen, page: () => sekolahEditScreen()),
+
+    // Kategori Stats
+    GetPage(name: RouteName.kategori_stats_screen, page: () => KategoriStatsScreen()),
 
     // Athletes
     GetPage(name: RouteName.athletes_screen, page: () => AhtletesScreen()),
