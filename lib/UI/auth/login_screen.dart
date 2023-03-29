@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (value == 1) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('${pesan}, anda akan dialihkan'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF98B66E),
       ));
 
       String saved_status = data['status'];
@@ -77,29 +77,58 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            alignment: Alignment.topCenter,
-            // fit: BoxFit.fill,
-            image: AssetImage(
-              'assets/images/background.jpg',
-            ),
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width * 1,
+            color: Color(0xFF98B66E),
+            child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.1,
+                    horizontal: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      ('assets/images/logo.png'),
+                      width: 80,
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      "PORTAL BIPRES",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFFBE39D)),
+                    )
+                  ],
+                )),
           ),
-        ),
-        child: Form(
-          key: _key,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  height: 510,
-                  width: double.infinity,
+          Container(
+            child: Form(
+              key: _key,
+              child: Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.2),
+                alignment: Alignment.center,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
-                    color: Color(0xfff009c3d),
+                    color: Color(0xFFFFFFFF),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.black54,
+                          blurRadius: 15.0,
+                          offset: Offset(0.0, 5))
+                    ],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
@@ -120,7 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               onSaved: (e) => inputUsername = e,
                               decoration: InputDecoration(
-                                labelText: "username",
+                                icon: Icon(Icons.person),
+                                labelText: "Username",
                                 fillColor: Colors.white,
                                 filled: true,
                               ),
@@ -139,6 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               obscureText: _secureText,
                               onSaved: (e) => inputPassword = e,
                               decoration: InputDecoration(
+                                icon: Icon(Icons.lock),
                                 labelText: "password",
                                 fillColor: Colors.white,
                                 filled: true,
@@ -159,12 +190,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           child: MaterialButton(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                side: BorderSide(color: Colors.black)),
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
                             minWidth: 400.0,
-                            height: 42.0,
-                            color: Color(0xffffff002),
-                            child: Text("Login"),
+                            height: 50.0,
+                            color: Color(0xFF98B66E),
+                            child: Text(
+                              "Masuk",
+                              style: TextStyle(color: Color(0xffFBE39D)),
+                            ),
                             onPressed: () => check(),
                           ),
                         ),
@@ -172,8 +206,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-              ]),
-        ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

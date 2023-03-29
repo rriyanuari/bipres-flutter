@@ -28,7 +28,9 @@ class pageRouteApp {
     // GetPage(name: RouteName.sekolah_edit_screen, page: () => sekolahEditScreen()),
 
     // Kategori Stats
-    GetPage(name: RouteName.kategori_stats_screen, page: () => KategoriStatsScreen()),
+    GetPage(
+        name: RouteName.kategori_stats_screen,
+        page: () => KategoriStatsScreen()),
 
     // Athletes
     GetPage(name: RouteName.athletes_screen, page: () => AhtletesScreen()),

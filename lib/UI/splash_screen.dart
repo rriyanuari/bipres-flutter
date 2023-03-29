@@ -36,18 +36,20 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          colors: [Color(0xFFF9D876), Color(0xFF98B66E)],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+        )),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
               "assets/images/logo.png",
-              height: 300,
+              height: 150,
             ),
-            SizedBox(
-              height: 15,
-            ),
-            CircularProgressIndicator()
           ],
         ),
       ),
