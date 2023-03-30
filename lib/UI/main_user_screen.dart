@@ -1,5 +1,5 @@
 import 'package:bipres/UI/admin/athletes_screen.dart';
-import 'package:bipres/UI/home_screen.dart';
+import 'package:bipres/UI/home_screen copy.dart';
 import 'package:bipres/UI/statistic_screen.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +42,17 @@ class _MainUserScreenState extends State<MainUserScreen> {
           }),
           items: [
             FlashyTabBarItem(
+              activeColor: Color(0xFF98B66E),
               icon: Icon(Icons.home),
               title: Text('Home'),
             ),
             FlashyTabBarItem(
+              activeColor: Color(0xFF98B66E),
               icon: Icon(Icons.bar_chart),
               title: Text('Statistik'),
             ),
             FlashyTabBarItem(
+              activeColor: Color(0xFF98B66E),
               icon: Icon(Icons.group),
               title: Text('Athletes'),
             ),
