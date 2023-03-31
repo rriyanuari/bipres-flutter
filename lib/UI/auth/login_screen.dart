@@ -199,10 +199,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               "Masuk",
                               style: TextStyle(color: Color(0xffFBE39D)),
                             ),
-                            // onPressed: () => check(),
-                            onPressed: () => Future.delayed(
-                                const Duration(seconds: 3),
-                                () => Get.offNamed(RouteName.main_user_screen)),
+                            onPressed: () => check(),
+                            // onPressed: () => Future.delayed(
+                            //     const Duration(seconds: 3),
+                            //     () => Get.offNamed(RouteName.main_user_screen)),
                           ),
                         ),
                       ],

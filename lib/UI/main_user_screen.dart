@@ -1,5 +1,6 @@
 import 'package:bipres/UI/admin/athletes_screen.dart';
 import 'package:bipres/UI/home_screen copy.dart';
+import 'package:bipres/UI/profile_screen.dart';
 import 'package:bipres/UI/statistic_screen.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _MainUserScreenState extends State<MainUserScreen> {
     HomeScreen(),
     StatisticScreen(),
     AhtletesScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -55,6 +57,11 @@ class _MainUserScreenState extends State<MainUserScreen> {
               activeColor: Color(0xFF98B66E),
               icon: Icon(Icons.group),
               title: Text('Athletes'),
+            ),
+            FlashyTabBarItem(
+              activeColor: Color(0xFF98B66E),
+              icon: Icon(Icons.person),
+              title: Text('Profile'),
             ),
           ],
         ),
