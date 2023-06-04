@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       });
     } else {
       Future.delayed(const Duration(seconds: 4), () {
-        Get.offNamed(RouteName.onBoard_screen);
+        Get.offNamed(RouteName.login_screen);
       });
     }
   }

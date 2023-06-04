@@ -43,13 +43,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   login() async {
-    final response = await http.post(Uri.parse(BaseUrl.urlLogin),
-        body: {"username": inputUsername, "password": inputPassword});
-    final data = jsonDecode(response.body);
-    int value = data['success'];
-    String pesan = data['message'];
+    final response = await http.post(
+      Uri.parse(BaseUrl.urlLogin),
+      headers: {"user-key": "portalbipres_api"},
+      body: jsonEncode({"username": inputUsername, "password": inputPassword}),
+    );
 
-    if (value == 1) {
+    final response_decode = jsonDecode(response.body);
+    String value = response_decode['status'];
+    String pesan = response_decode['message'];
+    final data = response_decode['data'];
+
+    if (value == 'success') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('${pesan}, anda akan dialihkan'),
         backgroundColor: Color(0xFF98B66E),

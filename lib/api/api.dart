@@ -1,5 +1,5 @@
 class BaseUrl {
-  static String url = "http://192.168.1.9/api-bipres/";
+  static String url = "https://bipres.holtechno.space/";
   static String paths = "http://192.168.1.9/api-bipres/upload/";
 
   // LOGIN

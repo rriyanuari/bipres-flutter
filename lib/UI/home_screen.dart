@@ -35,10 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget menu(String textTitle, textIcon, textRoutes) {
     return Container(
-      height: 80,
-      padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFFBE39D),
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
@@ -48,20 +46,29 @@ class _HomeScreenState extends State<HomeScreen> {
               offset: Offset(0, 6)),
         ],
       ),
-      child: Center(
-        child: ListTile(
-          leading: Icon(
-            textIcon,
-            color: Color(0xfff009c3d),
-          ),
-          title: Text(
-            textTitle,
-            style: TextStyle(color: Colors.black, fontStyle: FontStyle.italic),
-          ),
-          onTap: () {
-            Get.toNamed(textRoutes);
-          },
+      child: InkWell(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              textIcon,
+              color: Color(0xFF98B66E),
+              size: 60,
+            ),
+            SizedBox(height: 10),
+            Text(
+              textTitle,
+              style: TextStyle(
+                  color: Color(0xFF98B66E),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0),
+            ),
+          ],
         ),
+        onTap: () {
+          Get.toNamed(textRoutes);
+        },
       ),
     );
   }
@@ -75,137 +82,89 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            decoration: BoxDecoration(
-              color: Color(0xfff009c3d),
-            ),
-            child: Column(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        decoration: BoxDecoration(
+          color: Color(0xffffffff),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/logo.png'))),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                  Text(
-                                    "Hi, Riyanuari",
-                                    style: const TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Good Morning",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  )
-                                ])),
-                            Row(
-                              children: [
-                                TextButton(
-                                    onPressed: () {
-                                      showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
-                                                title: const Text(
-                                                    'Apakah anda ingin logout?'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('Cancel'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      signOut();
-                                                    },
-                                                    child: const Text('Ok'),
-                                                  ),
-                                                ],
-                                              ));
-                                    },
-                                    child: Icon(
-                                      Icons.logout,
-                                      color: Colors.white,
-                                      size: 30,
-                                    ))
-                              ],
-                            )
-                          ])),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                   Container(
-                      height: 540,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30)),
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 40.0, left: 15, right: 15),
-                          child: Column(children: <Widget>[
-                            Row(children: [
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: menu("Sekolah", Icons.school,
-                                    RouteName.sekolah_screen),
-                              ),
-                              SizedBox(width: 20),
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: menu("Kategori", Icons.category,
-                                    RouteName.kategori_stats_screen),
-                              ),
-                            ]),
-                            SizedBox(height: 20),
-                            Row(children: [
-                              Flexible(
-                                  fit: FlexFit.loose,
-                                  child: menu("Test", Icons.scoreboard,
-                                      RouteName.sekolah_screen)),
-                              SizedBox(width: 20),
-                              Flexible(
-                                  fit: FlexFit.loose,
-                                  child: menu("SPP", Icons.attach_money,
-                                      RouteName.sekolah_screen)),
-                            ]),
-                            SizedBox(height: 50),
-                            Column(
-                              children: [
-                                menu("Athletes", Icons.group,
-                                    RouteName.sekolah_screen),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                menu("Athletes", Icons.group,
-                                    RouteName.sekolah_screen),
-                              ],
-                            )
-                          ])))
-                ])));
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/logo.png'))),
+                  ),
+                  // const SizedBox(width: 20),
+                  Container(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                        Text(
+                          "PORTAL BIPRES",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF98B66E),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          "Biro Prestasi PSHT Curug",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color(0xFFFBE39D)),
+                        )
+                      ])),
+                ],
+              ),
+            ),
+            Container(
+              height: 100,
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                color: Color(0xFFFBE39D),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: double.infinity,
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              decoration: BoxDecoration(
+                color: Color(0xFF98B66E),
+              ),
+              child: GridView.count(
+                primary: false,
+                // padding: const EdgeInsets.all(20),
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                crossAxisCount: 2,
+                childAspectRatio: 1.2,
+                children: <Widget>[
+                  menu("Sekolah", Icons.school, RouteName.sekolah_screen),
+                  menu("Sekolah", Icons.school, RouteName.sekolah_screen),
+                  menu("Sekolah", Icons.school, RouteName.sekolah_screen),
+                  menu("Sekolah", Icons.school, RouteName.sekolah_screen),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
