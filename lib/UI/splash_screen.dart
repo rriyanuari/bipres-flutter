@@ -1,7 +1,7 @@
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bipres/controller/pref_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -11,6 +11,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final PrefController prefController = Get.put(PrefController());
+
   void initState() {
     autoLogin();
     super.initState();
@@ -18,9 +20,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> autoLogin() async {
     // Get.offNamed(RouteName.login_screen);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? saved_status = prefs.getString("saved_status");
-    if (saved_status != null) {
+
+    // Check sudah login ?
+    if (prefController.myDataPref != null) {
       Future.delayed(const Duration(seconds: 4), () {
         Get.offNamed(RouteName.main_user_screen);
       });

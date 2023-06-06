@@ -6,11 +6,8 @@ import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
-
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bipres/controller/pref_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,6 +17,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final PrefController prefController = Get.put(PrefController());
+
   String? inputUsername, inputPassword;
   bool _secureText = true;
   final _key = new GlobalKey<FormState>();
@@ -32,16 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  savePref(String saved_status, String saved_username) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      preferences.setString("saved_status", saved_status);
-      preferences.setString("saved_username", saved_username);
-
-      preferences.commit();
-    });
-  }
-
   login() async {
     final response = await http.post(
       Uri.parse(BaseUrl.urlLogin),
@@ -50,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     final response_decode = jsonDecode(response.body);
+    print(response_decode);
     String value = response_decode['status'];
     String pesan = response_decode['message'];
     final data = response_decode['data'];
@@ -60,10 +50,13 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Color(0xFF98B66E),
       ));
 
-      String saved_status = data['status'];
-      String saved_username = data['username'];
+      Map<String, dynamic> dataPref = {
+        "saved_saved_id_user": data['id'],
+        "saved_username": data['username'],
+        "saved_role": data['role'],
+      };
 
-      savePref(saved_status, saved_username);
+      prefController.savePref(dataPref);
       Future.delayed(const Duration(seconds: 3),
           () => Get.offNamed(RouteName.main_user_screen));
     } else {

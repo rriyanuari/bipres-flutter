@@ -1,7 +1,7 @@
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bipres/controller/pref_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,18 +9,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  getPref() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      String? saved_status = preferences.getString('saved_status');
-      String? saved_username = preferences.getString('saved_username');
-    });
-  }
+  final PrefController prefController = Get.put(PrefController());
 
   signOut() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.remove('saved_status');
-    preferences.remove('saved_username');
+    prefController.clearPref();
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Berhasil logout, anda akan dialihkan"),
@@ -56,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Color(0xFF98B66E),
               size: 60,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Text(
               textTitle,
               style: TextStyle(
@@ -76,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getPref();
+    print(prefController.myDataPref.toJson());
   }
 
   @override
@@ -155,10 +147,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisCount: 2,
                 childAspectRatio: 1.2,
                 children: <Widget>[
-                  menu("Sekolah", Icons.school, RouteName.sekolah_screen),
-                  menu("Sekolah", Icons.school, RouteName.sekolah_screen),
-                  menu("Sekolah", Icons.school, RouteName.sekolah_screen),
-                  menu("Sekolah", Icons.school, RouteName.sekolah_screen),
+                  menu("Absen", Icons.watch, RouteName.sekolah_screen),
+                  menu("SPP", Icons.attach_money, RouteName.sekolah_screen),
+                  menu("Tes", Icons.location_on, RouteName.sekolah_screen),
+                  menu("Laporan", Icons.document_scanner,
+                      RouteName.sekolah_screen),
                 ],
               ),
             )
