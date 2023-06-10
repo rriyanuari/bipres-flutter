@@ -15,22 +15,23 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void initState() {
     autoLogin();
+    print(prefController.myDataPref.length);
     super.initState();
   }
 
   Future<void> autoLogin() async {
     // Get.offNamed(RouteName.login_screen);
 
-    // Check sudah login ?
-    if (prefController.myDataPref != null) {
+    // Check ada data?
+    if (prefController.myDataPref.length > 0) {
       Future.delayed(const Duration(seconds: 4), () {
         Get.offNamed(RouteName.main_user_screen);
       });
-    } else {
-      Future.delayed(const Duration(seconds: 4), () {
-        Get.offNamed(RouteName.login_screen);
-      });
     }
+
+    Future.delayed(const Duration(seconds: 4), () {
+      Get.offNamed(RouteName.login_screen);
+    });
   }
 
   @override

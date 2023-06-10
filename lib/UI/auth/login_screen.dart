@@ -94,15 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 80,
                     ),
                     SizedBox(
-                      height: 50,
+                      height: 60,
                     ),
-                    Text(
-                      "PORTAL BIPRES",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFFBE39D)),
-                    )
                   ],
                 )),
           ),
@@ -114,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     top: MediaQuery.of(context).size.height * 0.2),
                 alignment: Alignment.center,
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     color: Color(0xFFFFFFFF),
@@ -210,6 +203,35 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+          Container(
+              width: MediaQuery.of(context).size.width * 1,
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.28),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "PORTAL BIPRES",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFFBE39D)),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Biro Prestasi PSHT Ranting Curug",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  )
+                ],
+              )),
         ],
       ),
     );

@@ -14,7 +14,7 @@ class PrefController extends GetxController {
 
   void getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? data = prefs.getString('myDataPref');
+    String? data = prefs.getString('myDataPrefController');
     if (data != null) {
       Map<dynamic, dynamic> map = jsonDecode(data);
       myDataPref.value = Map<dynamic, dynamic>.from(map);
@@ -24,12 +24,12 @@ class PrefController extends GetxController {
   void savePref(Map<dynamic, dynamic> newData) async {
     myDataPref.value = newData;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('myDataPref', jsonEncode(newData));
+    await prefs.setString('myDataPrefController', jsonEncode(newData));
   }
 
   void clearPref() async {
     myDataPref.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('myDataPref');
+    await prefs.remove('myDataPrefController');
   }
 }

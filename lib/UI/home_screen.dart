@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          "Biro Prestasi PSHT Curug",
+                          "Biro Prestasi PSHT Ranting Curug",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
