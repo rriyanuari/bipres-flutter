@@ -147,11 +147,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisCount: 2,
                 childAspectRatio: 1.2,
                 children: <Widget>[
-                  menu("Absen", Icons.watch, RouteName.sekolah_screen),
-                  menu("SPP", Icons.attach_money, RouteName.sekolah_screen),
-                  menu("Tes", Icons.location_on, RouteName.sekolah_screen),
+                  menu("Absen", Icons.watch, RouteName.siswa_screen),
+                  menu("SPP", Icons.attach_money, RouteName.siswa_screen),
+                  menu("Tes", Icons.location_on, RouteName.siswa_screen),
                   menu("Laporan", Icons.document_scanner,
-                      RouteName.sekolah_screen),
+                      RouteName.siswa_screen),
                 ],
               ),
             )

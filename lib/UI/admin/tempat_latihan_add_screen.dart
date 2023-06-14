@@ -8,15 +8,15 @@ import 'package:flutter/services.dart';
 import 'package:async/async.dart';
 import 'package:path/path.dart' as path;
 
-class sekolahAddScreen extends StatefulWidget {
-  final VoidCallback reload;
-  sekolahAddScreen(this.reload);
+class TempatLatihanAddScreen extends StatefulWidget {
+  // final VoidCallback reload;
+  // TempatLatihanAddScreen(this.reload);
 
   @override
-  sekolahAddScreenState createState() => sekolahAddScreenState();
+  TempatLatihanAddScreenState createState() => TempatLatihanAddScreenState();
 }
 
-class sekolahAddScreenState extends State<sekolahAddScreen> {
+class TempatLatihanAddScreenState extends State<TempatLatihanAddScreen> {
   String? nama_sekolah;
   String jenjang_sekolah = 'SMA/SMK';
 
@@ -41,18 +41,21 @@ class sekolahAddScreenState extends State<sekolahAddScreen> {
       if (response.statusCode > 2) {
         if (this.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Data berhasil ditambahkan"), backgroundColor: Color(0xfff009c3d),));
-          Future.delayed(
-            const Duration(seconds: 2), () {
-              setState(() {
-                widget.reload();
-                Navigator.pop(context);
+            content: Text("Data berhasil ditambahkan"),
+            backgroundColor: Color(0xfff009c3d),
+          ));
+          Future.delayed(const Duration(seconds: 2), () {
+            setState(() {
+              // widget.reload();
+              Navigator.pop(context);
             });
           });
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Data Gagal Ditambahkan"), backgroundColor: Colors.red,));
+          content: Text("Data Gagal Ditambahkan"),
+          backgroundColor: Colors.red,
+        ));
       }
     } catch (e) {
       debugPrint(e.toString());

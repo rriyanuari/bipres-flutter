@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboard/flutter_onboard.dart';
 import 'package:get/get.dart';
 
-class onBoardScreen extends StatelessWidget {
+class OnBoardScreen extends StatelessWidget {
   final PageController _pageController = PageController();
 
   @override

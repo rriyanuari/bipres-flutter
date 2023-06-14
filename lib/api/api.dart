@@ -5,6 +5,12 @@ class BaseUrl {
   // LOGIN
   static String urlLogin = url + "api/login.php";
 
+  // Siswa
+  static String urlListSiswa = url + "api/siswa/list.php";
+  static String urlTambahSiswa = url + "api/siswa/add.php";
+  static String urlUbahSiswa = url + "api/siswa/edit.php";
+  static String urlHapusSiswa = url + "api/siswa/delete.php";
+
   // SEKOLAH
   static String urlListSekolah = url + "api/sekolah/list.php";
   static String urlTambahSekolah = url + "api/sekolah/add.php";
@@ -16,10 +22,4 @@ class BaseUrl {
   static String urlTambahKategoriStats = url + "api/kategori-stats/add.php";
   static String urlUbahKategoriStats = url + "api/kategori-stats/edit.php";
   static String urlHapusKategoriStats = url + "api/kategori-stats/delete.php";
-
-  // ATLET
-  static String urlListAtlet = url + "api/atlet/list.php";
-  static String urlTambahAtlet = url + "api/atlet/add.php";
-  static String urlUbahAtlet = url + "api/atlet/edit.php";
-  static String urlHapusAtlet = url + "api/atlet/delete.php";
 }

@@ -9,28 +9,28 @@ import 'package:flutter/services.dart';
 import 'package:async/async.dart';
 import 'package:path/path.dart' as path;
 
-class sekolahEditScreen extends StatefulWidget {
-  final VoidCallback reload;
-  final SekolahModel model;
-  sekolahEditScreen(this.model, this.reload);
+class TempatLatihanEditScreen extends StatefulWidget {
+  // final VoidCallback reload;
+  // final SekolahModel model;
+  // TempatLatihanEditScreen(this.model, this.reload);
 
   @override
-  sekolahEditScreenState createState() => sekolahEditScreenState();
+  TempatLatihanEditScreenState createState() => TempatLatihanEditScreenState();
 }
 
-class sekolahEditScreenState extends State<sekolahEditScreen> {
+class TempatLatihanEditScreenState extends State<TempatLatihanEditScreen> {
   String? nama_sekolah;
   String? jenjang_sekolah = 'SMA/SMK';
 
   TextEditingController? controller_nama_sekolah;
 
-
   final _key = new GlobalKey<FormState>();
 
-   setup() async {
-    controller_nama_sekolah = TextEditingController(text: widget.model.nama_sekolah);
-    jenjang_sekolah = widget.model.jenjang_sekolah;
-  }
+  // setup() async {
+  //   controller_nama_sekolah =
+  //       TextEditingController(text: widget.model.nama_sekolah);
+  //   jenjang_sekolah = widget.model.jenjang_sekolah;
+  // }
 
   SekolahModel? _currentSekolah;
   final String? linkSekolah = BaseUrl.urlListSekolah;
@@ -60,26 +60,29 @@ class sekolahEditScreenState extends State<sekolahEditScreen> {
     try {
       var uri = Uri.parse(BaseUrl.urlUbahSekolah);
       var request = http.MultipartRequest("POST", uri);
-      request.fields['id_sekolah'] = widget.model.id_sekolah!;
-      request.fields['nama_sekolah'] = nama_sekolah!;
-      request.fields['jenjang_sekolah'] = jenjang_sekolah!;
+      // request.fields['id_sekolah'] = widget.model.id_sekolah!;
+      // request.fields['nama_sekolah'] = nama_sekolah!;
+      // request.fields['jenjang_sekolah'] = jenjang_sekolah!;
 
       var response = await request.send();
       if (response.statusCode > 2) {
         if (this.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Data berhasil diubah"), backgroundColor: Color(0xfff009c3d),));
-          Future.delayed(
-            const Duration(seconds: 2), () {
-              setState(() {
-                widget.reload();
-                Navigator.pop(context);
+            content: Text("Data berhasil diubah"),
+            backgroundColor: Color(0xfff009c3d),
+          ));
+          Future.delayed(const Duration(seconds: 2), () {
+            setState(() {
+              // widget.reload();
+              Navigator.pop(context);
             });
           });
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Data Gagal diubah"), backgroundColor: Colors.red,));
+          content: Text("Data Gagal diubah"),
+          backgroundColor: Colors.red,
+        ));
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -92,7 +95,7 @@ class sekolahEditScreenState extends State<sekolahEditScreen> {
   void initState() {
     super.initState();
 
-    setup();
+    // setup();
   }
 
   @override

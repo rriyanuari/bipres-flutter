@@ -1,4 +1,4 @@
-import 'package:bipres/UI/admin/athletes_screen.dart';
+import 'package:bipres/UI/admin/siswa_screen.dart';
 import 'package:bipres/UI/admin/masterData_screen.dart';
 import 'package:bipres/UI/home_screen.dart';
 import 'package:bipres/UI/profile_screen.dart';

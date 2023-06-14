@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bipres/UI/admin/sekolahAdd_screen.dart';
-import 'package:bipres/UI/admin/sekolahEdit_screen.dart';
+import 'package:bipres/UI/admin/tempat_latihan_add_screen.dart';
+import 'package:bipres/UI/admin/tempat_latihan_edit_screen.dart';
 import 'package:bipres/api/api.dart';
 import 'package:bipres/models/sekolah_model.dart';
 import 'package:bipres/routes/route_name.dart';
@@ -10,12 +10,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-class SekolahScreen extends StatefulWidget {
+class TempatLatihanScreen extends StatefulWidget {
   @override
-  State<SekolahScreen> createState() => _SekolahScreenState();
+  State<TempatLatihanScreen> createState() => _TempatLatihanScreenState();
 }
 
-class _SekolahScreenState extends State<SekolahScreen> {
+class _TempatLatihanScreenState extends State<TempatLatihanScreen> {
   bool loading = true;
 
   final list = [];
@@ -38,8 +38,8 @@ class _SekolahScreenState extends State<SekolahScreen> {
     } else {
       final data = jsonDecode(response.body);
       data.forEach((api) {
-        final ab = new SekolahModel(
-            api['id_sekolah'], api['nama_sekolah'], api['jenjang_sekolah'], api['log_datetime']);
+        final ab = new SekolahModel(api['id_sekolah'], api['nama_sekolah'],
+            api['jenjang_sekolah'], api['log_datetime']);
         list.add(ab);
       });
 
@@ -58,17 +58,19 @@ class _SekolahScreenState extends State<SekolahScreen> {
     if (value == 1) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(pesan), backgroundColor: Colors.red,));
-      Future.delayed(
-        const Duration(seconds: 1), () {
-          setState(() {
-            _lihatData();
-          });
+        content: Text(pesan),
+        backgroundColor: Colors.red,
+      ));
+      Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          _lihatData();
+        });
       });
-      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(pesan), backgroundColor: Colors.red,));
+        content: Text(pesan),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -142,11 +144,13 @@ class _SekolahScreenState extends State<SekolahScreen> {
               ),
             ),
             IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => sekolahEditScreen(data, _lihatData)));
-                }),
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) =>
+                //         TempatLatihanEditScreen(data, _lihatData)));
+              },
+            ),
             IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () {
@@ -203,23 +207,33 @@ class _SekolahScreenState extends State<SekolahScreen> {
                                         ],
                                       ),
                                       subtitle: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(data.jenjang_sekolah),
                                         ],
                                       )),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.edit, color: Colors.blue,),
-                                  onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) => sekolahEditScreen(data, _lihatData)));
-                                  }),
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                    ),
+                                    onPressed: () {
+                                      // Navigator.of(context).push(
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             TempatLatihanEditScreen(
+                                      //                 data, _lihatData)));
+                                    }),
                                 IconButton(
-                                    icon: Icon(Icons.delete, color: Colors.red,),
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
                                     onPressed: () {
                                       dialogHapus(data.id_sekolah.toString());
-                                    }) 
+                                    })
                               ],
                             ),
                           ),
@@ -234,9 +248,9 @@ class _SekolahScreenState extends State<SekolahScreen> {
           )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => sekolahAddScreen(_lihatData)));
-
+          // Navigator.of(context).push(MaterialPageRoute(
+          //     builder: (context) =>
+          //     TempatLatihanAddScreen(_lihatData)));
         },
         backgroundColor: Color(0xfff009c3d),
         child: const Icon(Icons.add),

@@ -10,12 +10,12 @@ import 'package:path/path.dart' as path;
 // import '../../../models/jabatan_model.dart';
 // import '../../../api/api.dart';
 
-class athletesAddScreen extends StatefulWidget {
+class SiswaAddScreen extends StatefulWidget {
   @override
-  _athletesAddScreenState createState() => _athletesAddScreenState();
+  _SiswaAddScreenState createState() => _SiswaAddScreenState();
 }
 
-class _athletesAddScreenState extends State<athletesAddScreen> {
+class _SiswaAddScreenState extends State<SiswaAddScreen> {
   String? nama;
   final _key = new GlobalKey<FormState>();
 

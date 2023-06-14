@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:bipres/UI/admin/kategoriAdd_screen.dart';
 import 'package:bipres/UI/admin/kategoriEdit_screen.dart';
-import 'package:bipres/UI/admin/sekolahAdd_screen.dart';
-import 'package:bipres/UI/admin/sekolahEdit_screen.dart';
+import 'package:bipres/UI/admin/tempat_latihan_add_screen.dart';
+import 'package:bipres/UI/admin/tempat_latihan_edit_screen.dart';
 import 'package:bipres/api/api.dart';
 import 'package:bipres/models/kategori_stats_model.dart';
 import 'package:bipres/models/sekolah_model.dart';
@@ -42,7 +42,10 @@ class _KategoriStatsScreen extends State<KategoriStatsScreen> {
       final data = jsonDecode(response.body);
       data.forEach((api) {
         final ab = new KategoriStatsModel(
-            api['id_kategori_stats'], api['nama_kategori_stats'], api['deskripsi_kategori_stats'], api['log_datetime']);
+            api['id_kategori_stats'],
+            api['nama_kategori_stats'],
+            api['deskripsi_kategori_stats'],
+            api['log_datetime']);
         list.add(ab);
       });
 
@@ -61,18 +64,19 @@ class _KategoriStatsScreen extends State<KategoriStatsScreen> {
     if (value == 1) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(pesan), backgroundColor: Colors.red,));
-      Future.delayed(
-        const Duration(seconds: 1), () {
-          setState(() {
-            _lihatData();
-          });
+        content: Text(pesan),
+        backgroundColor: Colors.red,
+      ));
+      Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          _lihatData();
+        });
       });
-      
     } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(pesan), backgroundColor: Colors.red,));
-
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(pesan),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -178,23 +182,34 @@ class _KategoriStatsScreen extends State<KategoriStatsScreen> {
                                         ],
                                       ),
                                       subtitle: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(data.deskripsi_kategori_stats),
                                         ],
                                       )),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.edit, color: Colors.blue,),
-                                  onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) => kategoriEditScreen(data, _lihatData)));
-                                  }),
-                                IconButton(
-                                    icon: Icon(Icons.delete, color: Colors.red,),
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                    ),
                                     onPressed: () {
-                                      dialogHapus(data.id_kategori_stats.toString());
-                                    }) 
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  kategoriEditScreen(
+                                                      data, _lihatData)));
+                                    }),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () {
+                                      dialogHapus(
+                                          data.id_kategori_stats.toString());
+                                    })
                               ],
                             ),
                           ),
@@ -210,8 +225,7 @@ class _KategoriStatsScreen extends State<KategoriStatsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => kategoriAddScreen(_lihatData)));
-
+              builder: (context) => kategoriAddScreen(_lihatData)));
         },
         backgroundColor: Color(0xfff009c3d),
         child: const Icon(Icons.add),
