@@ -31,7 +31,7 @@ class SiswaScreen extends StatelessWidget {
       body: Obx(
         () => RefreshIndicator(
           onRefresh: controller.getSiswa,
-          child: controller.getLoading.value
+          child: controller.loading.value
               ? Center(child: CircularProgressIndicator())
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
