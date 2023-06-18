@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:bipres/models/siswa_model.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:bipres/services/siswa_services.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class SiswaController extends GetxController {
@@ -58,16 +60,30 @@ class SiswaController extends GetxController {
           id_tempat_latihan,
           id_tingkatan);
 
-      if (!result) {
-        throw 'Failed to add data'; // Lemparkan ke error jika result false
-      }
+      // if (result['status'] == 'error') {
+      //   // Lemparkan ke error jika result false
+      //   throw result['message'];
+      // }
+
+      final message = result['message'];
+      print(message);
+
+      Get.snackbar(
+        'Success',
+        '$message',
+        backgroundColor: Color(0xFF98B66E),
+      );
+
+      Get.offNamed(RouteName.siswa_screen);
+      getSiswa();
 
       loading.value = false;
-      Get.snackbar('Success', 'Data added successfully');
-      // Get.off(RouteName.siswa_add_screen);
     } catch (error) {
       loading.value = false;
-      Get.snackbar('Error', 'Failed to add data');
+      Get.snackbar('Failed', '$error',
+          backgroundColor: Colors.red, colorText: Colors.white);
+
+      print(error);
     }
     update();
   }

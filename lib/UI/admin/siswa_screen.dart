@@ -36,7 +36,7 @@ void openDialog(BuildContext context, String id, nama) {
   );
 }
 
-_proseshapus(BuildContext context, String id) async {
+void _proseshapus(BuildContext context, String id) async {
   var body = {
     'id': '$id',
   };

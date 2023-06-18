@@ -65,16 +65,10 @@ class SiswaServices {
         throw TimeoutException("connection time out try again");
       });
 
-      if (response.statusCode != 200) {
-        // Data berhasil dikirim
-        print('Gagal mengirim data');
-        print(response.body);
-        print(jsonBody);
-        return false;
-      }
-      print(response.statusCode);
       Map<String, dynamic> json = convert.jsonDecode(response.body);
-      return true;
+      List<dynamic> response_body = json['data'];
+
+      return json;
     } catch (e) {
       // Error saat mengirim data
       print('Error: $e');
