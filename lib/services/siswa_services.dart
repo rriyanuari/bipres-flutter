@@ -34,28 +34,47 @@ class SiswaServices {
     }
   }
 
-  Future addSiswa(String name, String email) async {
+  Future addSiswa(
+      String? nama_depan,
+      String? nama_belakang,
+      String? nama_lengkap,
+      String? jenis_kelamin,
+      String? tanggal_lahir,
+      String? id_tempat_latihan,
+      String? id_tingkatan) async {
     try {
-      final response = await http.post(
-        Uri.parse('https://example.com/api/endpoint'),
+      var body = {
+        'nama_depan': '$nama_depan',
+        'nama_belakang': '$nama_belakang',
+        'nama_lengkap': '$nama_lengkap',
+        'jenis_kelamin': '$jenis_kelamin',
+        'tanggal_lahir': '$tanggal_lahir',
+        'id_tempat_latihan': '$id_tempat_latihan',
+        'id_tingkatan': '$id_tingkatan'
+      };
+
+      var jsonBody = convert.jsonEncode(body);
+
+      final response = await http
+          .post(
+        Uri.parse(BaseUrl.urlTambahSiswa),
         headers: {"user-key": user_key},
-        body: {
-          'name': name,
-          'email': email,
-        },
-      ).timeout(const Duration(seconds: 10), onTimeout: () {
+        body: jsonBody,
+      )
+          .timeout(const Duration(seconds: 10), onTimeout: () {
         throw TimeoutException("connection time out try again");
       });
 
-      if (response.statusCode == 200) {
+      if (response.statusCode != 200) {
         // Data berhasil dikirim
-        Map<String, dynamic> json = convert.jsonDecode(response.body);
-        return true;
-      } else {
-        // Gagal mengirim data
         print('Gagal mengirim data');
+        print(response.body);
+        print(jsonBody);
         return false;
       }
+      print(response.statusCode);
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
+      return true;
     } catch (e) {
       // Error saat mengirim data
       print('Error: $e');

@@ -21,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String? inputUsername, inputPassword;
   bool _secureText = true;
+  bool isLoading = false;
   final _key = new GlobalKey<FormState>();
 
   check() {
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   login() async {
+    isLoading = true;
     final response = await http.post(
       Uri.parse(BaseUrl.urlLogin),
       headers: {"user-key": "portalbipres_api"},
@@ -65,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.red,
       ));
     }
+    isLoading = false;
   }
 
   void dispose() {
@@ -186,10 +189,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             minWidth: 400.0,
                             height: 50.0,
                             color: Color(0xFF98B66E),
-                            child: Text(
-                              "Masuk",
-                              style: TextStyle(color: Color(0xffFBE39D)),
-                            ),
+                            child: isLoading
+                                ? CircularProgressIndicator()
+                                : Text(
+                                    "Masuk",
+                                    style: TextStyle(color: Color(0xffFBE39D)),
+                                  ),
                             onPressed: () => check(),
                             // onPressed: () => Future.delayed(
                             //     const Duration(seconds: 3),

@@ -8,6 +8,63 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'dart:convert' as convert;
+
+void openDialog(BuildContext context, String id, nama) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Hapus Siswa'),
+        content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Tutup'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Hapus'),
+            onPressed: () {
+              _proseshapus(context, id);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+_proseshapus(BuildContext context, String id) async {
+  var body = {
+    'id': '$id',
+  };
+  var jsonBody = convert.jsonEncode(body);
+
+  final response = await http.delete(Uri.parse(BaseUrl.urlHapusSiswa),
+      headers: {"user-key": "portalbipres_api"}, body: jsonBody);
+  final data = jsonDecode(response.body);
+  String status = data['status'];
+  String message = data['message'];
+  if (status == 'success') {
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    ));
+    Future.delayed(const Duration(seconds: 1), () {
+      // setState(() {
+      //   _lihatData();
+      // });
+    });
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    ));
+  }
+}
 
 class SiswaScreen extends StatelessWidget {
   @override
@@ -92,6 +149,8 @@ class SiswaScreen extends StatelessWidget {
                                     ),
                                     onPressed: () {
                                       // dialogHapus(data.id_sekolah.toString());
+                                      openDialog(
+                                          context, data.id, data.namaLengkap);
                                     })
                               ],
                             ),
