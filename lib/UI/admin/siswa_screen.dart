@@ -10,7 +10,9 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
-void openDialog(BuildContext context, String id, nama) {
+final controller = Get.put(SiswaController());
+
+void openDialog(BuildContext context, String id, idUser, nama) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -27,7 +29,7 @@ void openDialog(BuildContext context, String id, nama) {
           TextButton(
             child: Text('Hapus'),
             onPressed: () {
-              _proseshapus(context, id);
+              controller.deleteSiswa(id, idUser);
             },
           ),
         ],
@@ -69,7 +71,6 @@ void _proseshapus(BuildContext context, String id) async {
 class SiswaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SiswaController());
     final siswa = controller.siswa;
 
     return Scaffold(
@@ -149,8 +150,8 @@ class SiswaScreen extends StatelessWidget {
                                     ),
                                     onPressed: () {
                                       // dialogHapus(data.id_sekolah.toString());
-                                      openDialog(
-                                          context, data.id, data.namaLengkap);
+                                      openDialog(context, data.id, data.idUser,
+                                          data.namaLengkap);
                                     })
                               ],
                             ),

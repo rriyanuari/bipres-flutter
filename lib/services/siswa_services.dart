@@ -66,7 +66,34 @@ class SiswaServices {
       });
 
       Map<String, dynamic> json = convert.jsonDecode(response.body);
-      List<dynamic> response_body = json['data'];
+
+      return json;
+    } catch (e) {
+      // Error saat mengirim data
+      print('Error: $e');
+    }
+  }
+
+  Future deleteSiswa(String? id, id_user) async {
+    try {
+      var body = {
+        'id': '$id',
+        'id_user': '$id_user',
+      };
+
+      var jsonBody = convert.jsonEncode(body);
+
+      final response = await http
+          .delete(
+        Uri.parse(BaseUrl.urlHapusSiswa),
+        headers: {"user-key": user_key},
+        body: jsonBody,
+      )
+          .timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("connection time out try again");
+      });
+
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
 
       return json;
     } catch (e) {

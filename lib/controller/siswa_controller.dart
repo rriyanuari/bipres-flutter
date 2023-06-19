@@ -50,7 +50,6 @@ class SiswaController extends GetxController {
       loading.value = true;
       // Simulasi penundaan untuk pemanggilan data
       await Future.delayed(Duration(seconds: 1));
-
       var result = await services.addSiswa(
           nama_depan,
           nama_belakang,
@@ -60,13 +59,47 @@ class SiswaController extends GetxController {
           id_tempat_latihan,
           id_tingkatan);
 
-      // if (result['status'] == 'error') {
-      //   // Lemparkan ke error jika result false
-      //   throw result['message'];
-      // }
+      if (result['status'] == 'error') {
+        // Lemparkan ke error jika result false
+        throw result['message'];
+      }
 
       final message = result['message'];
-      print(message);
+      Get.snackbar(
+        'Success',
+        '$message',
+        backgroundColor: Color(0xFF98B66E),
+      );
+
+      Get.back();
+      getSiswa();
+      loading.value = false;
+    } catch (error) {
+      loading.value = false;
+      Get.snackbar('Failed', '$error',
+          backgroundColor: Colors.red, colorText: Colors.white);
+    }
+    update();
+  }
+
+  Future<void> deleteSiswa(String? id, id_user) async {
+    try {
+      loading.value = true;
+      // Simulasi penundaan untuk pemanggilan data
+      await Future.delayed(Duration(seconds: 1));
+
+      var result = await services.deleteSiswa(id, id_user);
+
+      if (result['status'] == 'error') {
+        // Lemparkan ke error jika result false
+        throw result['message'];
+      }
+
+      final message = result['message'];
+
+      loading.value = false;
+
+      Get.back();
 
       Get.snackbar(
         'Success',
@@ -74,16 +107,11 @@ class SiswaController extends GetxController {
         backgroundColor: Color(0xFF98B66E),
       );
 
-      Get.offNamed(RouteName.siswa_screen);
       getSiswa();
-
-      loading.value = false;
     } catch (error) {
       loading.value = false;
       Get.snackbar('Failed', '$error',
           backgroundColor: Colors.red, colorText: Colors.white);
-
-      print(error);
     }
     update();
   }
