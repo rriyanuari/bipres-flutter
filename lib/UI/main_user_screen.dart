@@ -1,8 +1,9 @@
 import 'package:bipres/UI/admin/siswa_screen.dart';
-import 'package:bipres/UI/admin/masterData_screen.dart';
+import 'package:bipres/UI/masterData_screen.dart';
 import 'package:bipres/UI/home_screen.dart';
 import 'package:bipres/UI/profile_screen.dart';
 import 'package:bipres/UI/statistic_screen.dart';
+import 'package:bipres/shared/theme.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,7 +41,7 @@ class _MainUserScreenState extends State<MainUserScreen> {
   @override
   Widget build(BuildContext context) {
     Widget _tabBarAdmin = FlashyTabBar(
-      iconSize: 24,
+      iconSize: 30,
       height: 70,
       selectedIndex: _selectedIndex,
       showElevation: true,
@@ -49,25 +50,28 @@ class _MainUserScreenState extends State<MainUserScreen> {
       }),
       items: [
         FlashyTabBarItem(
-          activeColor: Color(0xFF98B66E),
+          activeColor: primaryColor,
           icon: Icon(Icons.home),
-          title: Text('Home'),
+          title: Text(
+            'Home',
+            style: h4,
+          ),
         ),
         FlashyTabBarItem(
-          activeColor: Color(0xFF98B66E),
+          activeColor: primaryColor,
           icon: Icon(Icons.person),
-          title: Text('Profile'),
+          title: Text('Profile', style: h4),
         ),
         FlashyTabBarItem(
-          activeColor: Color(0xFF98B66E),
+          activeColor: primaryColor,
           icon: Icon(Icons.dashboard_customize),
-          title: Text('Master Data'),
+          title: Text('Master Data', style: h4),
         ),
       ],
     );
 
     Widget _tabBarAnggota = FlashyTabBar(
-      iconSize: 24,
+      iconSize: 30,
       height: 70,
       selectedIndex: _selectedIndex,
       showElevation: true,
@@ -76,14 +80,14 @@ class _MainUserScreenState extends State<MainUserScreen> {
       }),
       items: [
         FlashyTabBarItem(
-          activeColor: Color(0xFF98B66E),
+          activeColor: primaryColor,
           icon: Icon(Icons.home),
-          title: Text('Home'),
+          title: Text('Home', style: h4),
         ),
         FlashyTabBarItem(
-          activeColor: Color(0xFF98B66E),
+          activeColor: primaryColor,
           icon: Icon(Icons.person),
-          title: Text('Profile'),
+          title: Text('Profile', style: h4),
         ),
       ],
     );

@@ -1,23 +1,23 @@
 import 'dart:convert';
-
-import 'package:bipres/api/api.dart';
-import 'package:bipres/controller/siswa_controller.dart';
-import 'package:bipres/models/siswa_model.dart';
-import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
-final controller = Get.put(SiswaController());
+import 'package:bipres/api/api.dart';
+import 'package:bipres/routes/route_name.dart';
+import 'package:bipres/controller/spp_controller.dart';
+import 'package:bipres/models/spp_model.dart';
 
-void openDialog(BuildContext context, String id, idUser, nama) {
+final controller = Get.put(SppController());
+
+void openDialog(BuildContext context, String id, nama) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Hapus Siswa'),
+        title: Text('Hapus Spp'),
         content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
         actions: <Widget>[
           TextButton(
@@ -29,7 +29,7 @@ void openDialog(BuildContext context, String id, idUser, nama) {
           TextButton(
             child: Text('Hapus'),
             onPressed: () {
-              controller.deleteSiswa(id, idUser);
+              controller.deleteSpp(id);
             },
           ),
         ],
@@ -38,40 +38,10 @@ void openDialog(BuildContext context, String id, idUser, nama) {
   );
 }
 
-void _proseshapus(BuildContext context, String id) async {
-  var body = {
-    'id': '$id',
-  };
-  var jsonBody = convert.jsonEncode(body);
-
-  final response = await http.delete(Uri.parse(BaseUrl.urlHapusSiswa),
-      headers: {"user-key": "portalbipres_api"}, body: jsonBody);
-  final data = jsonDecode(response.body);
-  String status = data['status'];
-  String message = data['message'];
-  if (status == 'success') {
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.red,
-    ));
-    Future.delayed(const Duration(seconds: 1), () {
-      // setState(() {
-      //   _lihatData();
-      // });
-    });
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.red,
-    ));
-  }
-}
-
-class SiswaScreen extends StatelessWidget {
+class SppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final siswa = controller.siswa;
+    final spp = controller.Spp;
 
     return Scaffold(
       appBar: AppBar(
@@ -81,23 +51,23 @@ class SiswaScreen extends StatelessWidget {
               Icon(Icons.group),
               SizedBox(width: 10),
               Text(
-                'Daftar Siswa',
+                'Daftar Master Data SPP',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           )),
       body: Obx(
         () => RefreshIndicator(
-          onRefresh: controller.getSiswa,
+          onRefresh: controller.getSpp,
           child: controller.isLoading.value
               ? Center(child: CircularProgressIndicator())
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: controller.siswa.length,
+                    itemCount: controller.Spp.length,
                     itemBuilder: (context, index) {
-                      final data = controller.siswa[index];
+                      final data = controller.Spp[index];
 
                       // Render data items
                       return Column(
@@ -116,10 +86,10 @@ class SiswaScreen extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(data.namaLengkap,
+                                          Text('Tahun ' + data.tahun_periode,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 16,
+                                                fontSize: 18,
                                               )),
                                         ],
                                       ),
@@ -127,7 +97,13 @@ class SiswaScreen extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(data.tanggalLahir),
+                                          Text(
+                                              'Total Tagihan ( Rp. ' +
+                                                  data.total_tagihan +
+                                                  ' )',
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                              )),
                                         ],
                                       )),
                                 ),
@@ -140,7 +116,7 @@ class SiswaScreen extends StatelessWidget {
                                       // Navigator.of(context).push(
                                       //     MaterialPageRoute(
                                       //         builder: (context) =>
-                                      //             TempatLatihanEditScreen(
+                                      //             SppEditScreen(
                                       //                 data, _lihatData)));
                                     }),
                                 IconButton(
@@ -150,8 +126,11 @@ class SiswaScreen extends StatelessWidget {
                                     ),
                                     onPressed: () {
                                       // dialogHapus(data.id_sekolah.toString());
-                                      openDialog(context, data.id, data.idUser,
-                                          data.namaLengkap);
+                                      openDialog(
+                                        context,
+                                        data.id,
+                                        data.tahun_periode,
+                                      );
                                     })
                               ],
                             ),

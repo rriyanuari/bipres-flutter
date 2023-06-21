@@ -29,6 +29,7 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   flashy_tab_bar2: ^0.0.4
+  flutter_picker: ^2.1.0
   flutter:
     sdk: flutter
   flutter_onboard: ^2.0.0

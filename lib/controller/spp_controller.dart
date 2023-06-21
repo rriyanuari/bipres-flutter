@@ -1,33 +1,34 @@
 import 'dart:developer';
 
-import 'package:bipres/models/siswa_model.dart';
 import 'package:bipres/routes/route_name.dart';
-import 'package:bipres/services/siswa_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class SiswaController extends GetxController {
-  var siswa = <SiswaModel>[].obs;
-  SiswaServices services = SiswaServices();
+import 'package:bipres/models/spp_model.dart';
+import 'package:bipres/services/spp_services.dart';
+
+class SppController extends GetxController {
+  var Spp = <SppModel>[].obs;
+  SppServices services = SppServices();
   var isLoading = false.obs;
 
   @override
   void onInit() {
-    getSiswa();
+    getSpp();
     super.onInit();
   }
 
-  Future<void> getSiswa() async {
+  Future<void> getSpp() async {
     try {
       isLoading.value = true;
       // Simulasi penundaan untuk pemanggilan data
       await Future.delayed(Duration(seconds: 1));
 
-      var result = await services.getAllSiswa();
+      var result = await services.getAllSpp();
 
       if (result != null) {
-        siswa.assignAll(result);
+        Spp.assignAll(result);
         // print("data siswa: ${siswa.length}");
       } else {
         print("null");
@@ -38,35 +39,23 @@ class SiswaController extends GetxController {
     update();
   }
 
-  Future<void> addSiswa(
-      String? nama_depan,
-      String? nama_belakang,
-      String? nama_lengkap,
-      String? jenis_kelamin,
-      String? tanggal_lahir,
-      String? id_tempat_latihan,
-      String? id_tingkatan) async {
+  Future<void> addSpp(
+    String? tahun_periode,
+    total_tagihan,
+  ) async {
     try {
       isLoading.value = true;
-      print(isLoading.value);
 
       // Simulasi penundaan untuk pemanggilan data
       await Future.delayed(Duration(seconds: 1));
-      var result = await services.addSiswa(
-          nama_depan,
-          nama_belakang,
-          nama_lengkap,
-          jenis_kelamin,
-          tanggal_lahir,
-          id_tempat_latihan,
-          id_tingkatan);
+      var result = await services.addSpp(tahun_periode, total_tagihan);
 
       if (result['status'] == 'error') {
         // Lemparkan ke error jika result false
         throw result['message'];
       }
 
-      await getSiswa();
+      await Spp();
       Get.back();
 
       final message = result['message'];
@@ -84,14 +73,11 @@ class SiswaController extends GetxController {
     update();
   }
 
-  Future<void> deleteSiswa(String? id, id_user) async {
+  Future<void> deleteSpp(String? id) async {
     try {
       isLoading.value = true;
 
-      // Simulasi penundaan untuk pemanggilan data
-      // await Future.delayed(Duration(seconds: 1));
-
-      var result = await services.deleteSiswa(id, id_user);
+      var result = await services.deleteSpp(id);
 
       if (result['status'] == 'error') {
         // Lemparkan ke error jika result false
@@ -109,7 +95,7 @@ class SiswaController extends GetxController {
       );
 
       isLoading.value = false;
-      getSiswa();
+      getSpp();
     } catch (error) {
       isLoading.value = false;
       Get.snackbar('Failed', '$error',

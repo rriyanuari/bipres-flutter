@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:bipres/controller/siswa_controller.dart';
+import 'package:bipres/controller/Pelatih_controller.dart';
 import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:intl/intl.dart';
@@ -43,12 +43,12 @@ List<DropdownMenuItem<String>> get dropdownTempatLatihanItems {
 
 final TextStyle valueStyle = TextStyle(fontSize: 16.0);
 
-class SiswaAddScreen extends StatefulWidget {
+class PelatihAddScreen extends StatefulWidget {
   @override
-  _SiswaAddScreenState createState() => _SiswaAddScreenState();
+  _PelatihAddScreenState createState() => _PelatihAddScreenState();
 }
 
-class _SiswaAddScreenState extends State<SiswaAddScreen> {
+class _PelatihAddScreenState extends State<PelatihAddScreen> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -68,7 +68,7 @@ class _SiswaAddScreenState extends State<SiswaAddScreen> {
   String? selectedTempatLatihan = dropdownTempatLatihanItems.first.value;
   DateTime selectedDate = DateTime.now();
 
-  final controller = Get.put(SiswaController());
+  final controller = Get.put(PelatihController());
 
   final _key = new GlobalKey<FormState>();
 
@@ -87,7 +87,7 @@ class _SiswaAddScreenState extends State<SiswaAddScreen> {
         "id_tingkatan": selectedTingkatan
       };
 
-      controller.addSiswa(
+      controller.addPelatih(
           namaDepan,
           namaBelakang,
           namaLengkap,
@@ -119,7 +119,7 @@ class _SiswaAddScreenState extends State<SiswaAddScreen> {
         appBar: AppBar(
             backgroundColor: Color(0xfff009c3d),
             title: const Text(
-              'Tambah Siswa',
+              'Tambah Pelatih',
               style: TextStyle(fontWeight: FontWeight.bold),
             )),
         body: Obx(() => Form(

@@ -1,7 +1,10 @@
+import 'package:bipres/UI/admin/pelatih_screen.dart';
+import 'package:bipres/UI/admin/pelatih_add_screen.dart';
 import 'package:bipres/UI/admin/siswa_screen.dart';
 import 'package:bipres/UI/admin/kategori_stats_screen.dart';
+import 'package:bipres/UI/admin/spp_add_screen.dart';
+import 'package:bipres/UI/admin/spp_screen.dart';
 import 'package:bipres/UI/admin/tempat_latihan_add_screen.dart';
-import 'package:bipres/UI/admin/tempat_latihan_edit_screen.dart';
 import 'package:bipres/UI/admin/tempat_latihan_screen.dart';
 import 'package:bipres/UI/auth/login_screen.dart';
 import 'package:bipres/UI/onBoard_screen.dart';
@@ -26,6 +29,10 @@ class pageRouteApp {
     GetPage(name: RouteName.siswa_screen, page: () => SiswaScreen()),
     GetPage(name: RouteName.siswa_add_screen, page: () => SiswaAddScreen()),
 
+    // Pelatih
+    GetPage(name: RouteName.pelatih_screen, page: () => PelatihScreen()),
+    GetPage(name: RouteName.pelatih_add_screen, page: () => PelatihAddScreen()),
+
     // Tempat Latihan
     GetPage(
         name: RouteName.tempat_latihan_screen,
@@ -33,9 +40,13 @@ class pageRouteApp {
     GetPage(
         name: RouteName.tempat_latihan_add_screen,
         page: () => TempatLatihanAddScreen()),
-    GetPage(
-        name: RouteName.tempat_latihan_edit_screen,
-        page: () => TempatLatihanEditScreen()),
+    // GetPage(
+    //     name: RouteName.tempat_latihan_edit_screen,
+    //     page: () => TempatLatihanEditScreen()),
+
+    // Spp
+    GetPage(name: RouteName.spp_screen, page: () => SppScreen()),
+    GetPage(name: RouteName.spp_add_screen, page: () => SppAddScreen()),
 
     // Kategori Stats
     GetPage(

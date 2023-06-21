@@ -1,45 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Color kPrimaryColor = const Color(0xffF4CB21);
-Color kBlackColor = const Color(0xff000000);
-Color kWhiteColor = const Color(0xffFFFFFF);
-Color kGreyColor = const Color(0xffEDEDED);
-Color kGreenColor = const Color(0xff00C100);
-Color kBlueColor = const Color(0xff1363DF);
-Color kRedColor = const Color(0xffFF0000);
-Color kBackgroundColor = const Color(0xffEDEDED);
-Color kInactiveColor = const Color(0xffDBD7EC);
-Color kTransparentColor = Colors.transparent;
+Color primaryColor = const Color(0xff98B66E);
+Color primarySoftColor = const Color(0xffC5E5A5);
+Color secondaryColor = const Color(0xffF9D876);
+Color secondarySoftColor = const Color(0xffFBE39D);
+Color blackColor = const Color(0xff000000);
+Color whiteColor = const Color(0xffFFFFFF);
+Color whiteColorTrans = Color.fromRGBO(255, 255, 255, 0.5);
+Color greyColor = const Color(0xffA7ACB1);
+Color successColor = const Color(0xff75B798);
+Color warningColor = const Color(0xffFFDA6A);
+Color dangerColor = const Color(0xffCA7485);
 
 TextStyle blackStyleText = GoogleFonts.openSans(
-  color: kBlackColor,
+  color: blackColor,
 );
 TextStyle whiteStyleText = GoogleFonts.openSans(
-  color: kWhiteColor,
-);
-TextStyle greyStyleText = GoogleFonts.openSans(
-  color: kGreyColor,
-);
-TextStyle greenStyleText = GoogleFonts.openSans(
-  color: kGreenColor,
-);
-TextStyle redStyleText = GoogleFonts.openSans(
-  color: kRedColor,
-);
-TextStyle orangeStyleText = GoogleFonts.openSans(
-  color: kPrimaryColor,
-);
-TextStyle blueStyleText = GoogleFonts.openSans(
-  color: kBlueColor,
+  color: whiteColor,
 );
 
+// Font Weight
 FontWeight light = FontWeight.w300;
-FontWeight regular = FontWeight.w400;
-FontWeight medium = FontWeight.w500;
-FontWeight semiBold = FontWeight.w600;
-FontWeight bold = FontWeight.w700;
-FontWeight extraBold = FontWeight.w800;
-FontWeight black = FontWeight.w900;
+FontWeight regular = FontWeight.w500;
+FontWeight bold = FontWeight.w800;
 
-TextStyle titleText = TextStyle(fontSize: 24, fontWeight: bold);
+// Font Size
+TextStyle h1 = TextStyle(fontSize: 26);
+TextStyle h2 = TextStyle(fontSize: 24);
+TextStyle h3 = TextStyle(fontSize: 22);
+TextStyle h4 = TextStyle(fontSize: 18);
+TextStyle h5 = TextStyle(fontSize: 16);

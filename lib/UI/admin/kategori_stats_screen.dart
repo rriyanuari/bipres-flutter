@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:bipres/UI/admin/kategoriAdd_screen.dart';
 import 'package:bipres/UI/admin/kategoriEdit_screen.dart';
 import 'package:bipres/UI/admin/tempat_latihan_add_screen.dart';
-import 'package:bipres/UI/admin/tempat_latihan_edit_screen.dart';
 import 'package:bipres/api/api.dart';
 import 'package:bipres/models/kategori_stats_model.dart';
 import 'package:bipres/models/sekolah_model.dart';

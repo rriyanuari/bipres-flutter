@@ -1,34 +1,34 @@
 import 'dart:developer';
 
-import 'package:bipres/models/siswa_model.dart';
+import 'package:bipres/models/Pelatih_model.dart';
 import 'package:bipres/routes/route_name.dart';
-import 'package:bipres/services/siswa_services.dart';
+import 'package:bipres/services/Pelatih_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class SiswaController extends GetxController {
-  var siswa = <SiswaModel>[].obs;
-  SiswaServices services = SiswaServices();
+class PelatihController extends GetxController {
+  var pelatih = <PelatihModel>[].obs;
+  PelatihServices services = PelatihServices();
   var isLoading = false.obs;
 
   @override
   void onInit() {
-    getSiswa();
+    getPelatih();
     super.onInit();
   }
 
-  Future<void> getSiswa() async {
+  Future<void> getPelatih() async {
     try {
       isLoading.value = true;
       // Simulasi penundaan untuk pemanggilan data
       await Future.delayed(Duration(seconds: 1));
 
-      var result = await services.getAllSiswa();
+      var result = await services.getAllPelatih();
 
       if (result != null) {
-        siswa.assignAll(result);
-        // print("data siswa: ${siswa.length}");
+        pelatih.assignAll(result);
+        // print("data Pelatih: ${Pelatih.length}");
       } else {
         print("null");
       }
@@ -38,35 +38,37 @@ class SiswaController extends GetxController {
     update();
   }
 
-  Future<void> addSiswa(
-      String? nama_depan,
-      String? nama_belakang,
-      String? nama_lengkap,
-      String? jenis_kelamin,
-      String? tanggal_lahir,
-      String? id_tempat_latihan,
-      String? id_tingkatan) async {
+  Future<void> addPelatih(
+    String? nama_depan,
+    String? nama_belakang,
+    String? nama_lengkap,
+    String? jenis_kelamin,
+    String? tanggal_lahir,
+    String? tahun_pengesahan,
+    String? id_tempat_latihan,
+  ) async {
     try {
       isLoading.value = true;
       print(isLoading.value);
 
       // Simulasi penundaan untuk pemanggilan data
       await Future.delayed(Duration(seconds: 1));
-      var result = await services.addSiswa(
-          nama_depan,
-          nama_belakang,
-          nama_lengkap,
-          jenis_kelamin,
-          tanggal_lahir,
-          id_tempat_latihan,
-          id_tingkatan);
+      var result = await services.addPelatih(
+        nama_depan,
+        nama_belakang,
+        nama_lengkap,
+        jenis_kelamin,
+        tanggal_lahir,
+        tahun_pengesahan,
+        id_tempat_latihan,
+      );
 
       if (result['status'] == 'error') {
         // Lemparkan ke error jika result false
         throw result['message'];
       }
 
-      await getSiswa();
+      await getPelatih();
       Get.back();
 
       final message = result['message'];
@@ -84,14 +86,11 @@ class SiswaController extends GetxController {
     update();
   }
 
-  Future<void> deleteSiswa(String? id, id_user) async {
+  Future<void> deletePelatih(String? id, id_user) async {
     try {
       isLoading.value = true;
 
-      // Simulasi penundaan untuk pemanggilan data
-      // await Future.delayed(Duration(seconds: 1));
-
-      var result = await services.deleteSiswa(id, id_user);
+      var result = await services.deletePelatih(id, id_user);
 
       if (result['status'] == 'error') {
         // Lemparkan ke error jika result false
@@ -109,7 +108,7 @@ class SiswaController extends GetxController {
       );
 
       isLoading.value = false;
-      getSiswa();
+      getPelatih();
     } catch (error) {
       isLoading.value = false;
       Get.snackbar('Failed', '$error',

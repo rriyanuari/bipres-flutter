@@ -20,7 +20,7 @@ class MasterDataScreen extends StatelessWidget {
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Text(
               "MASTER DATA",
-              style: titleText.copyWith(color: kWhiteColor, fontSize: 24),
+              style: h1.copyWith(color: whiteColor),
             ),
             SizedBox(
               height: 100,
@@ -251,7 +251,7 @@ class MasterDataScreen extends StatelessWidget {
                               ],
                             ),
                             onTap: () {
-                              Get.toNamed(RouteName.tempat_latihan_screen);
+                              Get.toNamed(RouteName.spp_screen);
                             },
                           ),
                         ),
