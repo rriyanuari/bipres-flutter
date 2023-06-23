@@ -2,7 +2,6 @@ import 'package:bipres/routes/route_name.dart';
 import 'package:bipres/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MasterDataScreen extends StatelessWidget {
   @override
@@ -13,14 +12,14 @@ class MasterDataScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 1,
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         decoration: BoxDecoration(
-          color: Color(0xFF98B66E),
+          color: primaryColor,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 30.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Text(
               "MASTER DATA",
-              style: h1.copyWith(color: whiteColor),
+              style: h1.copyWith(fontWeight: bold, color: whiteColor),
             ),
             SizedBox(
               height: 100,
@@ -37,7 +36,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFBE39D),
+                            color: secondaryColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -55,14 +54,14 @@ class MasterDataScreen extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.person,
-                                  color: Color(0xFF98B66E),
+                                  color: primaryColor,
                                   size: 60,
                                 ),
                                 SizedBox(height: 20),
                                 Text(
-                                  "Pelatih",
+                                  "PELATIH",
                                   style: TextStyle(
-                                      color: Color(0xFF98B66E),
+                                      color: primaryColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0),
                                 ),
@@ -80,7 +79,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFBE39D),
+                            color: secondaryColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -98,14 +97,14 @@ class MasterDataScreen extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.group,
-                                  color: Color(0xFF98B66E),
+                                  color: primaryColor,
                                   size: 60,
                                 ),
                                 SizedBox(height: 20),
                                 Text(
-                                  "Siswa",
+                                  "SISWA",
                                   style: TextStyle(
-                                      color: Color(0xFF98B66E),
+                                      color: primaryColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0),
                                 ),
@@ -128,7 +127,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFBE39D),
+                            color: secondaryColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -146,14 +145,14 @@ class MasterDataScreen extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.location_on,
-                                  color: Color(0xFF98B66E),
+                                  color: primaryColor,
                                   size: 60,
                                 ),
                                 SizedBox(height: 20),
                                 Text(
-                                  "Tempat Latihan",
+                                  "TEMPAT LATIHAN",
                                   style: TextStyle(
-                                      color: Color(0xFF98B66E),
+                                      color: primaryColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0),
                                 ),
@@ -171,7 +170,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFBE39D),
+                            color: secondaryColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -189,21 +188,21 @@ class MasterDataScreen extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.stacked_bar_chart,
-                                  color: Color(0xFF98B66E),
+                                  color: primaryColor,
                                   size: 60,
                                 ),
                                 SizedBox(height: 20),
                                 Text(
-                                  "Tingkatan",
+                                  "TINGKATAN",
                                   style: TextStyle(
-                                      color: Color(0xFF98B66E),
+                                      color: primaryColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0),
                                 ),
                               ],
                             ),
                             onTap: () {
-                              Get.toNamed(RouteName.tempat_latihan_screen);
+                              Get.toNamed(RouteName.tingkatan_screen);
                             },
                           ),
                         ),
@@ -219,7 +218,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFBE39D),
+                            color: secondaryColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -237,14 +236,14 @@ class MasterDataScreen extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.monetization_on,
-                                  color: Color(0xFF98B66E),
+                                  color: primaryColor,
                                   size: 60,
                                 ),
                                 SizedBox(height: 20),
                                 Text(
-                                  "Spp",
+                                  "SPP",
                                   style: TextStyle(
-                                      color: Color(0xFF98B66E),
+                                      color: primaryColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0),
                                 ),

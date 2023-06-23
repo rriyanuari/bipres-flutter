@@ -5,6 +5,9 @@ abstract class RouteName {
   static const register_screen = '/register_screen';
   static const main_user_screen = '/main_user_screen';
 
+  // Tingkatan
+  static const tingkatan_screen = '/tingkatan_screen';
+
   // TEMPAT LATIHAN
   static const tempat_latihan_screen = '/tempat_latihan_screen';
   static const tempat_latihan_add_screen = '/tempat_latihan_add_screen';

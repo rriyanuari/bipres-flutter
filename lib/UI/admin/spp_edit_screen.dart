@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bipres/controller/siswa_controller.dart';
 import 'package:bipres/controller/spp_controller.dart';
 import 'package:bipres/controller/tempat_latihan_controller.dart';
+import 'package:bipres/models/spp_model.dart';
 import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:intl/intl.dart';
@@ -15,48 +16,17 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:bipres/shared/theme.dart';
 import 'package:bipres/shared/loadingWidget.dart';
 
-class SppAddScreen extends StatefulWidget {
+class SppEditScreen extends StatefulWidget {
   @override
-  _SppAddScreenState createState() => _SppAddScreenState();
+  _SppEditScreenState createState() => _SppEditScreenState();
+  final SppModel data;
+
+  SppEditScreen(this.data);
 }
 
-class _SppAddScreenState extends State<SppAddScreen> {
-  String? total_tagihan;
-  int tahun_periode = DateTime.now().year;
-  int startYear = DateTime.now().year - 3;
-  int endYear = DateTime.now().year + 3;
-
-  void _showYearPicker(BuildContext context) {
-    Picker(
-      adapter: NumberPickerAdapter(data: [
-        NumberPickerColumn(
-            begin: startYear, end: endYear, initValue: tahun_periode)
-      ]),
-      delimiter: [
-        PickerDelimiter(child: Container(width: 30.0)),
-      ],
-      hideHeader: true,
-      title: Text('Pilih Tahun'),
-      onConfirm: (Picker picker, List<int> value) {
-        setState(() {
-          tahun_periode = value[0] + startYear;
-        });
-      },
-    ).showDialog(context);
-  }
-
+class _SppEditScreenState extends State<SppEditScreen> {
   final controller = Get.put(SppController());
-
   final _key = new GlobalKey<FormState>();
-
-  check() {
-    final form = _key.currentState;
-    if ((form as dynamic).validate()) {
-      (form as dynamic).save();
-
-      controller.addSpp(context, tahun_periode.toString(), total_tagihan);
-    }
-  }
 
   @override
   void initState() {
@@ -65,6 +35,41 @@ class _SppAddScreenState extends State<SppAddScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String id = widget.data.id;
+    String? total_tagihan;
+    int tahun_periode = int.parse(widget.data.tahun_periode);
+    int startYear = DateTime.now().year - 3;
+    int endYear = DateTime.now().year + 3;
+
+    void _showYearPicker(BuildContext context) {
+      Picker(
+        adapter: NumberPickerAdapter(data: [
+          NumberPickerColumn(
+              begin: startYear, end: endYear, initValue: tahun_periode)
+        ]),
+        delimiter: [
+          PickerDelimiter(child: Container(width: 30.0)),
+        ],
+        hideHeader: true,
+        title: Text('Pilih Tahun'),
+        onConfirm: (Picker picker, List<int> value) {
+          setState(() {
+            tahun_periode = value[0] + startYear;
+          });
+        },
+      ).showDialog(context);
+    }
+
+    check() {
+      final form = _key.currentState;
+      if ((form as dynamic).validate()) {
+        (form as dynamic).save();
+
+        controller.editSpp(
+            context, id, tahun_periode.toString(), total_tagihan);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
@@ -104,6 +109,7 @@ class _SppAddScreenState extends State<SppAddScreen> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
+                    initialValue: widget.data.total_tagihan,
                     validator: (e) {
                       if ((e as dynamic).isEmpty) {
                         return "Total tagihan tidak boleh kosong";

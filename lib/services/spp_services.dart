@@ -61,6 +61,35 @@ class SppServices {
     }
   }
 
+  Future editSpp(String? id, tahun_periode, total_tagihan) async {
+    try {
+      var body = {
+        'id': '$id',
+        'tahun_periode': '$tahun_periode',
+        'total_tagihan': '$total_tagihan',
+      };
+
+      var jsonBody = convert.jsonEncode(body);
+
+      final response = await http
+          .put(
+        Uri.parse(BaseUrl.urlUbahSpp),
+        headers: {"user-key": user_key},
+        body: jsonBody,
+      )
+          .timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("connection time out try again");
+      });
+
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
+
+      return json;
+    } catch (e) {
+      // Error saat mengirim data
+      print('Error: $e');
+    }
+  }
+
   Future deleteSpp(String? id) async {
     try {
       var body = {

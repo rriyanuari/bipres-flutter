@@ -1,14 +1,11 @@
-import 'dart:convert';
+import 'package:bipres/UI/admin/spp_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'dart:convert' as convert;
 
-import 'package:bipres/api/api.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:bipres/controller/spp_controller.dart';
-import 'package:bipres/models/spp_model.dart';
+
+import 'package:bipres/shared/theme.dart';
 
 final controller = Get.put(SppController());
 
@@ -41,28 +38,33 @@ void openDialog(BuildContext context, String id, nama) {
 class SppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    controller.getSpp();
     final spp = controller.Spp;
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xfff009c3d),
-          title: Row(
-            children: [
-              Icon(Icons.group),
-              SizedBox(width: 10),
-              Text(
-                'Daftar Master Data SPP',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          )),
+        backgroundColor: primaryColor,
+        title: Row(
+          children: [
+            Icon(
+              Icons.monetization_on,
+              size: 24,
+            ),
+            SizedBox(width: 20),
+            Text(
+              'Master Data SPP',
+              style: h4.copyWith(fontWeight: bold),
+            ),
+          ],
+        ),
+      ),
       body: Obx(
         () => RefreshIndicator(
           onRefresh: controller.getSpp,
           child: controller.isLoading.value
               ? Center(child: CircularProgressIndicator())
               : Container(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
                   child: ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: controller.Spp.length,
@@ -73,24 +75,20 @@ class SppScreen extends StatelessWidget {
                       return Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.all(5),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: ListTile(
-                                      leading: Icon(
-                                        Icons.school,
-                                        size: 40,
-                                      ), // Image.asset("assets/images/logo.png"),
                                       title: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Tahun ' + data.tahun_periode,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                              )),
+                                          Text(
+                                            'Tahun ' + data.tahun_periode,
+                                            style:
+                                                h4.copyWith(fontWeight: bold),
+                                          ),
                                         ],
                                       ),
                                       subtitle: Column(
@@ -98,31 +96,27 @@ class SppScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              'Total Tagihan ( Rp. ' +
-                                                  data.total_tagihan +
-                                                  ' )',
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                              )),
+                                            'Total Tagihan ( Rp. ' +
+                                                data.total_tagihan +
+                                                ' )',
+                                            style: h5.copyWith(
+                                                fontWeight: regular),
+                                          ),
                                         ],
                                       )),
                                 ),
                                 IconButton(
                                     icon: Icon(
                                       Icons.edit,
-                                      color: Colors.blue,
+                                      color: primaryColor,
                                     ),
                                     onPressed: () {
-                                      // Navigator.of(context).push(
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             SppEditScreen(
-                                      //                 data, _lihatData)));
+                                      Get.to(() => SppEditScreen(data));
                                     }),
                                 IconButton(
                                     icon: Icon(
                                       Icons.delete,
-                                      color: Colors.red,
+                                      color: primaryColor,
                                     ),
                                     onPressed: () {
                                       // dialogHapus(data.id_sekolah.toString());
@@ -137,7 +131,7 @@ class SppScreen extends StatelessWidget {
                           ),
                           Divider(
                             thickness: 2,
-                            color: Color(0xfff009c3d),
+                            color: primaryColor,
                           ),
                         ],
                       );
@@ -150,7 +144,7 @@ class SppScreen extends StatelessWidget {
         onPressed: () {
           Get.toNamed(RouteName.spp_add_screen);
         },
-        backgroundColor: Color(0xfff009c3d),
+        backgroundColor: primaryColor,
         child: const Icon(Icons.add),
       ),
     );

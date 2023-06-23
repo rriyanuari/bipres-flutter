@@ -23,15 +23,12 @@ class BaseUrl {
   static String urlUbahTempatLatihan = url + "api/tempat-latihan/edit.php";
   static String urlHapusTempatLatihan = url + "api/tempat-latihan/delete.php";
 
+  // TINGKATAN
+  static String urlListTingkatan = url + "api/tingkatan/list.php";
+
   // SPP
   static String urlListSpp = url + "api/spp/list.php";
   static String urlTambahSpp = url + "api/spp/add.php";
   static String urlUbahSpp = url + "api/spp/edit.php";
   static String urlHapusSpp = url + "api/spp/delete.php";
-
-  // KATEGORI STATS
-  static String urlListKategoriStats = url + "api/kategori-stats/list.php";
-  static String urlTambahKategoriStats = url + "api/kategori-stats/add.php";
-  static String urlUbahKategoriStats = url + "api/kategori-stats/edit.php";
-  static String urlHapusKategoriStats = url + "api/kategori-stats/delete.php";
 }

@@ -16,7 +16,6 @@ class AuthController extends GetxController {
   Future<void> login(BuildContext context, username, password) async {
     try {
       isLoading.value = true;
-      Future.delayed(Duration(seconds: 5));
 
       final response = await authServices.login(username, password);
       String value = response['status'];
@@ -24,7 +23,7 @@ class AuthController extends GetxController {
       final data = response['data'];
 
       if (value == 'success') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('$pesan, anda akan dialihkan'),
           backgroundColor: Colors.green, // Ganti dengan warna yang diinginkan
         ));
@@ -36,9 +35,11 @@ class AuthController extends GetxController {
         };
 
         prefController.savePref(dataPref);
-        Future.delayed(const Duration(seconds: 2),
+        await Future.delayed(const Duration(seconds: 2),
             () => Get.offNamed(RouteName.main_user_screen));
       } else {
+        await Future.delayed(const Duration(seconds: 1));
+
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text('Username atau password salah'),
           backgroundColor: Colors.red, // Ganti dengan warna yang diinginkan

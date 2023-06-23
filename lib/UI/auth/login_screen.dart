@@ -1,15 +1,10 @@
-import 'dart:convert';
-import 'dart:ui';
-
-import 'package:bipres/api/api.dart';
 import 'package:bipres/controller/auth_controller.dart';
-import 'package:bipres/routes/route_name.dart';
 import 'package:bipres/shared/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:bipres/controller/pref_controller.dart';
+
+import 'package:bipres/shared/loadingWidget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -193,17 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     ],
                   )),
-              Center(
-                child: controller.isLoading.value
-                    ? Container(
-                        height: MediaQuery.of(context).size.height * 1,
-                        width: MediaQuery.of(context).size.width * 1,
-                        color: whiteColorTrans,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ))
-                    : null,
-              ),
+              loadingWidget(context, controller.isLoading.value)
             ],
           ),
         ));

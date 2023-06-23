@@ -1,11 +1,11 @@
 import 'package:bipres/UI/admin/pelatih_screen.dart';
 import 'package:bipres/UI/admin/pelatih_add_screen.dart';
 import 'package:bipres/UI/admin/siswa_screen.dart';
-import 'package:bipres/UI/admin/kategori_stats_screen.dart';
 import 'package:bipres/UI/admin/spp_add_screen.dart';
 import 'package:bipres/UI/admin/spp_screen.dart';
 import 'package:bipres/UI/admin/tempat_latihan_add_screen.dart';
 import 'package:bipres/UI/admin/tempat_latihan_screen.dart';
+import 'package:bipres/UI/admin/tingkatan_screen.dart';
 import 'package:bipres/UI/auth/login_screen.dart';
 import 'package:bipres/UI/onBoard_screen.dart';
 import 'package:bipres/UI/splash_screen.dart';
@@ -24,6 +24,9 @@ class pageRouteApp {
     GetPage(name: RouteName.onBoard_screen, page: () => OnBoardScreen()),
     GetPage(name: RouteName.login_screen, page: () => LoginScreen()),
     GetPage(name: RouteName.main_user_screen, page: () => MainUserScreen()),
+
+    // Tingkatan
+    GetPage(name: RouteName.tingkatan_screen, page: () => TingkatanScreen()),
 
     // Siswa
     GetPage(name: RouteName.siswa_screen, page: () => SiswaScreen()),
@@ -47,10 +50,5 @@ class pageRouteApp {
     // Spp
     GetPage(name: RouteName.spp_screen, page: () => SppScreen()),
     GetPage(name: RouteName.spp_add_screen, page: () => SppAddScreen()),
-
-    // Kategori Stats
-    GetPage(
-        name: RouteName.kategori_stats_screen,
-        page: () => KategoriStatsScreen()),
   ];
 }
