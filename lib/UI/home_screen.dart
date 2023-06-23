@@ -1,211 +1,166 @@
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
+import 'package:bipres/shared/theme.dart';
+
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bipres/controller/pref_controller.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  getPref() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      String? saved_status = preferences.getString('saved_status');
-      String? saved_username = preferences.getString('saved_username');
-    });
-  }
-
-  signOut() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.remove('saved_status');
-    preferences.remove('saved_username');
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Berhasil logout, anda akan dialihkan"),
-      backgroundColor: Colors.red,
-    ));
-
-    Future.delayed(
-      const Duration(seconds: 3),
-      () => Get.offNamed(RouteName.login_screen),
-    );
-  }
+class HomeScreen extends StatelessWidget {
+  final PrefController prefController = Get.put(PrefController());
 
   Widget menu(String textTitle, textIcon, textRoutes) {
     return Container(
-      height: 80,
-      padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: secondaryColor,
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.5), //color of shadow
-              spreadRadius: 0.5, //spread radius
-              blurRadius: 7, // blur radius
-              offset: Offset(0, 6)),
-        ],
       ),
-      child: Center(
-        child: ListTile(
-          leading: Icon(
-            textIcon,
-            color: Color(0xfff009c3d),
-          ),
-          title: Text(
-            textTitle,
-            style: TextStyle(color: Colors.black, fontStyle: FontStyle.italic),
-          ),
-          onTap: () {
-            Get.toNamed(textRoutes);
-          },
+      child: InkWell(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              textIcon,
+              color: Color(0xFF98B66E),
+              size: 60,
+            ),
+            SizedBox(height: 20),
+            Text(
+              textTitle,
+              style: h4.copyWith(fontWeight: bold, color: primaryColor),
+            ),
+          ],
         ),
+        onTap: () {
+          Get.toNamed(textRoutes);
+        },
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getPref();
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = prefController.myDataPref;
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Container(
+        body: Obx(
+          () => Container(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             decoration: BoxDecoration(
-              color: Color(0xfff009c3d),
+              color: Color(0xffffffff),
             ),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/logo.png'))),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                  Text(
-                                    "Hi, Riyanuari",
-                                    style: const TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Good Morning",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  )
-                                ])),
-                            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  padding:
+                      const EdgeInsets.only(top: 30.0, left: 30, right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/logo.png'))),
+                      ),
+                      // const SizedBox(width: 20),
+                      Container(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                TextButton(
-                                    onPressed: () {
-                                      showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              AlertDialog(
-                                                title: const Text(
-                                                    'Apakah anda ingin logout?'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('Cancel'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      signOut();
-                                                    },
-                                                    child: const Text('Ok'),
-                                                  ),
-                                                ],
-                                              ));
-                                    },
-                                    child: Icon(
-                                      Icons.logout,
-                                      color: Colors.white,
-                                      size: 30,
-                                    ))
-                              ],
+                            Text("PORTAL BIPRES",
+                                style: h1.copyWith(
+                                    fontWeight: bold, color: primaryColor)),
+                            SizedBox(height: 10),
+                            Text(
+                              "Biro Prestasi PSHT Ranting Curug",
+                              style: h4.copyWith(
+                                  fontWeight: regular, color: secondaryColor),
                             )
                           ])),
-                  Container(
-                      height: 540,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30)),
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 40.0, left: 15, right: 15),
-                          child: Column(children: <Widget>[
-                            Row(children: [
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: menu("Sekolah", Icons.school,
-                                    RouteName.sekolah_screen),
-                              ),
-                              SizedBox(width: 20),
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: menu("Kategori", Icons.category,
-                                    RouteName.kategori_stats_screen),
-                              ),
-                            ]),
-                            SizedBox(height: 20),
-                            Row(children: [
-                              Flexible(
-                                  fit: FlexFit.loose,
-                                  child: menu("Test", Icons.scoreboard,
-                                      RouteName.sekolah_screen)),
-                              SizedBox(width: 20),
-                              Flexible(
-                                  fit: FlexFit.loose,
-                                  child: menu("SPP", Icons.attach_money,
-                                      RouteName.sekolah_screen)),
-                            ]),
-                            SizedBox(height: 50),
-                            Column(
-                              children: [
-                                menu("Athletes", Icons.group,
-                                    RouteName.sekolah_screen),
-                                SizedBox(
-                                  height: 30,
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Selamat datang,",
+                                  style: h4.copyWith(
+                                      fontWeight: regular,
+                                      color: blackColor,
+                                      fontStyle: FontStyle.italic)),
+                              SizedBox(height: 5),
+                              Text(
+                                "${user['saved_username']}",
+                                style: h1.copyWith(
+                                  fontWeight: bold,
+                                  color: primaryColor,
                                 ),
-                                menu("Athletes", Icons.group,
-                                    RouteName.sekolah_screen),
-                              ],
-                            )
-                          ])))
-                ])));
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/defaultProfiPic.png'))),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  width: MediaQuery.of(context).size.width * 1,
+                  padding: EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                  ),
+                  child: GridView.count(
+                    primary: false,
+                    // padding: const EdgeInsets.all(20),
+                    crossAxisSpacing: 50,
+                    mainAxisSpacing: 30,
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.3,
+                    children: <Widget>[
+                      menu("ABSEN", Icons.watch, RouteName.siswa_screen),
+                      menu("SPP", Icons.attach_money, RouteName.siswa_screen),
+                      menu("TES KENAIKAN", Icons.location_on,
+                          RouteName.siswa_screen),
+                      menu("LAPORAN", Icons.document_scanner,
+                          RouteName.siswa_screen),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

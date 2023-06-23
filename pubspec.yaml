@@ -29,6 +29,7 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   flashy_tab_bar2: ^0.0.4
+  flutter_picker: ^2.1.0
   flutter:
     sdk: flutter
   flutter_onboard: ^2.0.0
@@ -37,6 +38,7 @@ dependencies:
   intl: ^0.17.0
   shared_preferences: ^2.0.15
   sharedpreference: ^0.0.1
+  google_fonts: ^4.0.1  
 
 dev_dependencies:
   flutter_lints: ^2.0.0

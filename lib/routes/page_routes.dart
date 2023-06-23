@@ -1,12 +1,15 @@
-import 'package:bipres/UI/admin/athletes_screen.dart';
-import 'package:bipres/UI/admin/kategori_stats_screen.dart';
-import 'package:bipres/UI/admin/sekolahAdd_screen.dart';
-import 'package:bipres/UI/admin/sekolahEdit_screen.dart';
-import 'package:bipres/UI/admin/sekolah_screen.dart';
+import 'package:bipres/UI/admin/pelatih_screen.dart';
+import 'package:bipres/UI/admin/pelatih_add_screen.dart';
+import 'package:bipres/UI/admin/siswa_screen.dart';
+import 'package:bipres/UI/admin/spp_add_screen.dart';
+import 'package:bipres/UI/admin/spp_screen.dart';
+import 'package:bipres/UI/admin/tempat_latihan_add_screen.dart';
+import 'package:bipres/UI/admin/tempat_latihan_screen.dart';
+import 'package:bipres/UI/admin/tingkatan_screen.dart';
 import 'package:bipres/UI/auth/login_screen.dart';
 import 'package:bipres/UI/onBoard_screen.dart';
 import 'package:bipres/UI/splash_screen.dart';
-import 'package:bipres/UI/admin/athletesAdd_screen.dart';
+import 'package:bipres/UI/admin/siswa_add_screen.dart';
 import 'package:bipres/UI/main_user_screen.dart';
 import 'package:bipres/routes/route_name.dart';
 // import 'package:final_project/UI/login_screen.dart';
@@ -18,23 +21,34 @@ import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 class pageRouteApp {
   static final pages = [
     GetPage(name: RouteName.splash_screen, page: () => SplashScreen()),
-    GetPage(name: RouteName.onBoard_screen, page: () => onBoardScreen()),
+    GetPage(name: RouteName.onBoard_screen, page: () => OnBoardScreen()),
     GetPage(name: RouteName.login_screen, page: () => LoginScreen()),
     GetPage(name: RouteName.main_user_screen, page: () => MainUserScreen()),
 
-    // Sekolah
-    GetPage(name: RouteName.sekolah_screen, page: () => SekolahScreen()),
-    // GetPage(name: RouteName.sekolah_add_screen, page: () => sekolahAddScreen()),
-    // GetPage(name: RouteName.sekolah_edit_screen, page: () => sekolahEditScreen()),
+    // Tingkatan
+    GetPage(name: RouteName.tingkatan_screen, page: () => TingkatanScreen()),
 
-    // Kategori Stats
-    GetPage(
-        name: RouteName.kategori_stats_screen,
-        page: () => KategoriStatsScreen()),
+    // Siswa
+    GetPage(name: RouteName.siswa_screen, page: () => SiswaScreen()),
+    GetPage(name: RouteName.siswa_add_screen, page: () => SiswaAddScreen()),
 
-    // Athletes
-    GetPage(name: RouteName.athletes_screen, page: () => AhtletesScreen()),
+    // Pelatih
+    GetPage(name: RouteName.pelatih_screen, page: () => PelatihScreen()),
+    GetPage(name: RouteName.pelatih_add_screen, page: () => PelatihAddScreen()),
+
+    // Tempat Latihan
     GetPage(
-        name: RouteName.athletes_add_screen, page: () => athletesAddScreen()),
+        name: RouteName.tempat_latihan_screen,
+        page: () => TempatLatihanScreen()),
+    GetPage(
+        name: RouteName.tempat_latihan_add_screen,
+        page: () => TempatLatihanAddScreen()),
+    // GetPage(
+    //     name: RouteName.tempat_latihan_edit_screen,
+    //     page: () => TempatLatihanEditScreen()),
+
+    // Spp
+    GetPage(name: RouteName.spp_screen, page: () => SppScreen()),
+    GetPage(name: RouteName.spp_add_screen, page: () => SppAddScreen()),
   ];
 }

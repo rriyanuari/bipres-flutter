@@ -44,6 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
+        width: MediaQuery.of(context).size.width * 1,
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         decoration: BoxDecoration(
           color: Color(0xFF98B66E),
