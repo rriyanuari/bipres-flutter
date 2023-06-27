@@ -94,11 +94,11 @@ class _MainUserScreenState extends State<MainUserScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: prefController.myDataPref.toJson()['saved_role'] == 'admin'
+        body: prefController.myDataPref.toJson()['role'] == 'admin'
             ? _screensAdmin[_selectedIndex]
             : _screensAnggota[_selectedIndex],
         bottomNavigationBar:
-            prefController.myDataPref.toJson()['saved_role'] == 'admin'
+            prefController.myDataPref.toJson()['role'] == 'admin'
                 ? _tabBarAdmin
                 : _tabBarAnggota,
       ),

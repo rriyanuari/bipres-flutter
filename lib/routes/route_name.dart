@@ -28,6 +28,11 @@ abstract class RouteName {
   static const spp_add_screen = '/spp_add_screen';
   static const spp_edit_screen = '/spp_edit_screen';
 
+  // TRANSAKSI SPP
+  static const trans_spp_screen = '/trans_spp_screen';
+  static const trans_spp_detail_screen = '/trans_spp_detail_screen';
+  static const trans_spp_add_screen = '/trans_spp_add_screen';
+
   // Kategori
   static const kategori_stats_screen = '/kategori_stats_screen';
   static const kategori_stats_add_screen = '/kategori_stats_add_screen';

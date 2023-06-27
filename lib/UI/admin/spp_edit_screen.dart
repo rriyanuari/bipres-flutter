@@ -56,6 +56,8 @@ class _SppEditScreenState extends State<SppEditScreen> {
           setState(() {
             tahun_periode = value[0] + startYear;
           });
+          print(value[0]);
+          print(tahun_periode);
         },
       ).showDialog(context);
     }
@@ -94,7 +96,7 @@ class _SppEditScreenState extends State<SppEditScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Tahun Periode : ${tahun_periode}',
+                        'Tahun Periode : $tahun_periode',
                         style: h5,
                       ),
                       MaterialButton(

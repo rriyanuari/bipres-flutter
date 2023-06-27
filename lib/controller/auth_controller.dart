@@ -29,9 +29,9 @@ class AuthController extends GetxController {
         ));
 
         Map<String, dynamic> dataPref = {
-          "saved_saved_id_user": data['id'],
-          "saved_username": data['username'],
-          "saved_role": data['role'],
+          "id_user": data['id'],
+          "username": data['username'],
+          "role": data['role'],
         };
 
         prefController.savePref(dataPref);

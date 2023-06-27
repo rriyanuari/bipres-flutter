@@ -6,6 +6,8 @@ class SiswaModel {
   late String tanggalLahir;
   late String idTempatLatihan;
   late String idTingkatan;
+  late String TempatLatihan;
+  late String Sabuk;
 
   SiswaModel({
     required this.id,
@@ -15,6 +17,8 @@ class SiswaModel {
     required this.tanggalLahir,
     required this.idTempatLatihan,
     required this.idTingkatan,
+    required this.TempatLatihan,
+    required this.Sabuk,
   });
 
   SiswaModel.fromJson(Map<String, dynamic> json) {
@@ -25,5 +29,7 @@ class SiswaModel {
     tanggalLahir = json["tanggal_lahir"];
     idTempatLatihan = json["id_tempat_latihan"];
     idTingkatan = json["id_tingkatan"];
+    TempatLatihan = json["tempat_latihan"];
+    Sabuk = json["sabuk"];
   }
 }

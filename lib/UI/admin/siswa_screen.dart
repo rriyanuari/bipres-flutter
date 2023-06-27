@@ -10,6 +10,9 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
+import 'package:bipres/shared/theme.dart';
+import 'package:bipres/shared/loadingWidget.dart';
+
 final controller = Get.put(SiswaController());
 
 void openDialog(BuildContext context, String id, idUser, nama) {
@@ -75,24 +78,28 @@ class SiswaScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xfff009c3d),
-          title: Row(
-            children: [
-              Icon(Icons.group),
-              SizedBox(width: 10),
-              Text(
-                'Daftar Siswa',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          )),
+        backgroundColor: primaryColor,
+        title: Row(
+          children: [
+            Icon(
+              Icons.group,
+              size: 24,
+            ),
+            SizedBox(width: 20),
+            Text(
+              'Master Data Siswa',
+              style: h4.copyWith(fontWeight: bold),
+            ),
+          ],
+        ),
+      ),
       body: Obx(
         () => RefreshIndicator(
           onRefresh: controller.getSiswa,
           child: controller.isLoading.value
               ? Center(child: CircularProgressIndicator())
               : Container(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                   child: ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: controller.siswa.length,
@@ -100,68 +107,78 @@ class SiswaScreen extends StatelessWidget {
                       final data = controller.siswa[index];
 
                       // Render data items
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ListTile(
-                                      leading: Icon(
-                                        Icons.school,
-                                        size: 40,
-                                      ), // Image.asset("assets/images/logo.png"),
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(data.namaLengkap,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              )),
-                                        ],
+                      return Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          margin: EdgeInsets.only(bottom: 25),
+                          decoration: BoxDecoration(
+                            color: secondaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  leading: Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/images/defaultProfiPic.png'))),
+                                  ),
+                                  title: Expanded(
+                                    child: Text(
+                                      data.namaLengkap,
+                                      style: h4.copyWith(fontWeight: regular),
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
                                       ),
-                                      subtitle: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(data.tanggalLahir),
-                                        ],
-                                      )),
+                                      Text(
+                                        data.TempatLatihan,
+                                        style: h5.copyWith(fontWeight: regular),
+                                      ),
+                                      Text(
+                                        "${data.Sabuk}",
+                                        style: h5.copyWith(fontWeight: regular),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: primaryColor,
+                                          ),
+                                          onPressed: () {}),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: primaryColor,
+                                        ),
+                                        onPressed: () {
+                                          // dialogHapus(data.id_sekolah.toString());
+                                          openDialog(context, data.id,
+                                              data.idUser, data.namaLengkap);
+                                        },
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      // Navigator.of(context).push(
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             TempatLatihanEditScreen(
-                                      //                 data, _lihatData)));
-                                    }),
-                                IconButton(
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                    onPressed: () {
-                                      // dialogHapus(data.id_sekolah.toString());
-                                      openDialog(context, data.id, data.idUser,
-                                          data.namaLengkap);
-                                    })
-                              ],
-                            ),
-                          ),
-                          Divider(
-                            thickness: 2,
-                            color: Color(0xfff009c3d),
-                          ),
-                        ],
-                      );
+                              ),
+                            ],
+                          ));
+
+                      // Co
                     },
                   ),
                 ),
@@ -169,9 +186,9 @@ class SiswaScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(RouteName.spp_add_screen);
+          Get.toNamed(RouteName.siswa_add_screen);
         },
-        backgroundColor: Color(0xfff009c3d),
+        backgroundColor: primaryColor,
         child: const Icon(Icons.add),
       ),
     );

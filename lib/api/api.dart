@@ -5,6 +5,9 @@ class BaseUrl {
   // LOGIN
   static String urlLogin = url + "api/login.php";
 
+  // PROFILE
+  static String urlProfile = "https://bipres.holtechno.space/api/profile.php";
+
   // SISWA
   static String urlListSiswa = url + "api/siswa/list.php";
   static String urlTambahSiswa = url + "api/siswa/add.php";
