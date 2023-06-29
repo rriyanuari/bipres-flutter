@@ -39,40 +39,71 @@ class TempatLatihanController extends GetxController {
   }
 
   Future<void> addTempatLatihan(
+    context,
     String? tempat_latihan,
   ) async {
     try {
       isLoading.value = true;
-      print(isLoading.value);
 
-      // Simulasi penundaan untuk pemanggilan data
-      await Future.delayed(Duration(seconds: 1));
       var result = await services.addTempatLatihan(tempat_latihan);
-
       if (result['status'] == 'error') {
         // Lemparkan ke error jika result false
         throw result['message'];
       }
 
-      await tempatLatihan();
-      Get.back();
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Tempat latihan berhasil ditambahkan"),
+        backgroundColor: Colors.green,
+      ));
 
-      final message = result['message'];
-      Get.snackbar(
-        'Success',
-        '$message',
-        backgroundColor: Color(0xFF98B66E),
-      );
-      isLoading.value = false;
+      await Future.delayed(const Duration(seconds: 1), () => Get.back());
+
+      getTempatLatihan();
     } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("$error"),
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
-      Get.snackbar('Failed', '$error',
-          backgroundColor: Colors.red, colorText: Colors.white);
     }
     update();
   }
 
-  Future<void> deleteTempatLatihan(String? id) async {
+  Future<void> editTempatLatihan(
+    context,
+    id,
+    tempat_latihan,
+  ) async {
+    try {
+      isLoading.value = true;
+
+      var result = await services.editTempatLatihan(id, tempat_latihan);
+      if (result['status'] == 'error') {
+        // Lemparkan ke error jika result false
+        throw result['message'];
+      }
+
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Tempat latihan berhasil diupdate"),
+        backgroundColor: Colors.green,
+      ));
+
+      await Future.delayed(const Duration(seconds: 1), () => Get.back());
+
+      getTempatLatihan();
+    } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("$error"),
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
+      isLoading.value = false;
+    }
+    update();
+  }
+
+  Future<void> deleteTempatLatihan(context, String? id) async {
     try {
       isLoading.value = true;
 
@@ -82,23 +113,22 @@ class TempatLatihanController extends GetxController {
         // Lemparkan ke error jika result false
         throw result['message'];
       }
-
-      final message = result['message'];
-
       Get.back();
 
-      Get.snackbar(
-        'Success',
-        '$message',
-        backgroundColor: Color(0xFF98B66E),
-      );
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data berhasil dihapus"),
+        backgroundColor: Colors.green,
+      ));
 
-      isLoading.value = false;
       getTempatLatihan();
     } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data gagal dihapus"),
+        backgroundColor: Colors.red,
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
-      Get.snackbar('Failed', '$error',
-          backgroundColor: Colors.red, colorText: Colors.white);
     }
     update();
   }

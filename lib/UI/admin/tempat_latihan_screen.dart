@@ -1,13 +1,10 @@
-import 'dart:convert';
-
-import 'package:bipres/api/api.dart';
+import 'package:bipres/UI/admin/tempat_latihan_edit_screen.dart';
 import 'package:bipres/controller/tempat_latihan_controller.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'dart:convert' as convert;
+
+import 'package:bipres/shared/theme.dart';
 
 final controller = Get.put(TempatLatihanController());
 
@@ -28,7 +25,7 @@ void openDialog(BuildContext context, String id, nama) {
           TextButton(
             child: Text('Hapus'),
             onPressed: () {
-              controller.deleteTempatLatihan(id);
+              controller.deleteTempatLatihan(context, id);
             },
           ),
         ],
@@ -44,17 +41,21 @@ class TempatLatihanScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xfff009c3d),
-          title: Row(
-            children: [
-              Icon(Icons.group),
-              SizedBox(width: 10),
-              Text(
-                'Daftar Tempat Latihan',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          )),
+        backgroundColor: primaryColor,
+        title: Row(
+          children: [
+            Icon(
+              Icons.group,
+              size: 24,
+            ),
+            SizedBox(width: 20),
+            Text(
+              'Master Data Tempat Latihan',
+              style: h4.copyWith(fontWeight: bold),
+            ),
+          ],
+        ),
+      ),
       body: Obx(
         () => RefreshIndicator(
           onRefresh: controller.getTempatLatihan,
@@ -71,16 +72,17 @@ class TempatLatihanScreen extends StatelessWidget {
                       // Render data items
                       return Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            margin: EdgeInsets.only(bottom: 25),
+                            decoration: BoxDecoration(
+                              color: secondarySoftColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: ListTile(
-                                    leading: Icon(
-                                      Icons.school,
-                                      size: 40,
-                                    ), // Image.asset("assets/images/logo.png"),
                                     title: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -95,36 +97,29 @@ class TempatLatihanScreen extends StatelessWidget {
                                   ),
                                 ),
                                 IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      // Navigator.of(context).push(
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             TempatLatihanEditScreen(
-                                      //                 data, _lihatData)));
-                                    }),
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: primaryColor,
+                                  ),
+                                  onPressed: () {
+                                    Get.to(() => TempatLatihanEditScreen(data));
+                                  },
+                                ),
                                 IconButton(
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                    onPressed: () {
-                                      // dialogHapus(data.id_sekolah.toString());
-                                      openDialog(
-                                        context,
-                                        data.id,
-                                        data.tempatLatihan,
-                                      );
-                                    })
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: primaryColor,
+                                  ),
+                                  onPressed: () {
+                                    openDialog(
+                                      context,
+                                      data.id,
+                                      data.tempatLatihan,
+                                    );
+                                  },
+                                )
                               ],
                             ),
-                          ),
-                          Divider(
-                            thickness: 2,
-                            color: Color(0xfff009c3d),
                           ),
                         ],
                       );
@@ -137,7 +132,7 @@ class TempatLatihanScreen extends StatelessWidget {
         onPressed: () {
           Get.toNamed(RouteName.tempat_latihan_add_screen);
         },
-        backgroundColor: Color(0xfff009c3d),
+        backgroundColor: primaryColor,
         child: const Icon(Icons.add),
       ),
     );
