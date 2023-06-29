@@ -25,19 +25,14 @@ class SppEditScreen extends StatefulWidget {
 }
 
 class _SppEditScreenState extends State<SppEditScreen> {
-  final controller = Get.put(SppController());
-  final _key = new GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SppController());
+    final _key = new GlobalKey<FormState>();
+
     String id = widget.data.id;
     String? total_tagihan;
-    int tahun_periode = int.parse(widget.data.tahun_periode);
+    int tahun_periode = DateTime.now().year;
     int startYear = DateTime.now().year - 3;
     int endYear = DateTime.now().year + 3;
 
@@ -53,11 +48,10 @@ class _SppEditScreenState extends State<SppEditScreen> {
         hideHeader: true,
         title: Text('Pilih Tahun'),
         onConfirm: (Picker picker, List<int> value) {
+          print('clicked');
           setState(() {
             tahun_periode = value[0] + startYear;
           });
-          print(value[0]);
-          print(tahun_periode);
         },
       ).showDialog(context);
     }
@@ -66,7 +60,6 @@ class _SppEditScreenState extends State<SppEditScreen> {
       final form = _key.currentState;
       if ((form as dynamic).validate()) {
         (form as dynamic).save();
-
         controller.editSpp(
             context, id, tahun_periode.toString(), total_tagihan);
       }
@@ -84,59 +77,54 @@ class _SppEditScreenState extends State<SppEditScreen> {
           ],
         ),
       ),
-      body: Obx(
-        () => Stack(
-          children: [
-            Form(
-              key: _key,
-              child: ListView(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Tahun Periode : $tahun_periode',
-                        style: h5,
+      body: Stack(
+        children: [
+          Form(
+            key: _key,
+            child: ListView(
+              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Tahun Periode : ${tahun_periode}',
+                      style: h5,
+                    ),
+                    MaterialButton(
+                      color: primaryColor,
+                      onPressed: () => _showYearPicker(context),
+                      child: Text(
+                        'Pilih Tahun',
+                        style: h5.copyWith(color: whiteColor),
                       ),
-                      MaterialButton(
-                        color: primaryColor,
-                        onPressed: () => _showYearPicker(context),
-                        child: Text(
-                          'Pilih Tahun',
-                          style: h5.copyWith(color: whiteColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    initialValue: widget.data.total_tagihan,
-                    validator: (e) {
-                      if ((e as dynamic).isEmpty) {
-                        return "Total tagihan tidak boleh kosong";
-                      }
-                    },
-                    onSaved: (e) => total_tagihan = e,
-                    decoration: InputDecoration(labelText: "Total tagihan Spp"),
-                  ),
-                  SizedBox(height: 50),
-                  MaterialButton(
-                    padding: EdgeInsets.all(10.0),
-                    color: primaryColor,
-                    onPressed:
-                        controller.isLoading.value ? null : () => check(),
-                    child:
-                        Text('Simpan', style: h5.copyWith(color: whiteColor)),
-                  ),
-                  // Nonaktifkan tombol jika isLoading bernilai true
-                  // atau jika form sedang diproses
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  validator: (e) {
+                    if ((e as dynamic).isEmpty) {
+                      return "Total tagihan tidak boleh kosong";
+                    }
+                  },
+                  onSaved: (e) => total_tagihan = e,
+                  decoration: InputDecoration(labelText: "Total tagihan Spp"),
+                ),
+                SizedBox(height: 50),
+                MaterialButton(
+                  padding: EdgeInsets.all(10.0),
+                  color: primaryColor,
+                  onPressed: controller.isLoading.value ? null : () => check(),
+                  child: Text('Simpan', style: h5.copyWith(color: whiteColor)),
+                ),
+                // Nonaktifkan tombol jika isLoading bernilai true
+                // atau jika form sedang diproses
+              ],
             ),
-            loadingWidget(context, controller.isLoading.value)
-          ],
-        ),
+          ),
+          Obx(() => loadingWidget(context, controller.isLoading.value))
+        ],
       ),
     );
   }

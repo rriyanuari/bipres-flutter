@@ -15,7 +15,7 @@ void openDialog(BuildContext context, String id, nama) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('Hapus Spp'),
-        content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
+        content: Text('Apakah anda yakin ingin menghapus data ( $nama ) ?'),
         actions: <Widget>[
           TextButton(
             child: Text('Tutup'),
@@ -26,7 +26,8 @@ void openDialog(BuildContext context, String id, nama) {
           TextButton(
             child: Text('Hapus'),
             onPressed: () {
-              controller.deleteSpp(id);
+              // Navigator.pop(context);
+              controller.deleteSpp(context, id);
             },
           ),
         ],
@@ -61,11 +62,11 @@ class SppScreen extends StatelessWidget {
       body: Obx(
         () => RefreshIndicator(
           onRefresh: controller.getSpp,
-          child: controller.isLoading.value
-              ? Center(child: CircularProgressIndicator())
-              : Container(
-                  padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
-                  child: ListView.builder(
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+            child: controller.isLoading.value
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: controller.Spp.length,
                     itemBuilder: (context, index) {
@@ -74,8 +75,13 @@ class SppScreen extends StatelessWidget {
                       // Render data items
                       return Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            margin: EdgeInsets.only(bottom: 25),
+                            decoration: BoxDecoration(
+                              color: secondarySoftColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Row(
                               children: [
                                 Expanded(
@@ -129,15 +135,11 @@ class SppScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Divider(
-                            thickness: 2,
-                            color: primaryColor,
-                          ),
                         ],
                       );
                     },
                   ),
-                ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

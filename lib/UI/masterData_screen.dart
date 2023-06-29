@@ -36,7 +36,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: secondaryColor,
+                            color: secondarySoftColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -79,7 +79,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: secondaryColor,
+                            color: secondarySoftColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -127,7 +127,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: secondaryColor,
+                            color: secondarySoftColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -170,7 +170,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: secondaryColor,
+                            color: secondarySoftColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
@@ -218,7 +218,7 @@ class MasterDataScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: secondaryColor,
+                            color: secondarySoftColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(

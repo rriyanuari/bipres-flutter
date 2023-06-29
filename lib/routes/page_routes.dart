@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:bipres/UI/main_user_screen.dart';
 import 'package:bipres/UI/onBoard_screen.dart';
-import 'package:bipres/UI/auth/login_screen.dart';
 import 'package:bipres/UI/splash_screen.dart';
+
+import 'package:bipres/UI/auth/login_screen.dart';
+import 'package:bipres/UI/auth/ubah_password_screen.dart';
 
 // MASTER DATA SCREEN
 
@@ -28,6 +30,8 @@ import 'package:bipres/UI/admin/trans_spp_screen.dart';
 import 'package:bipres/UI/admin/trans_spp_detail_screen.dart';
 import 'package:bipres/UI/admin/trans_spp_add_screen.dart';
 
+import 'package:bipres/UI/admin/absen_screen.dart';
+
 // FUNCTIONAL SCREEN
 
 class pageRouteApp {
@@ -36,6 +40,9 @@ class pageRouteApp {
     GetPage(name: RouteName.onBoard_screen, page: () => OnBoardScreen()),
     GetPage(name: RouteName.login_screen, page: () => LoginScreen()),
     GetPage(name: RouteName.main_user_screen, page: () => MainUserScreen()),
+
+    GetPage(
+        name: RouteName.ubah_password_screen, page: () => UbahPasswordScreen()),
 
     // Tingkatan
     GetPage(name: RouteName.tingkatan_screen, page: () => TingkatanScreen()),
@@ -70,5 +77,8 @@ class pageRouteApp {
         page: () => TransSppDetailScreen()),
     GetPage(
         name: RouteName.trans_spp_add_screen, page: () => TransSppAddScreen()),
+
+    // Absen
+    GetPage(name: RouteName.absen_screen, page: () => AbsenScreen()),
   ];
 }

@@ -15,21 +15,19 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
+    getProfile();
     super.onInit();
   }
 
   Future<void> getProfile() async {
-    final user = await prefController.myDataPref;
+    // Get Pref
+    final user = prefController.myDataPref;
 
     try {
       isLoading.value = true;
-      // Simulasi penundaan untuk pemanggilan data
-      await Future.delayed(Duration(seconds: 1));
 
       var result = await services.getProfile(user['id_user'], user['role']);
-
       inspect(result);
-
       if (result != null) {
         Profile.assignAll(result);
       } else {

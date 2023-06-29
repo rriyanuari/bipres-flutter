@@ -4,7 +4,9 @@ class ProfileModel {
   late String jenisKelamin;
   late String tanggalLahir;
   late String tempatLatihan;
-  late String sabuk;
+  late String? tahunPengesahan;
+  late String? sabuk;
+  late String? role;
 
   ProfileModel({
     required this.idUser,
@@ -12,7 +14,9 @@ class ProfileModel {
     required this.jenisKelamin,
     required this.tanggalLahir,
     required this.tempatLatihan,
+    required this.tahunPengesahan,
     required this.sabuk,
+    required this.role,
   });
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -21,6 +25,8 @@ class ProfileModel {
     jenisKelamin = json["jenis_kelamin"];
     tanggalLahir = json["tanggal_lahir"];
     tempatLatihan = json["tempat_latihan"];
+    tahunPengesahan = json["tahun_pengesahan"];
     sabuk = json["sabuk"];
+    role = json["role"];
   }
 }

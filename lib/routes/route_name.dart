@@ -5,6 +5,8 @@ abstract class RouteName {
   static const register_screen = '/register_screen';
   static const main_user_screen = '/main_user_screen';
 
+  static const ubah_password_screen = '/ubah_password_screen';
+
   // Tingkatan
   static const tingkatan_screen = '/tingkatan_screen';
 
@@ -33,7 +35,9 @@ abstract class RouteName {
   static const trans_spp_detail_screen = '/trans_spp_detail_screen';
   static const trans_spp_add_screen = '/trans_spp_add_screen';
 
-  // Kategori
-  static const kategori_stats_screen = '/kategori_stats_screen';
-  static const kategori_stats_add_screen = '/kategori_stats_add_screen';
+  // TRANSAKSI SPP
+  static const absen_screen = '/absen_screen';
+  static const absen_detail_screen = '/absen_detail_screen';
+  static const absen_add_screen = '/absen_add_screen';
+  static const absen_log_add_screen = '/absen_log_add_screen';
 }

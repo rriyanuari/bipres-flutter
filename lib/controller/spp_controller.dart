@@ -50,21 +50,20 @@ class SppController extends GetxController {
         throw result['message'];
       }
       Get.back();
-      // await Future.delayed(const Duration(seconds: 2));
 
-      final message = result['message'];
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Success, ${message}'),
+        content: Text('Spp berhasil ditambahkan'),
         backgroundColor: Colors.green, // Ganti dengan warna yang diinginkan
       ));
-    } catch (error) {
-      await Future.delayed(const Duration(seconds: 1));
 
+      getSpp();
+    } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Failed, ${error}'),
         backgroundColor: Colors.red, // Ganti dengan warna yang diinginkan
       ));
     } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
     }
     update();
@@ -85,27 +84,26 @@ class SppController extends GetxController {
         throw result['message'];
       }
       Get.back();
-      // await Future.delayed(const Duration(seconds: 2));
 
-      final message = result['message'];
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Success, ${message}'),
+        content: Text('Spp berhasil diupdate'),
         backgroundColor: Colors.green, // Ganti dengan warna yang diinginkan
       ));
-    } catch (error) {
-      await Future.delayed(const Duration(seconds: 1));
 
+      getSpp();
+    } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Failed, ${error}'),
         backgroundColor: Colors.red, // Ganti dengan warna yang diinginkan
       ));
     } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
     }
     update();
   }
 
-  Future<void> deleteSpp(String? id) async {
+  Future<void> deleteSpp(context, String? id) async {
     try {
       isLoading.value = true;
 
@@ -115,23 +113,22 @@ class SppController extends GetxController {
         // Lemparkan ke error jika result false
         throw result['message'];
       }
-
-      final message = result['message'];
-
       Get.back();
 
-      Get.snackbar(
-        'Success',
-        '$message',
-        backgroundColor: Color(0xFF98B66E),
-      );
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data berhasil dihapus"),
+        backgroundColor: Colors.green,
+      ));
 
-      isLoading.value = false;
       getSpp();
     } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data gagal dihapus"),
+        backgroundColor: Colors.red,
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
-      Get.snackbar('Failed', '$error',
-          backgroundColor: Colors.red, colorText: Colors.white);
     }
     update();
   }

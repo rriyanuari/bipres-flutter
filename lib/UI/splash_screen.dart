@@ -1,7 +1,9 @@
+import 'dart:developer';
+
+import 'package:bipres/controller/auth_controller.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:bipres/controller/pref_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -11,27 +13,33 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final PrefController prefController = Get.put(PrefController());
+  final AuthController authController = Get.put(AuthController());
 
-  void initState() {
-    autoLogin();
-    print(prefController.myDataPref.length);
-    super.initState();
-  }
-
-  Future<void> autoLogin() async {
-    // Get.offNamed(RouteName.login_screen);
-
+  Future autoLogin(isLoggedIn) async {
     // Check ada data?
-    if (prefController.myDataPref.length > 0) {
-      Future.delayed(const Duration(seconds: 4), () {
+    if (isLoggedIn) {
+      print('sudah login');
+      Future.delayed(const Duration(seconds: 2), () {
         Get.offNamed(RouteName.main_user_screen);
       });
+    } else {
+      print('belum login');
+      Future.delayed(const Duration(seconds: 2), () {
+        Get.offNamed(RouteName.login_screen);
+      });
     }
+  }
 
-    Future.delayed(const Duration(seconds: 4), () {
-      Get.offNamed(RouteName.login_screen);
-    });
+  void initState() {
+    // Check to pref
+    authController.isLoggedIn.listen(
+      (value) => {
+        autoLogin(value),
+      },
+    );
+    // End Check to pref
+
+    super.initState();
   }
 
   @override

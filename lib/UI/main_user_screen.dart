@@ -41,7 +41,7 @@ class _MainUserScreenState extends State<MainUserScreen> {
   Widget build(BuildContext context) {
     Widget _tabBarAdmin = FlashyTabBar(
       iconSize: 30,
-      height: 70,
+      height: 55,
       selectedIndex: _selectedIndex,
       showElevation: true,
       onItemSelected: (index) => setState(() {
@@ -71,7 +71,7 @@ class _MainUserScreenState extends State<MainUserScreen> {
 
     Widget _tabBarAnggota = FlashyTabBar(
       iconSize: 30,
-      height: 70,
+      height: 55,
       selectedIndex: _selectedIndex,
       showElevation: true,
       onItemSelected: (index) => setState(() {
