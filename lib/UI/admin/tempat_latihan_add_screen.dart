@@ -40,7 +40,7 @@ class _TempatLatihanAddScreenState extends State<TempatLatihanAddScreen> {
         backgroundColor: primaryColor,
         title: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.group,
               size: 24,
             ),

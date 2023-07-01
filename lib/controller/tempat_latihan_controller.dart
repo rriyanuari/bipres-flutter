@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bipres/models/tempat_latihan_model.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:bipres/services/tempat_latihan_services.dart';
@@ -8,8 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class TempatLatihanController extends GetxController {
-  var tempatLatihan = <TempatLatihanModel>[].obs;
   TempatLatihanServices services = TempatLatihanServices();
+
+  var tempatLatihan = <TempatLatihanModel>[].obs;
+  var tempatLatihanItems = <DropdownMenuItem<String>>[].obs;
   var isLoading = false.obs;
 
   @override
@@ -21,14 +21,28 @@ class TempatLatihanController extends GetxController {
   Future<void> getTempatLatihan() async {
     try {
       isLoading.value = true;
-      // Simulasi penundaan untuk pemanggilan data
-      await Future.delayed(Duration(seconds: 1));
 
       var result = await services.getAllTempatLatihan();
 
       if (result != null) {
         tempatLatihan.assignAll(result);
-        // print("data siswa: ${siswa.length}");
+
+        // Konversi hasil data menjadi DropdownMenuItem
+        tempatLatihanItems.value = result.map((item) {
+          return DropdownMenuItem(
+            value: item.id,
+            child: Text(item.tempatLatihan),
+          );
+        }).toList();
+
+        // Set index pertama item
+        tempatLatihanItems.insert(
+          0,
+          DropdownMenuItem(
+            value: "",
+            child: Text("Pilih Tempat Latihan"),
+          ),
+        );
       } else {
         print("null");
       }
@@ -131,5 +145,16 @@ class TempatLatihanController extends GetxController {
       isLoading.value = false;
     }
     update();
+  }
+
+  void dropDownList() {
+    // Ambil data dari API atau sumber data lainnya
+    // Simpan data ke dalam variabel tempatLatihanItems
+
+    tempatLatihanItems.value = [
+      DropdownMenuItem(value: "", child: Text("Pilih Tempat Latihan")),
+      DropdownMenuItem(value: "1", child: Text("SMK Al-Hikmah")),
+      DropdownMenuItem(value: "2", child: Text("SMPN 2 Curug")),
+    ];
   }
 }

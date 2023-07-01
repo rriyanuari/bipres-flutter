@@ -10,8 +10,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class TingkatanController extends GetxController {
-  var tingkatan = <TingkatanModel>[].obs;
   TingkatanServices services = TingkatanServices();
+
+  var tingkatan = <TingkatanModel>[].obs;
+  var tingkatanItems = <DropdownMenuItem<String>>[].obs;
   var isLoading = false.obs;
 
   @override
@@ -23,14 +25,28 @@ class TingkatanController extends GetxController {
   Future<void> getTingkatan() async {
     try {
       isLoading.value = true;
-      // Simulasi penundaan untuk pemanggilan data
-      await Future.delayed(Duration(seconds: 1));
 
       var result = await services.getAllTingkatan();
 
       if (result != null) {
         tingkatan.assignAll(result);
-        // print("data siswa: ${siswa.length}");
+
+        // Konversi hasil data menjadi DropdownMenuItem
+        tingkatanItems.value = result.map((item) {
+          return DropdownMenuItem(
+            value: item.id,
+            child: Text(item.sabuk),
+          );
+        }).toList();
+
+        // Set index pertama item
+        tingkatanItems.insert(
+          0,
+          DropdownMenuItem(
+            value: "",
+            child: Text("Pilih Tingkatan"),
+          ),
+        );
       } else {
         print("null");
       }

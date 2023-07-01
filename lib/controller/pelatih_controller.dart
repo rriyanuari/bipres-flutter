@@ -8,8 +8,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class PelatihController extends GetxController {
-  var pelatih = <PelatihModel>[].obs;
   PelatihServices services = PelatihServices();
+
+  var pelatih = <PelatihModel>[].obs;
   var isLoading = false.obs;
 
   @override
@@ -39,6 +40,7 @@ class PelatihController extends GetxController {
   }
 
   Future<void> addPelatih(
+    context,
     String? nama_depan,
     String? nama_belakang,
     String? nama_lengkap,
@@ -49,10 +51,7 @@ class PelatihController extends GetxController {
   ) async {
     try {
       isLoading.value = true;
-      print(isLoading.value);
 
-      // Simulasi penundaan untuk pemanggilan data
-      await Future.delayed(Duration(seconds: 1));
       var result = await services.addPelatih(
         nama_depan,
         nama_belakang,
@@ -68,25 +67,26 @@ class PelatihController extends GetxController {
         throw result['message'];
       }
 
-      await getPelatih();
-      Get.back();
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Pelatih berhasil ditambahkan"),
+        backgroundColor: Colors.green,
+      ));
 
-      final message = result['message'];
-      Get.snackbar(
-        'Success',
-        '$message',
-        backgroundColor: Color(0xFF98B66E),
-      );
-      isLoading.value = false;
+      await Future.delayed(const Duration(seconds: 1), () => Get.back());
+
+      await getPelatih();
     } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("$error"),
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
-      Get.snackbar('Failed', '$error',
-          backgroundColor: Colors.red, colorText: Colors.white);
     }
     update();
   }
 
-  Future<void> deletePelatih(String? id, id_user) async {
+  Future<void> deletePelatih(context, String? id, id_user) async {
     try {
       isLoading.value = true;
 
@@ -97,22 +97,22 @@ class PelatihController extends GetxController {
         throw result['message'];
       }
 
-      final message = result['message'];
-
       Get.back();
 
-      Get.snackbar(
-        'Success',
-        '$message',
-        backgroundColor: Color(0xFF98B66E),
-      );
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data berhasil dihapus"),
+        backgroundColor: Colors.green,
+      ));
 
-      isLoading.value = false;
       getPelatih();
     } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data gagal dihapus"),
+        backgroundColor: Colors.red,
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
-      Get.snackbar('Failed', '$error',
-          backgroundColor: Colors.red, colorText: Colors.white);
     }
     update();
   }
