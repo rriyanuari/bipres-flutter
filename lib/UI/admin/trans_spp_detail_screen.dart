@@ -32,7 +32,7 @@ void openDialog(BuildContext context, String id, idUser, nama) {
           TextButton(
             child: Text('Hapus'),
             onPressed: () {
-              controller.deleteSiswa(id, idUser);
+              controller.deleteSiswa(context, id, idUser);
             },
           ),
         ],

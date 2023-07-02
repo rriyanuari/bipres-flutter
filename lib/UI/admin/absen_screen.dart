@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bipres/UI/admin/absen_detail_screen.dart';
 import 'package:bipres/api/api.dart';
 import 'package:bipres/controller/log_absen_controller.dart';
 import 'package:bipres/controller/siswa_controller.dart';
@@ -17,9 +18,22 @@ import 'package:bipres/shared/loadingWidget.dart';
 final controller = Get.put(LogAbsenController());
 
 class MyExpansionTile extends StatefulWidget {
-  final String title, TempatLatihan;
+  final absen,
+      title,
+      pinAbsen,
+      tempatLatihan,
+      total_siswa,
+      siswa_absen,
+      siswa_tidak_absen;
 
-  MyExpansionTile({required this.title, required this.TempatLatihan});
+  MyExpansionTile(
+      {required this.absen,
+      required this.title,
+      required this.pinAbsen,
+      required this.tempatLatihan,
+      required this.total_siswa,
+      required this.siswa_absen,
+      required this.siswa_tidak_absen});
 
   @override
   _MyExpansionTileState createState() => _MyExpansionTileState();
@@ -43,7 +57,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
         style: h4.copyWith(fontWeight: bold),
       ),
       subtitle: Text(
-        widget.TempatLatihan,
+        widget.tempatLatihan,
         style: TextStyle(fontStyle: FontStyle.italic),
       ),
       onExpansionChanged: (bool expanded) {
@@ -65,6 +79,27 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                           Expanded(
                             flex: 2,
                             child: Text(
+                              'Pin Absensi',
+                              style: h5.copyWith(fontWeight: regular),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              ':   ${widget.pinAbsen}',
+                              style: h5.copyWith(fontWeight: light),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
                               'Total Siswa',
                               style: h5.copyWith(fontWeight: regular),
                             ),
@@ -72,7 +107,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              ':   5',
+                              ':   ${widget.total_siswa}',
                               style: h5.copyWith(fontWeight: light),
                             ),
                           ),
@@ -93,7 +128,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              ':   3',
+                              ':   ${widget.siswa_absen}',
                               style: h5.copyWith(fontWeight: light),
                             ),
                           ),
@@ -114,7 +149,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              ':   2',
+                              ':   ${widget.siswa_tidak_absen}',
                               style: h5.copyWith(fontWeight: light),
                             ),
                           ),
@@ -133,7 +168,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                         child: Text('Detail'),
                         onPressed: () {
                           // Tindakan saat tombol ditekan
-                          Get.toNamed(RouteName.trans_spp_detail_screen);
+                          Get.to(() => AbsenDetailScreen(widget.absen));
                         },
                       ),
                     ),
@@ -150,7 +185,6 @@ class AbsenScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LogAbsen = controller.logAbsen;
-    print(LogAbsen);
 
     return Scaffold(
       appBar: AppBar(
@@ -181,6 +215,8 @@ class AbsenScreen extends StatelessWidget {
                     itemCount: controller.logAbsen.length,
                     itemBuilder: (context, index) {
                       final data = controller.logAbsen[index];
+                      final siswa_tidak_masuk = int.parse(data.total_siswa) -
+                          int.parse(data.total_siswa_absen);
 
                       // Render data items
                       return Container(
@@ -191,8 +227,14 @@ class AbsenScreen extends StatelessWidget {
                           ),
                           clipBehavior: Clip.antiAlias,
                           child: MyExpansionTile(
-                              title: data.tanggal_pertemuan,
-                              TempatLatihan: data.tempat_latihan));
+                            absen: data,
+                            title: data.tanggal_pertemuan,
+                            tempatLatihan: data.tempat_latihan,
+                            pinAbsen: data.pin_absen,
+                            total_siswa: data.total_siswa,
+                            siswa_absen: data.total_siswa_absen,
+                            siswa_tidak_absen: siswa_tidak_masuk.toString(),
+                          ));
                       // Co
                     },
                   ),
@@ -201,7 +243,7 @@ class AbsenScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(RouteName.trans_spp_add_screen);
+          Get.toNamed(RouteName.absen_add_screen);
         },
         backgroundColor: primaryColor,
         child: const Icon(Icons.add),

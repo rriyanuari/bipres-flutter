@@ -1,3 +1,4 @@
+import 'package:bipres/UI/siswa/absen_screen.dart';
 import 'package:get/get.dart';
 
 import 'package:bipres/routes/route_name.dart';
@@ -31,6 +32,8 @@ import 'package:bipres/UI/admin/trans_spp_detail_screen.dart';
 import 'package:bipres/UI/admin/trans_spp_add_screen.dart';
 
 import 'package:bipres/UI/admin/absen_screen.dart';
+import 'package:bipres/UI/admin/absen_add_screen.dart';
+import 'package:bipres/UI/admin/absen_detail_screen.dart';
 
 // FUNCTIONAL SCREEN
 
@@ -80,5 +83,9 @@ class pageRouteApp {
 
     // Absen
     GetPage(name: RouteName.absen_screen, page: () => AbsenScreen()),
+    GetPage(name: RouteName.absen_add_screen, page: () => AbsenAddScreen()),
+
+    // Siswa Absen
+    GetPage(name: RouteName.siswa_absen_screen, page: () => SiswaAbsenScreen()),
   ];
 }

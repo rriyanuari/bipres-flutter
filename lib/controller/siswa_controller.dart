@@ -8,8 +8,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class SiswaController extends GetxController {
-  var siswa = <SiswaModel>[].obs;
   SiswaServices services = SiswaServices();
+
+  var siswa = <SiswaModel>[].obs;
   var isLoading = false.obs;
 
   @override
@@ -21,8 +22,6 @@ class SiswaController extends GetxController {
   Future<void> getSiswa() async {
     try {
       isLoading.value = true;
-      // Simulasi penundaan untuk pemanggilan data
-      await Future.delayed(Duration(seconds: 1));
 
       var result = await services.getAllSiswa();
 
@@ -39,6 +38,7 @@ class SiswaController extends GetxController {
   }
 
   Future<void> addSiswa(
+      context,
       String? nama_depan,
       String? nama_belakang,
       String? nama_lengkap,
@@ -48,10 +48,7 @@ class SiswaController extends GetxController {
       String? id_tingkatan) async {
     try {
       isLoading.value = true;
-      print(isLoading.value);
 
-      // Simulasi penundaan untuk pemanggilan data
-      await Future.delayed(Duration(seconds: 1));
       var result = await services.addSiswa(
           nama_depan,
           nama_belakang,
@@ -66,30 +63,28 @@ class SiswaController extends GetxController {
         throw result['message'];
       }
 
-      await getSiswa();
-      Get.back();
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Pelatih berhasil ditambahkan"),
+        backgroundColor: Colors.green,
+      ));
 
-      final message = result['message'];
-      Get.snackbar(
-        'Success',
-        '$message',
-        backgroundColor: Color(0xFF98B66E),
-      );
-      isLoading.value = false;
+      await Future.delayed(const Duration(seconds: 1), () => Get.back());
+
+      await getSiswa();
     } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("$error"),
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
-      Get.snackbar('Failed', '$error',
-          backgroundColor: Colors.red, colorText: Colors.white);
     }
     update();
   }
 
-  Future<void> deleteSiswa(String? id, id_user) async {
+  Future<void> deleteSiswa(context, String? id, id_user) async {
     try {
       isLoading.value = true;
-
-      // Simulasi penundaan untuk pemanggilan data
-      // await Future.delayed(Duration(seconds: 1));
 
       var result = await services.deleteSiswa(id, id_user);
 
@@ -100,20 +95,20 @@ class SiswaController extends GetxController {
 
       final message = result['message'];
 
-      Get.back();
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data berhasil dihapus"),
+        backgroundColor: Colors.green,
+      ));
 
-      Get.snackbar(
-        'Success',
-        '$message',
-        backgroundColor: Color(0xFF98B66E),
-      );
-
-      isLoading.value = false;
       getSiswa();
     } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data gagal dihapus"),
+        backgroundColor: Colors.red,
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
       isLoading.value = false;
-      Get.snackbar('Failed', '$error',
-          backgroundColor: Colors.red, colorText: Colors.white);
     }
     update();
   }

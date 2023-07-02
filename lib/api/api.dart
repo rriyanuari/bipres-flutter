@@ -38,4 +38,7 @@ class BaseUrl {
 
   // LOG ABSEN
   static String urlListLogAbsen = "${url}api/absensi/list-log.php";
+  static String urlLogAbsenSiswa = "${url}api/absensi/list-log-siswa.php";
+  static String urlAddJadwalAbsen = "${url}api/absensi/add.php";
+  static String urlAddLogAbsen = "${url}api/absensi/add-log.php";
 }

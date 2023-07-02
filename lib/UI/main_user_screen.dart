@@ -2,6 +2,7 @@ import 'package:bipres/UI/admin/siswa_screen.dart';
 import 'package:bipres/UI/masterData_screen.dart';
 import 'package:bipres/UI/home_screen.dart';
 import 'package:bipres/UI/profile_screen.dart';
+import 'package:bipres/UI/siswa_home_screen.dart';
 import 'package:bipres/shared/theme.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _MainUserScreenState extends State<MainUserScreen> {
   ];
 
   static List<Widget> _screensAnggota = <Widget>[
-    HomeScreen(),
+    SiswaHomeScreen(),
     ProfileScreen(),
   ];
 

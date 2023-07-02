@@ -22,8 +22,6 @@ class PelatihController extends GetxController {
   Future<void> getPelatih() async {
     try {
       isLoading.value = true;
-      // Simulasi penundaan untuk pemanggilan data
-      await Future.delayed(Duration(seconds: 1));
 
       var result = await services.getAllPelatih();
 

@@ -32,7 +32,7 @@ void openDialog(BuildContext context, String id, idUser, nama) {
           TextButton(
             child: Text('Hapus'),
             onPressed: () {
-              controller.deleteSiswa(id, idUser);
+              controller.deleteSiswa(context, id, idUser);
             },
           ),
         ],
@@ -41,33 +41,151 @@ void openDialog(BuildContext context, String id, idUser, nama) {
   );
 }
 
-void _proseshapus(BuildContext context, String id) async {
-  var body = {
-    'id': '$id',
-  };
-  var jsonBody = convert.jsonEncode(body);
+class MyExpansionTile extends StatefulWidget {
+  final String namaLengkap,
+      id,
+      idUser,
+      tanggalLahir,
+      jenisKelamin,
+      sabuk,
+      TempatLatihan;
 
-  final response = await http.delete(Uri.parse(BaseUrl.urlHapusSiswa),
-      headers: {"user-key": "portalbipres_api"}, body: jsonBody);
-  final data = jsonDecode(response.body);
-  String status = data['status'];
-  String message = data['message'];
-  if (status == 'success') {
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.red,
-    ));
-    Future.delayed(const Duration(seconds: 1), () {
-      // setState(() {
-      //   _lihatData();
-      // });
-    });
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.red,
-    ));
+  MyExpansionTile({
+    required this.namaLengkap,
+    required this.id,
+    required this.idUser,
+    required this.tanggalLahir,
+    required this.jenisKelamin,
+    required this.sabuk,
+    required this.TempatLatihan,
+  });
+
+  @override
+  _MyExpansionTileState createState() => _MyExpansionTileState();
+}
+
+class _MyExpansionTileState extends State<MyExpansionTile> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      collapsedBackgroundColor: secondaryColor,
+      backgroundColor: secondaryColor,
+      textColor: blackColor,
+      collapsedTextColor: blackColor,
+      collapsedIconColor: blackColor,
+      iconColor: blackColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      title: Text(
+        widget.namaLengkap,
+        style: h4.copyWith(fontWeight: bold),
+      ),
+      subtitle: Text(
+        widget.TempatLatihan,
+        style: TextStyle(fontStyle: FontStyle.italic),
+      ),
+      onExpansionChanged: (bool expanded) {
+        setState(() {
+          _isExpanded = expanded;
+        });
+      },
+      children: <Widget>[
+        Container(
+            color: whiteColorTrans, // Ubah warna latar belakang header
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'Tanggal Lahir',
+                            style: h5,
+                          )),
+                          Expanded(
+                              child: Text(
+                            ':   ${widget.tanggalLahir}',
+                            style: h5,
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'Jenis Kelamin',
+                            style: h5,
+                          )),
+                          Expanded(
+                              child: Text(
+                            ':   ${widget.jenisKelamin}',
+                            style: h5,
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'Tingkatan Sabuk',
+                            style: h5,
+                          )),
+                          Expanded(
+                              child: Text(
+                            ':   ${widget.sabuk}',
+                            style: h5,
+                          )),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                // SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: MaterialButton(
+                        color: primaryColor,
+                        textColor: whiteColor,
+                        child: Text('Ubah'),
+                        onPressed: () {
+                          // Tindakan saat tombol ditekan
+                          Get.toNamed(RouteName.trans_spp_detail_screen);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: MaterialButton(
+                        color: primaryColor,
+                        textColor: whiteColor,
+                        child: Text('Hapus'),
+                        onPressed: () {
+                          // Tindakan saat tombol ditekan
+                          openDialog(context, widget.id, widget.idUser,
+                              widget.namaLengkap);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            )),
+      ],
+    );
   }
 }
 
@@ -109,76 +227,19 @@ class SiswaScreen extends StatelessWidget {
                       // Render data items
                       return Container(
                           padding: EdgeInsets.symmetric(vertical: 10),
-                          margin: EdgeInsets.only(bottom: 25),
+                          margin: EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
-                            color: secondaryColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: ListTile(
-                                  leading: Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/defaultProfiPic.png'))),
-                                  ),
-                                  title: Expanded(
-                                    child: Text(
-                                      data.namaLengkap,
-                                      style: h4.copyWith(fontWeight: regular),
-                                    ),
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        data.TempatLatihan,
-                                        style: h5.copyWith(fontWeight: regular),
-                                      ),
-                                      Text(
-                                        "${data.Sabuk}",
-                                        style: h5.copyWith(fontWeight: regular),
-                                      ),
-                                    ],
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                          icon: Icon(
-                                            Icons.edit,
-                                            color: primaryColor,
-                                          ),
-                                          onPressed: () {}),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.delete,
-                                          color: primaryColor,
-                                        ),
-                                        onPressed: () {
-                                          // dialogHapus(data.id_sekolah.toString());
-                                          openDialog(context, data.id,
-                                              data.idUser, data.namaLengkap);
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ));
-
-                      // Co
+                          clipBehavior: Clip.antiAlias,
+                          child: MyExpansionTile(
+                              namaLengkap: data.namaLengkap,
+                              id: data.id,
+                              idUser: data.idUser,
+                              jenisKelamin: data.jenisKelamin,
+                              sabuk: data.Sabuk,
+                              tanggalLahir: data.tanggalLahir,
+                              TempatLatihan: data.TempatLatihan));
                     },
                   ),
                 ),

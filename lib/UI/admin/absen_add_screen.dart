@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:bipres/controller/log_absen_controller.dart';
 import 'package:bipres/shared/loadingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,28 +20,22 @@ List<DropdownMenuItem<String>> get dropdownJenisKelaminItems {
   return menuJenisKelaminItems;
 }
 
-class PelatihAddScreen extends StatefulWidget {
-  const PelatihAddScreen({super.key});
+class AbsenAddScreen extends StatefulWidget {
+  const AbsenAddScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _PelatihAddScreenState createState() => _PelatihAddScreenState();
+  _AbsenAddScreenState createState() => _AbsenAddScreenState();
 }
 
-class _PelatihAddScreenState extends State<PelatihAddScreen> {
+class _AbsenAddScreenState extends State<AbsenAddScreen> {
+  final logAbsenController = Get.put(LogAbsenController());
   final tempatController = Get.put(TempatLatihanController());
-  final pelatihController = Get.put(PelatihController());
 
   final _key = new GlobalKey<FormState>();
 
-  String? namaDepan, namaBelakang, namaLengkap;
-  String? selectedJenisKelamin = dropdownJenisKelaminItems.first.value;
   String? selectedTempatLatihan;
   DateTime selectedDate = DateTime.now();
-
-  int tahun_pengesahan = DateTime.now().year;
-  int startYear = DateTime.now().year - 50;
-  int endYear = DateTime.now().year;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -55,39 +50,15 @@ class _PelatihAddScreenState extends State<PelatihAddScreen> {
     }
   }
 
-  void _showYearPicker(BuildContext context) {
-    Picker(
-      adapter: NumberPickerAdapter(data: [
-        NumberPickerColumn(
-            begin: startYear, end: endYear, initValue: tahun_pengesahan)
-      ]),
-      delimiter: [
-        PickerDelimiter(child: Container(width: 30.0)),
-      ],
-      hideHeader: true,
-      title: Text('Pilih Tahun'),
-      onConfirm: (Picker picker, List<int> value) {
-        setState(() {
-          tahun_pengesahan = value[0] + startYear;
-        });
-      },
-    ).showDialog(context);
-  }
-
   check(context) {
     final form = _key.currentState;
     if ((form as dynamic).validate()) {
       (form as dynamic).save();
 
-      pelatihController.addPelatih(
+      logAbsenController.addJadwalLatihan(
         context,
-        namaDepan,
-        namaBelakang,
-        namaLengkap,
-        selectedJenisKelamin,
-        selectedDate.toString().substring(0, 10),
-        tahun_pengesahan.toString(),
         selectedTempatLatihan,
+        selectedDate.toString().substring(0, 10),
       );
     }
   }
@@ -112,7 +83,7 @@ class _PelatihAddScreenState extends State<PelatihAddScreen> {
             ),
             SizedBox(width: 20),
             Text(
-              'Tambah Pelatih',
+              'Tambah Jadwal Latihan',
               style: h4.copyWith(fontWeight: bold),
             ),
           ],
@@ -125,36 +96,6 @@ class _PelatihAddScreenState extends State<PelatihAddScreen> {
             child: ListView(
               padding: EdgeInsets.all(16.0),
               children: <Widget>[
-                TextFormField(
-                  validator: (e) {
-                    if ((e as dynamic).isEmpty) {
-                      return "Nama depan tidak boleh kosong";
-                    }
-                  },
-                  onSaved: (e) => namaDepan = e,
-                  decoration: InputDecoration(labelText: "Nama Depan"),
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  validator: (e) {
-                    if ((e as dynamic).isEmpty) {
-                      return "Nama belakang tidak boleh kosong";
-                    }
-                  },
-                  onSaved: (e) => namaBelakang = e,
-                  decoration: InputDecoration(labelText: "Nama Belakang"),
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  validator: (e) {
-                    if ((e as dynamic).isEmpty) {
-                      return "Nama lengkap tidak boleh kosong";
-                    }
-                  },
-                  onSaved: (e) => namaLengkap = e,
-                  decoration: InputDecoration(labelText: "Nama Lengkap"),
-                ),
-                SizedBox(height: 30),
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -175,39 +116,6 @@ class _PelatihAddScreenState extends State<PelatihAddScreen> {
                       )
                     ],
                   ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Tahun Pengesahan :   " + "${tahun_pengesahan}",
-                        style: h5,
-                      ),
-                      const SizedBox(
-                        width: 20.0,
-                      ),
-                      ElevatedButton(
-                        onPressed: () => _showYearPicker(context),
-                        child: const Text('Pilih Tahun'),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                DropdownButton(
-                  hint: Text("jenis kelamin"),
-                  isExpanded: true,
-                  value: selectedJenisKelamin,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedJenisKelamin = newValue!;
-                    });
-                  },
-                  items: dropdownJenisKelaminItems,
                 ),
                 SizedBox(height: 10),
                 Obx(
@@ -238,7 +146,7 @@ class _PelatihAddScreenState extends State<PelatihAddScreen> {
               ],
             ),
           ),
-          Obx(() => loadingWidget(context, pelatihController.isLoading.value))
+          Obx(() => loadingWidget(context, tempatController.isLoading.value))
         ],
       ),
     );
