@@ -10,13 +10,16 @@ import 'package:bipres/models/spp_model.dart';
 import 'package:bipres/services/spp_services.dart';
 
 class SppController extends GetxController {
-  var Spp = <SppModel>[].obs;
   SppServices services = SppServices();
+
+  var Spp = <SppModel>[].obs;
+  var TransSpp = <TransSppModel>[].obs;
   var isLoading = false.obs;
 
   @override
   void onInit() {
     getSpp();
+    getTransSpp();
     super.onInit();
   }
 
@@ -29,6 +32,22 @@ class SppController extends GetxController {
 
       if (result != null) {
         Spp.assignAll(result);
+      }
+    } finally {
+      isLoading.value = false;
+    }
+    update();
+  }
+
+  Future<void> getTransSpp() async {
+    try {
+      isLoading.value = true;
+      await Future.delayed(Duration(seconds: 1));
+
+      var result = await services.getAllTransaksi();
+
+      if (result != null) {
+        TransSpp.assignAll(result);
       }
     } finally {
       isLoading.value = false;
@@ -124,6 +143,70 @@ class SppController extends GetxController {
     } catch (error) {
       await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Data gagal dihapus"),
+        backgroundColor: Colors.red,
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
+      isLoading.value = false;
+    }
+    update();
+  }
+
+  Future<void> deleteTransSpp(context, String? id) async {
+    try {
+      isLoading.value = true;
+
+      var result = await services.deleteTransaksiSpp(id);
+
+      if (result['status'] == 'error') {
+        // Lemparkan ke error jika result false
+        throw result['message'];
+      }
+      Get.back();
+
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data berhasil dihapus"),
+        backgroundColor: Colors.green,
+      ));
+    } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Data gagal dihapus"),
+        backgroundColor: Colors.red,
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
+      isLoading.value = false;
+    }
+    update();
+  }
+
+  Future<void> addTransaksiSpp(
+    context,
+    String? id_siswa,
+    id_spp,
+    nominal_bayar,
+  ) async {
+    try {
+      isLoading.value = true;
+
+      var result =
+          await services.addTransaksiSpp(id_siswa, id_spp, nominal_bayar);
+      if (result['status'] == 'error') {
+        // Lemparkan ke error jika result false
+        throw result['message'];
+      }
+
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Berhasil melakukan absensi"),
+        backgroundColor: Colors.green,
+      ));
+
+      await Future.delayed(const Duration(seconds: 1), () => Get.back());
+
+      getSpp();
+    } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("$error"),
         backgroundColor: Colors.red,
       ));
     } finally {

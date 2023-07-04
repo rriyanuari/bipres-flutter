@@ -168,7 +168,10 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                         child: Text('Detail'),
                         onPressed: () {
                           // Tindakan saat tombol ditekan
-                          Get.to(() => AbsenDetailScreen(widget.absen));
+                          Get.to(
+                            () => AbsenDetailScreen(
+                                widget.absen, widget.siswa_tidak_absen),
+                          );
                         },
                       ),
                     ),

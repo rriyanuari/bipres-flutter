@@ -20,8 +20,9 @@ class AbsenDetailScreen extends StatefulWidget {
   @override
   _AbsenDetailScreenState createState() => _AbsenDetailScreenState();
   final AbsenModel data;
+  final siswa_tidak_absen;
 
-  AbsenDetailScreen(this.data);
+  AbsenDetailScreen(this.data, this.siswa_tidak_absen);
 }
 
 class _AbsenDetailScreenState extends State<AbsenDetailScreen> {
@@ -29,8 +30,8 @@ class _AbsenDetailScreenState extends State<AbsenDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    inspect(widget.data);
     final absen = widget.data;
+    final siswa_tidak_absen = widget.siswa_tidak_absen;
 
     return Scaffold(
       appBar: AppBar(
@@ -193,7 +194,7 @@ class _AbsenDetailScreenState extends State<AbsenDetailScreen> {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   ${absen.total_siswa_absen}',
+                                ':   ${siswa_tidak_absen}',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),

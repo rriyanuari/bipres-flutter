@@ -21,28 +21,19 @@ class TransSppAddScreen extends StatefulWidget {
 }
 
 class _TransSppAddScreenState extends State<TransSppAddScreen> {
+  final sppcontroller = Get.put(SppController());
+  final siswaController = Get.put(SiswaController());
+
+  final _key = new GlobalKey<FormState>();
+
   String? total_tagihan,
       selectedNama,
       selectedIdNama,
       selectedTahun,
       selectedIdTahun,
       selectedTagihan;
-  int? selectedBulan;
+  int? selectedBulan, totalBiayaInt;
   double? tagihan_per_bulan, totalBiaya;
-
-  final sppcontroller = Get.put(SppController());
-  final siswaController = Get.put(SiswaController());
-
-  final _key = new GlobalKey<FormState>();
-
-  check() {
-    final form = _key.currentState;
-    if ((form as dynamic).validate()) {
-      (form as dynamic).save();
-
-      // controller.addSpp(context, tahun_periode.toString(), total_tagihan);
-    }
-  }
 
   @override
   void initState() {
@@ -115,9 +106,25 @@ class _TransSppAddScreenState extends State<TransSppAddScreen> {
           setState(() {
             selectedBulan = picker.getSelectedValues()[0];
             totalBiaya = tagihan_per_bulan! * selectedBulan!;
+            totalBiayaInt = totalBiaya?.round();
           });
         },
       ).showDialog(context);
+    }
+
+    check() {
+      final form = _key.currentState;
+      if ((form as dynamic).validate()) {
+        (form as dynamic).save();
+
+        print(selectedIdNama);
+        print(selectedIdTahun.toString());
+        print(totalBiayaInt);
+
+        // return false;
+        sppcontroller.addTransaksiSpp(
+            context, selectedIdNama, selectedIdTahun.toString(), totalBiayaInt);
+      }
     }
 
     return Scaffold(
@@ -335,7 +342,7 @@ class _TransSppAddScreenState extends State<TransSppAddScreen> {
                 ],
               ),
             ),
-            loadingWidget(context, siswaController.isLoading.value)
+            loadingWidget(context, sppcontroller.isLoading.value)
           ],
         ),
       ),

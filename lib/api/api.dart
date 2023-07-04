@@ -36,6 +36,11 @@ class BaseUrl {
   static String urlUbahSpp = "${url}api/spp/edit.php";
   static String urlHapusSpp = "${url}api/spp/delete.php";
 
+  // TRANSAKSI SPP
+  static String urlListTransSpp = "${url}api/transaksi-spp/list.php";
+  static String urlTambahTransSpp = "${url}api/transaksi-spp/add.php";
+  static String urlHapusTransSpp = "${url}api/transaksi-spp/delete.php";
+
   // LOG ABSEN
   static String urlListLogAbsen = "${url}api/absensi/list-log.php";
   static String urlLogAbsenSiswa = "${url}api/absensi/list-log-siswa.php";

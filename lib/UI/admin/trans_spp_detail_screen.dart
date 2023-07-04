@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bipres/api/api.dart';
 import 'package:bipres/controller/siswa_controller.dart';
+import 'package:bipres/controller/spp_controller.dart';
 import 'package:bipres/models/siswa_model.dart';
+import 'package:bipres/models/spp_model.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,15 +16,17 @@ import 'dart:convert' as convert;
 import 'package:bipres/shared/theme.dart';
 import 'package:bipres/shared/loadingWidget.dart';
 
-final controller = Get.put(SiswaController());
+final siswaController = Get.put(SiswaController());
+final transController = Get.put(SppController());
 
-void openDialog(BuildContext context, String id, idUser, nama) {
+void openDialog(BuildContext context, String id, tanggal_bayar) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('Hapus Siswa'),
-        content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
+        content:
+            Text('Apakah anda yakin ingin menghapus data ( $tanggal_bayar )?'),
         actions: <Widget>[
           TextButton(
             child: Text('Tutup'),
@@ -32,7 +37,7 @@ void openDialog(BuildContext context, String id, idUser, nama) {
           TextButton(
             child: Text('Hapus'),
             onPressed: () {
-              controller.deleteSiswa(context, id, idUser);
+              transController.deleteTransSpp(context, id);
             },
           ),
         ],
@@ -41,10 +46,22 @@ void openDialog(BuildContext context, String id, idUser, nama) {
   );
 }
 
-class TransSppDetailScreen extends StatelessWidget {
+class TransSppDetailScreen extends StatefulWidget {
+  @override
+  _TransSppDetailScreenState createState() => _TransSppDetailScreenState();
+  final TransSppModel data;
+  final informasi_pembayaran;
+
+  TransSppDetailScreen(this.data, this.informasi_pembayaran);
+}
+
+class _TransSppDetailScreenState extends State<TransSppDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    final siswa = controller.siswa;
+    final siswa = siswaController.siswa;
+    final transSpp = widget.data;
+    final informasi_pembayaran = widget.informasi_pembayaran;
+    inspect(transSpp);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,8 +77,8 @@ class TransSppDetailScreen extends StatelessWidget {
       ),
       body: Obx(
         () => RefreshIndicator(
-            onRefresh: controller.getSiswa,
-            child: controller.isLoading.value
+            onRefresh: siswaController.getSiswa,
+            child: siswaController.isLoading.value
                 ? Center(child: CircularProgressIndicator())
                 : Padding(
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
@@ -89,7 +106,7 @@ class TransSppDetailScreen extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   Usman Sidiq',
+                                ':   ${transSpp.nama_lengkap}',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -110,7 +127,7 @@ class TransSppDetailScreen extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   SMK Al-Hikmah Curug',
+                                ':   ${transSpp.tempat_latihan}',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -131,7 +148,7 @@ class TransSppDetailScreen extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   Polos',
+                                ':   ${transSpp.nama_lengkap}',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -165,7 +182,7 @@ class TransSppDetailScreen extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   2023',
+                                ':   ${informasi_pembayaran['tahun_periode']}',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -186,7 +203,7 @@ class TransSppDetailScreen extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   12 Bulan (Rp. 200.000 )',
+                                ':   12 Bulan ( ${informasi_pembayaran['total_tagihan']} )',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -207,7 +224,7 @@ class TransSppDetailScreen extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   Rp. 20.000',
+                                ':   ${informasi_pembayaran['tagihan_per_bulan']}',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -228,7 +245,7 @@ class TransSppDetailScreen extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   2 Bulan ( Rp. 40.000 )',
+                                ':   ${informasi_pembayaran['bulan_bayar']} Bulan ( ${informasi_pembayaran['total_nominal_bayar']} )',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -249,7 +266,7 @@ class TransSppDetailScreen extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   10 Bulan ( Rp. 160.000 )',
+                                ':   ${informasi_pembayaran['sisa_bulan_bayar']} Bulan ( ${informasi_pembayaran['sisa_tagihan']} )',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -261,9 +278,9 @@ class TransSppDetailScreen extends StatelessWidget {
                         Expanded(
                           child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: controller.siswa.length,
+                            itemCount: transSpp.transaksi.length,
                             itemBuilder: (context, index) {
-                              final data = controller.siswa[index];
+                              final data = transSpp.transaksi[index];
 
                               // Render data items
                               return Container(
@@ -284,7 +301,7 @@ class TransSppDetailScreen extends StatelessWidget {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                'Rp. 20.000 ( 15-05-23 )',
+                                                '${data.nominal_bayar} ( ${data.tanggal_bayar} )',
                                                 style: h5.copyWith(
                                                     fontWeight: regular),
                                               ),
@@ -298,31 +315,30 @@ class TransSppDetailScreen extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
                                         children: [
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.edit,
-                                              color: primaryColor,
-                                            ),
-                                            onPressed: () {
-                                              // Navigator.of(context).push(
-                                              //     MaterialPageRoute(
-                                              //         builder: (context) =>
-                                              //             TempatLatihanEditScreen(
-                                              //                 data, _lihatData)));
-                                            },
-                                          ),
+                                          // IconButton(
+                                          //   icon: Icon(
+                                          //     Icons.edit,
+                                          //     color: primaryColor,
+                                          //   ),
+                                          //   onPressed: () {
+                                          //     // Navigator.of(context).push(
+                                          //     //     MaterialPageRoute(
+                                          //     //         builder: (context) =>
+                                          //     //             TempatLatihanEditScreen(
+                                          //     //                 data, _lihatData)));
+                                          //   },
+                                          // ),
                                           IconButton(
                                             icon: Icon(
                                               Icons.delete,
                                               color: primaryColor,
                                             ),
                                             onPressed: () {
-                                              // dialogHapus(data.id_sekolah.toString());
                                               openDialog(
-                                                  context,
-                                                  data.id,
-                                                  data.idUser,
-                                                  data.namaLengkap);
+                                                context,
+                                                data.id,
+                                                data.tanggal_bayar,
+                                              );
                                             },
                                           )
                                         ],

@@ -75,9 +75,7 @@ class pageRouteApp {
 
     // Transaksi Spp
     GetPage(name: RouteName.trans_spp_screen, page: () => TransSppScreen()),
-    GetPage(
-        name: RouteName.trans_spp_detail_screen,
-        page: () => TransSppDetailScreen()),
+
     GetPage(
         name: RouteName.trans_spp_add_screen, page: () => TransSppAddScreen()),
 
