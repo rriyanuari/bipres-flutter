@@ -33,4 +33,46 @@ class TingkatanServices {
       print("response time out");
     }
   }
+
+  Future testKenaikan(
+      String? id_siswa,
+      String? id_tingkatan,
+      String? nilai_fisik,
+      String? sikap_pasang_4,
+      String? sikap_pasang_8,
+      String? jurus_tangan_kosong,
+      String? jurus_senjata_golok,
+      String? jurus_senjata_toya) async {
+    try {
+      var body = {
+        "id_siswa": id_siswa,
+        "id_tingkatan": id_tingkatan,
+        "nilai_fisik": nilai_fisik,
+        "sikap_pasang_4": sikap_pasang_4,
+        "sikap_pasang_8": sikap_pasang_8,
+        "jurus_tangan_kosong": jurus_tangan_kosong,
+        "jurus_senjata_golok": jurus_senjata_golok,
+        "jurus_senjata_toya": jurus_senjata_toya
+      };
+
+      var jsonBody = convert.jsonEncode(body);
+
+      final response = await http
+          .post(
+        Uri.parse(BaseUrl.urlAddTesKenaikan),
+        headers: {"user-key": user_key},
+        body: jsonBody,
+      )
+          .timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("connection time out try again");
+      });
+
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
+
+      return json;
+    } catch (e) {
+      // Error saat mengirim data
+      print('Error: $e');
+    }
+  }
 }

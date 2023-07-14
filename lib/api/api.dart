@@ -11,6 +11,8 @@ class BaseUrl {
 
   // SISWA
   static String urlListSiswa = "${url}api/siswa/list.php";
+  static String urlListSiswaWithTingkatan =
+      "${url}api/siswa/list-with-tingkatan.php";
   static String urlTambahSiswa = "${url}api/siswa/add.php";
   static String urlUbahSiswa = "${url}api/siswa/edit.php";
   static String urlHapusSiswa = "${url}api/siswa/delete.php";
@@ -29,6 +31,7 @@ class BaseUrl {
 
   // TINGKATAN
   static String urlListTingkatan = "${url}api/tingkatan/list.php";
+  static String urlAddTesKenaikan = "${url}api//tes-kenaikan/add.php";
 
   // SPP
   static String urlListSpp = "${url}api/spp/list.php";

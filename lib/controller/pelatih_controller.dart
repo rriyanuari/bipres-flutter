@@ -84,6 +84,54 @@ class PelatihController extends GetxController {
     update();
   }
 
+  Future<void> editPelatih(
+    context,
+    String? id,
+    String? nama_depan,
+    String? nama_belakang,
+    String? nama_lengkap,
+    String? jenis_kelamin,
+    String? tanggal_lahir,
+    String? tahun_pengesahan,
+    String? id_tempat_latihan,
+  ) async {
+    try {
+      isLoading.value = true;
+
+      var result = await services.editPelatih(
+        id,
+        nama_depan,
+        nama_belakang,
+        nama_lengkap,
+        jenis_kelamin,
+        tanggal_lahir,
+        tahun_pengesahan,
+        id_tempat_latihan,
+      );
+
+      if (result['status'] == 'error') {
+        // Lemparkan ke error jika result false
+        throw result['message'];
+      }
+
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Pelatih berhasil diupdate"),
+        backgroundColor: Colors.green,
+      ));
+
+      await Future.delayed(const Duration(seconds: 1), () => Get.back())
+          .then((val) => getPelatih());
+    } catch (error) {
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("$error"),
+      ));
+    } finally {
+      await Future.delayed(const Duration(seconds: 2));
+      isLoading.value = false;
+    }
+    update();
+  }
+
   Future<void> deletePelatih(context, String? id, id_user) async {
     try {
       isLoading.value = true;

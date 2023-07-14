@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bipres/UI/admin/siswa_edit_screen.dart';
 import 'package:bipres/api/api.dart';
 import 'package:bipres/controller/siswa_controller.dart';
 import 'package:bipres/models/siswa_model.dart';
@@ -42,6 +43,7 @@ void openDialog(BuildContext context, String id, idUser, nama) {
 }
 
 class MyExpansionTile extends StatefulWidget {
+  final siswa;
   final String namaLengkap,
       id,
       idUser,
@@ -51,6 +53,7 @@ class MyExpansionTile extends StatefulWidget {
       TempatLatihan;
 
   MyExpansionTile({
+    required this.siswa,
     required this.namaLengkap,
     required this.id,
     required this.idUser,
@@ -160,7 +163,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                         child: Text('Ubah'),
                         onPressed: () {
                           // Tindakan saat tombol ditekan
-                          Get.toNamed(RouteName.trans_spp_detail_screen);
+                          Get.to(() => SiswaEditScreen(widget.siswa));
                         },
                       ),
                     ),
@@ -233,6 +236,7 @@ class SiswaScreen extends StatelessWidget {
                           ),
                           clipBehavior: Clip.antiAlias,
                           child: MyExpansionTile(
+                              siswa: data,
                               namaLengkap: data.namaLengkap,
                               id: data.id,
                               idUser: data.idUser,

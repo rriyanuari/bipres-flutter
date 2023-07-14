@@ -35,12 +35,19 @@ abstract class RouteName {
   static const trans_spp_detail_screen = '/trans_spp_detail_screen';
   static const trans_spp_add_screen = '/trans_spp_add_screen';
 
-  // Admin Absensi
+  // ADMIN ABSENSI
   static const absen_screen = '/absen_screen';
   static const absen_detail_screen = '/absen_detail_screen';
   static const absen_add_screen = '/absen_add_screen';
   static const absen_log_add_screen = '/absen_log_add_screen';
 
-  // Siswa Absensi
+  // SISWA ABSENSI
   static const siswa_absen_screen = '/siswa_absen_screen';
+
+  // TES KENAIKAN
+  static const tes_kenaikan_screen = '/tes_kenaikan_screen';
+  static const tes_kenaikan_add_screen = '/tes_kenaikan_add_screen';
+
+  // LAPORAN
+  static const laporan_screen = '/laporan_screen';
 }

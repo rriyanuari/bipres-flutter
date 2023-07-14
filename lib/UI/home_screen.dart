@@ -176,10 +176,10 @@ class HomeScreen extends StatelessWidget {
                           menu("ABSEN", Icons.watch, RouteName.absen_screen),
                           menu("SPP", Icons.attach_money,
                               RouteName.trans_spp_screen),
-                          menu("TES KENAIKAN", Icons.location_on,
-                              RouteName.siswa_screen),
+                          menu("TES KENAIKAN", Icons.stacked_bar_chart,
+                              RouteName.tes_kenaikan_screen),
                           menu("LAPORAN", Icons.document_scanner,
-                              RouteName.siswa_screen),
+                              RouteName.laporan_screen),
                         ],
                       ),
                     )

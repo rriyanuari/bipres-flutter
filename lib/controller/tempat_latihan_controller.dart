@@ -19,6 +19,8 @@ class TempatLatihanController extends GetxController {
   }
 
   Future<void> getTempatLatihan() async {
+    print('loaded');
+
     try {
       isLoading.value = true;
 
@@ -70,9 +72,8 @@ class TempatLatihanController extends GetxController {
         backgroundColor: Colors.green,
       ));
 
-      await Future.delayed(const Duration(seconds: 1), () => Get.back());
-
-      getTempatLatihan();
+      await Future.delayed(const Duration(seconds: 1), () => Get.back())
+          .then((val) => getTempatLatihan());
     } catch (error) {
       await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("$error"),

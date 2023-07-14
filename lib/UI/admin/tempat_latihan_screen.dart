@@ -6,35 +6,42 @@ import 'package:get/get.dart';
 
 import 'package:bipres/shared/theme.dart';
 
-final controller = Get.put(TempatLatihanController());
+class TempatLatihanScreen extends StatefulWidget {
+  const TempatLatihanScreen({super.key});
 
-void openDialog(BuildContext context, String id, nama) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Hapus Tempat Latihan'),
-        content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Tutup'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text('Hapus'),
-            onPressed: () {
-              controller.deleteTempatLatihan(context, id);
-            },
-          ),
-        ],
-      );
-    },
-  );
+  @override
+  State<TempatLatihanScreen> createState() => _TempatLatihanScreenState();
 }
 
-class TempatLatihanScreen extends StatelessWidget {
+class _TempatLatihanScreenState extends State<TempatLatihanScreen> {
+  final controller = Get.put(TempatLatihanController());
+
+  void openDialog(BuildContext context, String id, nama) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Hapus Tempat Latihan'),
+          content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Tutup'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Hapus'),
+              onPressed: () {
+                controller.deleteTempatLatihan(context, id);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final tempatLatihan = controller.tempatLatihan;

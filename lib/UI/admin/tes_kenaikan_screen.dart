@@ -1,60 +1,43 @@
-import 'dart:math';
+import 'dart:convert';
+import 'dart:developer';
 
-import 'package:bipres/UI/admin/pelatih_edit_screen.dart';
-import 'package:bipres/controller/Pelatih_controller.dart';
+import 'package:bipres/UI/admin/tes_kenaikan_detail_screen.dart';
+import 'package:bipres/api/api.dart';
+import 'package:bipres/controller/siswa_controller.dart';
+import 'package:bipres/models/siswa_model.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'dart:convert' as convert;
 
 import 'package:bipres/shared/theme.dart';
+import 'package:bipres/shared/loadingWidget.dart';
 
-final controller = Get.put(PelatihController());
-
-void openDialog(BuildContext context, String id, idUser, nama) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Hapus Pelatih'),
-        content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Tutup'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text('Hapus'),
-            onPressed: () {
-              controller.deletePelatih(context, id, idUser);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+final siswaController = Get.put(SiswaController());
 
 class MyExpansionTile extends StatefulWidget {
-  final pelatih;
+  final siswa;
   final String namaLengkap,
       id,
       idUser,
-      tahunPengesahan,
       tanggalLahir,
       jenisKelamin,
-      TempatLatihan;
+      sabuk,
+      tempatLatihan;
+  final tingkatan;
 
   MyExpansionTile({
-    this.pelatih,
+    required this.siswa,
     required this.namaLengkap,
     required this.id,
     required this.idUser,
-    required this.tahunPengesahan,
     required this.tanggalLahir,
     required this.jenisKelamin,
-    required this.TempatLatihan,
+    required this.sabuk,
+    required this.tempatLatihan,
+    required this.tingkatan,
   });
 
   @override
@@ -79,7 +62,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
         style: h4.copyWith(fontWeight: bold),
       ),
       subtitle: Text(
-        widget.TempatLatihan,
+        widget.tempatLatihan,
         style: TextStyle(fontStyle: FontStyle.italic),
       ),
       onExpansionChanged: (bool expanded) {
@@ -100,12 +83,12 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                         children: [
                           Expanded(
                               child: Text(
-                            'Tanggal Lahir',
+                            'Tingkatan Sabuk',
                             style: h5,
                           )),
                           Expanded(
                               child: Text(
-                            ':   ${widget.tanggalLahir}',
+                            ':   ${widget.sabuk}',
                             style: h5,
                           )),
                         ],
@@ -117,14 +100,19 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                         children: [
                           Expanded(
                               child: Text(
-                            'Jenis Kelamin',
+                            'Sikap Pasang 1 - 4',
                             style: h5,
                           )),
                           Expanded(
-                              child: Text(
-                            ':   ${widget.jenisKelamin}',
-                            style: h5,
-                          )),
+                            child: Checkbox(
+                              checkColor: Colors.white,
+                              value:
+                                  widget.tingkatan[0]['sikap_pasang_4'] == '0'
+                                      ? false
+                                      : true,
+                              onChanged: (bool? value) {},
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -134,14 +122,88 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                         children: [
                           Expanded(
                               child: Text(
-                            'Tahun Pengesahan',
+                            'Sikap Pasang 4 - 8',
                             style: h5,
                           )),
                           Expanded(
+                            child: Checkbox(
+                              checkColor: Colors.white,
+                              value:
+                                  widget.tingkatan[0]['sikap_pasang_8'] == '0'
+                                      ? false
+                                      : true,
+                              onChanged: (bool? value) {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
                               child: Text(
-                            ':   ${widget.tahunPengesahan}',
+                            'Jurus Tangan Kosong',
                             style: h5,
                           )),
+                          Expanded(
+                            child: Checkbox(
+                              checkColor: Colors.white,
+                              value: widget.tingkatan[0]
+                                          ['jurus_tangan_kosong'] ==
+                                      '0'
+                                  ? false
+                                  : true,
+                              onChanged: (bool? value) {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'Jurus Senjata Golok',
+                            style: h5,
+                          )),
+                          Expanded(
+                            child: Checkbox(
+                              checkColor: Colors.white,
+                              value: widget.tingkatan[0]
+                                          ['jurus_senjata_golok'] ==
+                                      '0'
+                                  ? false
+                                  : true,
+                              onChanged: (bool? value) {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'Jurus Senjata Toya',
+                            style: h5,
+                          )),
+                          Expanded(
+                            child: Checkbox(
+                              checkColor: Colors.white,
+                              value: widget.tingkatan[0]
+                                          ['jurus_senjata_toya'] ==
+                                      '0'
+                                  ? false
+                                  : true,
+                              onChanged: (bool? value) {},
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -154,26 +216,12 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                       child: MaterialButton(
                         color: primaryColor,
                         textColor: whiteColor,
-                        child: Text('Ubah'),
+                        child: Text('Detail'),
                         onPressed: () {
                           // Tindakan saat tombol ditekan
-                          Get.to(() => PelatihEditScreen(widget.pelatih));
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: MaterialButton(
-                        color: primaryColor,
-                        textColor: whiteColor,
-                        child: Text('Hapus'),
-                        onPressed: () {
-                          // Tindakan saat tombol ditekan
-                          openDialog(context, widget.id, widget.idUser,
-                              widget.namaLengkap);
+                          Get.to(
+                            () => TesKenaikanDetailScreen(widget.siswa),
+                          );
                         },
                       ),
                     ),
@@ -186,10 +234,11 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
   }
 }
 
-class PelatihScreen extends StatelessWidget {
+class TesKenaikanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final pelatih = controller.pelatih;
+    siswaController.getSiswaWithTingkatan();
+    final siswa = siswaController.siswa;
 
     return Scaffold(
       appBar: AppBar(
@@ -202,7 +251,7 @@ class PelatihScreen extends StatelessWidget {
             ),
             SizedBox(width: 20),
             Text(
-              'Master Data Pelatih',
+              'Data Kemampuan Siswa',
               style: h4.copyWith(fontWeight: bold),
             ),
           ],
@@ -210,16 +259,16 @@ class PelatihScreen extends StatelessWidget {
       ),
       body: Obx(
         () => RefreshIndicator(
-          onRefresh: controller.getPelatih,
-          child: controller.isLoading.value
+          onRefresh: siswaController.getSiswaWithTingkatan,
+          child: siswaController.isLoading.value
               ? Center(child: CircularProgressIndicator())
               : Container(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                   child: ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: controller.pelatih.length,
+                    itemCount: siswaController.siswa.length,
                     itemBuilder: (context, index) {
-                      final data = controller.pelatih[index];
+                      final data = siswaController.siswa[index];
 
                       // Render data items
                       return Container(
@@ -230,14 +279,15 @@ class PelatihScreen extends StatelessWidget {
                           ),
                           clipBehavior: Clip.antiAlias,
                           child: MyExpansionTile(
-                              pelatih: data,
+                              siswa: data,
                               namaLengkap: data.namaLengkap,
                               id: data.id,
                               idUser: data.idUser,
-                              tahunPengesahan: data.tahunPengesahan,
                               jenisKelamin: data.jenisKelamin,
+                              sabuk: data.Sabuk,
                               tanggalLahir: data.tanggalLahir,
-                              TempatLatihan: data.TempatLatihan));
+                              tempatLatihan: data.TempatLatihan,
+                              tingkatan: data.Tingkatan));
                     },
                   ),
                 ),
@@ -245,7 +295,7 @@ class PelatihScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(RouteName.pelatih_add_screen);
+          Get.toNamed(RouteName.tes_kenaikan_add_screen);
         },
         backgroundColor: primaryColor,
         child: const Icon(Icons.add),

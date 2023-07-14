@@ -49,6 +49,9 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
     double bulan_bayar = total_nominal_bayar / tagihan_per_bulan;
     double sisa_bulan_bayar = sisa_tagihan / tagihan_per_bulan;
 
+    String val_bulan_bayar = bulan_bayar.toStringAsFixed(0);
+    String val_sisa_bulan_bayar = bulan_bayar.toStringAsFixed(0);
+
     // CONVERT CURRENCY RP. FORMAT
     NumberFormat currencyFormat =
         NumberFormat.currency(locale: 'id_ID', symbol: 'Rp. ');
@@ -60,7 +63,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
     String total_nominal_bayar_fix = currencyFormat.format(total_nominal_bayar);
     String sisa_tagihan_fix = currencyFormat.format(sisa_tagihan);
 
-    final informasi_pembayaran = {
+    var informasi_pembayaran = {
       'tahun_periode': widget.transSpp.transaksi[0].tahun_periode,
       'total_tagihan': total_tagihan_fix,
       'tagihan_per_bulan': tagihan_per_bulan_fix,
@@ -69,6 +72,8 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
       'sisa_tagihan': sisa_tagihan_fix,
       'sisa_bulan_bayar': sisa_bulan_bayar.toStringAsFixed(0),
     };
+
+    inspect(total_tagihan_fix);
 
     return ExpansionTile(
       collapsedBackgroundColor: secondaryColor,
@@ -94,55 +99,61 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
       children: <Widget>[
         Container(
             color: whiteColorTrans, // Ubah warna latar belakang header
-            child: Column(
-              children: [
-                ListTile(
-                  title: Text('Pembayaran Terakhir',
-                      style: TextStyle(color: blackColor)),
-                  subtitle:
-                      Text('${widget.transSpp.transaksi[0].tanggal_bayar}'),
-                  trailing:
-                      Text('${nominal_bayar_fix}'), // Ubah warna teks header
-                ),
-                ListTile(
-                  title:
-                      Text('Total Bayar', style: TextStyle(color: blackColor)),
-                  subtitle:
-                      Text('( ${bulan_bayar.toStringAsFixed(0)} Bulan ) '),
-                  trailing: Text(
-                      '${total_nominal_bayar_fix}'), // Ubah warna teks header
-                ),
-                ListTile(
-                  title:
-                      Text('Sisa Tagihan', style: TextStyle(color: blackColor)),
-                  subtitle:
-                      Text('( ${sisa_bulan_bayar.toStringAsFixed(0)} Bulan )'),
-                  trailing:
-                      Text('${sisa_tagihan_fix}'), // Ubah warna teks header
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: MaterialButton(
-                        color: primaryColor,
-                        textColor: whiteColor,
-                        child: Text('Detail'),
-                        onPressed: () {
-                          // Tindakan saat tombol ditekan
-                          Get.to(
-                            () => TransSppDetailScreen(
-                                widget.transSpp, informasi_pembayaran),
-                          );
-                        },
+            child: (widget.transSpp.transaksi.length > 0)
+                ? Column(
+                    children: [
+                      // ListTile(
+                      //   title: Text('Pembayaran Terakhir',
+                      //       style: TextStyle(color: blackColor)),
+                      //   subtitle:
+                      //       Text('${widget.transSpp.transaksi[0].tanggal_bayar}'),
+                      //   trailing:
+                      //       Text('${nominal_bayar_fix}'), // Ubah warna teks header
+                      // ),
+                      ListTile(
+                        title: Text('Total Bayar',
+                            style: TextStyle(color: blackColor)),
+                        subtitle: Text('( ${val_bulan_bayar} Bulan ) '),
+                        trailing: Text(
+                            '${total_nominal_bayar_fix}'), // Ubah warna teks header
                       ),
-                    ),
-                  ],
-                )
-              ],
-            )),
+                      ListTile(
+                        title: Text('Sisa Tagihan',
+                            style: TextStyle(color: blackColor)),
+                        subtitle: Text('( ${val_sisa_bulan_bayar} Bulan )'),
+                        trailing: Text(
+                            '${sisa_tagihan_fix}'), // Ubah warna teks header
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: MaterialButton(
+                              color: primaryColor,
+                              textColor: whiteColor,
+                              child: Text('Detail'),
+                              onPressed: () {
+                                // Tindakan saat tombol ditekan
+                                Get.to(
+                                  () => TransSppDetailScreen(
+                                      widget.transSpp, informasi_pembayaran),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                : Column(
+                    children: [
+                      ListTile(
+                        title: Text('Belum ada data pembayaran'),
+                      ),
+                    ],
+                  ))
       ],
     );
   }

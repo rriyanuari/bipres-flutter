@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 
 import 'package:bipres/shared/theme.dart';
 
-final TextStyle valueStyle = TextStyle(fontSize: 16.0);
-
 class TempatLatihanAddScreen extends StatefulWidget {
   @override
   _TempatLatihanAddScreenState createState() => _TempatLatihanAddScreenState();
@@ -72,7 +70,7 @@ class _TempatLatihanAddScreenState extends State<TempatLatihanAddScreen> {
                 MaterialButton(
                   padding: EdgeInsets.all(10.0),
                   color: primaryColor,
-                  onPressed: controller.isLoading.value ? null : () => check(),
+                  onPressed: () => check(),
                   child: Text(
                     'Simpan',
                     style: h4.copyWith(fontWeight: bold, color: whiteColor),

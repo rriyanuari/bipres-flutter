@@ -237,12 +237,7 @@ class _AbsenDetailScreenState extends State<AbsenDetailScreen> {
                                         ListTile(
                                           contentPadding: EdgeInsets.all(0),
                                           title: Text(
-                                            '${data.nama_lengkap}',
-                                            style: h5.copyWith(
-                                                fontWeight: regular),
-                                          ),
-                                          subtitle: Text(
-                                            '${data.log_time}',
+                                            '${index + 1}. ${data.nama_lengkap}',
                                             style: h5.copyWith(
                                                 fontWeight: regular),
                                           ),

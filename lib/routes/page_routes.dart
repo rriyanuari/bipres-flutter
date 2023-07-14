@@ -1,4 +1,4 @@
-import 'package:bipres/UI/siswa/absen_screen.dart';
+import 'package:bipres/UI/admin/laporan_screen.dart';
 import 'package:get/get.dart';
 
 import 'package:bipres/routes/route_name.dart';
@@ -13,6 +13,7 @@ import 'package:bipres/UI/auth/ubah_password_screen.dart';
 
 import 'package:bipres/UI/admin/pelatih_screen.dart';
 import 'package:bipres/UI/admin/pelatih_add_screen.dart';
+import 'package:bipres/UI/admin/pelatih_edit_screen.dart';
 
 import 'package:bipres/UI/admin/siswa_screen.dart';
 import 'package:bipres/UI/admin/siswa_add_screen.dart';
@@ -34,6 +35,11 @@ import 'package:bipres/UI/admin/trans_spp_add_screen.dart';
 import 'package:bipres/UI/admin/absen_screen.dart';
 import 'package:bipres/UI/admin/absen_add_screen.dart';
 import 'package:bipres/UI/admin/absen_detail_screen.dart';
+
+import 'package:bipres/UI/siswa/absen_screen.dart';
+
+import 'package:bipres/UI/admin/tes_kenaikan_screen.dart';
+import 'package:bipres/UI/admin/tes_kenaikan_add_screen.dart';
 
 // FUNCTIONAL SCREEN
 
@@ -85,5 +91,15 @@ class pageRouteApp {
 
     // Siswa Absen
     GetPage(name: RouteName.siswa_absen_screen, page: () => SiswaAbsenScreen()),
+
+    // TES KENAIKAN
+    GetPage(
+        name: RouteName.tes_kenaikan_screen, page: () => TesKenaikanScreen()),
+    GetPage(
+        name: RouteName.tes_kenaikan_add_screen,
+        page: () => TesKenaikanAddScreen()),
+
+    // LAPORAN
+    GetPage(name: RouteName.laporan_screen, page: () => LaporanScreen()),
   ];
 }
