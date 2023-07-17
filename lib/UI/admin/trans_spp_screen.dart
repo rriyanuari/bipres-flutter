@@ -20,8 +20,13 @@ final sppController = Get.put(SppController());
 
 class MyExpansionTile extends StatefulWidget {
   final transSpp;
+  final tahun_periode;
+  int total_tagihan;
 
-  MyExpansionTile({required this.transSpp});
+  MyExpansionTile(
+      {required this.transSpp,
+      this.tahun_periode,
+      required this.total_tagihan});
 
   @override
   _MyExpansionTileState createState() => _MyExpansionTileState();
@@ -32,10 +37,11 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
 
   @override
   Widget build(BuildContext context) {
-    int total_tagihan = int.parse(widget.transSpp.transaksi[0].total_tagihan);
-    double tagihan_per_bulan = total_tagihan.toDouble() / 12;
+    double tagihan_per_bulan = widget.total_tagihan.toDouble() / 12;
 
-    int nominal_bayar = int.parse(widget.transSpp.transaksi[0].nominal_bayar);
+    int nominal_bayar = (widget.transSpp.transaksi.length != 0)
+        ? int.parse(widget.transSpp.transaksi[0].nominal_bayar)
+        : 0;
     double nominal_bayar_new = nominal_bayar.toDouble();
 
     // HITUNG TOTAL BAYAR
@@ -44,7 +50,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
       total_nominal_bayar += int.parse(transSpp.nominal_bayar);
     }
 
-    double sisa_tagihan = total_tagihan - total_nominal_bayar;
+    double sisa_tagihan = widget.total_tagihan - total_nominal_bayar;
 
     double bulan_bayar = total_nominal_bayar / tagihan_per_bulan;
     double sisa_bulan_bayar = sisa_tagihan / tagihan_per_bulan;
@@ -57,14 +63,14 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
         NumberFormat.currency(locale: 'id_ID', symbol: 'Rp. ');
     currencyFormat.maximumFractionDigits = 0;
 
-    String total_tagihan_fix = currencyFormat.format(total_tagihan);
+    String total_tagihan_fix = currencyFormat.format(widget.total_tagihan);
     String tagihan_per_bulan_fix = currencyFormat.format(tagihan_per_bulan);
     String nominal_bayar_fix = currencyFormat.format(nominal_bayar_new);
     String total_nominal_bayar_fix = currencyFormat.format(total_nominal_bayar);
     String sisa_tagihan_fix = currencyFormat.format(sisa_tagihan);
 
     var informasi_pembayaran = {
-      'tahun_periode': widget.transSpp.transaksi[0].tahun_periode,
+      'tahun_periode': widget.tahun_periode,
       'total_tagihan': total_tagihan_fix,
       'tagihan_per_bulan': tagihan_per_bulan_fix,
       'total_nominal_bayar': total_nominal_bayar_fix,
@@ -72,8 +78,6 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
       'sisa_tagihan': sisa_tagihan_fix,
       'sisa_bulan_bayar': sisa_bulan_bayar.toStringAsFixed(0),
     };
-
-    inspect(total_tagihan_fix);
 
     return ExpansionTile(
       collapsedBackgroundColor: secondaryColor,
@@ -192,6 +196,10 @@ class TransSppScreen extends StatelessWidget {
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: transSpp.length,
                     itemBuilder: (context, index) {
+                      final tahun_periode =
+                          transSpp[0].transaksi?[0].tahun_periode;
+                      final total_tagihan =
+                          transSpp[0].transaksi?[0].total_tagihan;
                       final data = transSpp[index];
 
                       // Render data items
@@ -204,6 +212,8 @@ class TransSppScreen extends StatelessWidget {
                         clipBehavior: Clip.antiAlias,
                         child: MyExpansionTile(
                           transSpp: data,
+                          total_tagihan: int.parse(total_tagihan!),
+                          tahun_periode: tahun_periode,
                         ),
                       );
                       // Co

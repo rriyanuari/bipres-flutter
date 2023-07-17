@@ -1,4 +1,5 @@
 import 'package:bipres/UI/admin/laporan_screen.dart';
+import 'package:bipres/UI/siswa/trans_spp_detail_screen.dart';
 import 'package:get/get.dart';
 
 import 'package:bipres/routes/route_name.dart';
@@ -81,6 +82,11 @@ class pageRouteApp {
 
     // Transaksi Spp
     GetPage(name: RouteName.trans_spp_screen, page: () => TransSppScreen()),
+
+    // Siswa Transaksi Spp
+    GetPage(
+        name: RouteName.siswa_trans_spp_screen,
+        page: () => TransSppSiswaScreen()),
 
     GetPage(
         name: RouteName.trans_spp_add_screen, page: () => TransSppAddScreen()),

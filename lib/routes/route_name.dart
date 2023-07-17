@@ -35,6 +35,9 @@ abstract class RouteName {
   static const trans_spp_detail_screen = '/trans_spp_detail_screen';
   static const trans_spp_add_screen = '/trans_spp_add_screen';
 
+  // SISWA TRANSAKSI SPP
+  static const siswa_trans_spp_screen = '/siswa_trans_spp_screen';
+
   // ADMIN ABSENSI
   static const absen_screen = '/absen_screen';
   static const absen_detail_screen = '/absen_detail_screen';

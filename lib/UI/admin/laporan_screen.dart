@@ -1,11 +1,13 @@
-import 'dart:convert';
+import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:bipres/controller/siswa_controller.dart';
 import 'package:bipres/controller/spp_controller.dart';
 import 'package:bipres/controller/tempat_latihan_controller.dart';
 import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:intl/intl.dart';
+
+import 'package:bipres/api/api.dart';
+
 import 'package:flutter/services.dart';
 import 'package:async/async.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,10 @@ import 'package:flutter_picker/flutter_picker.dart';
 
 import 'package:bipres/shared/theme.dart';
 import 'package:bipres/shared/loadingWidget.dart';
+
+import 'package:dio/dio.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 class LaporanScreen extends StatefulWidget {
   @override
@@ -34,6 +40,146 @@ class _LaporanScreenState extends State<LaporanScreen> {
       selectedTagihan;
   int? selectedBulan, totalBiayaInt;
   double? tagihan_per_bulan, totalBiaya;
+
+  bool downloading = false;
+
+  int tahun_periode = DateTime.now().year;
+  int startYear = DateTime.now().year - 3;
+
+  void _showYearPicker(BuildContext context) {
+    Picker(
+      adapter: NumberPickerAdapter(data: [
+        NumberPickerColumn(
+            begin: startYear,
+            end: DateTime.now().year,
+            initValue: tahun_periode)
+      ]),
+      delimiter: [
+        PickerDelimiter(child: Container(width: 30.0)),
+      ],
+      hideHeader: true,
+      title: Text('Pilih Tahun'),
+      onConfirm: (Picker picker, List<int> value) {
+        setState(() {
+          tahun_periode = value[0] + startYear;
+        });
+      },
+    ).showDialog(context);
+  }
+
+  void modalDownload(String? tipe, String? periode_tahun) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Ingin download laporan'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // signOut();
+              downloadFile(tipe, periode_tahun);
+            },
+            child: const Text('Ok'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future generateReport(
+    String? tipe,
+    String? periode_tahun,
+  ) async {
+    try {
+      var body = {
+        'periode_tahun': '$periode_tahun',
+      };
+
+      var jsonBody = convert.jsonEncode(body);
+
+      final response = await http
+          .post(
+        Uri.parse('https://bipres.holtechno.space/api/report_${tipe}.php'),
+        headers: {"user-key": 'portalbipres_api'},
+        body: jsonBody,
+      )
+          .timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("connection time out try again");
+      });
+
+      modalDownload(tipe, periode_tahun);
+    } catch (e) {
+      // Error saat mengirim data
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('gagal terhubung ke server'),
+        backgroundColor: Colors.red, // Ganti dengan warna yang diinginkan
+      ));
+    }
+  }
+
+  void showDownloadProgress(received, total) {
+    if (total != -1) {
+      debugPrint((received / total * 100).toStringAsFixed(0) + '%');
+    }
+  }
+
+  Future downloadFile(
+    String? tipe,
+    String? periode_tahun,
+  ) async {
+    setState(() {
+      downloading = true;
+    });
+
+    var url =
+        'https://bipres.holtechno.space/report/${tipe}/${tipe}_periode_${periode_tahun}.pdf';
+    var filename = '${tipe}_periode_${periode_tahun}.pdf';
+
+    var savePath = '/storage/emulated/0/Download/$filename';
+    var dio = Dio();
+    dio.interceptors.add(LogInterceptor());
+    try {
+      var response = await dio.post(
+        url,
+        data: convert.jsonEncode({"periode_tahun": "2023"}),
+        onReceiveProgress: showDownloadProgress,
+        //Received data with List<int>
+        options: Options(
+          headers: {"user-key": "portalbipres_api"},
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+          receiveTimeout: Duration(hours: 0, minutes: 1, seconds: 0),
+        ),
+      );
+      var file = File(savePath);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Laporan berhasil didownload'),
+        backgroundColor: Colors.green, // Ganti dengan warna yang diinginkan
+      ));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Laporan gagal didownload'),
+        backgroundColor: Colors.red, // Ganti dengan warna yang diinginkan
+      ));
+      debugPrint(e.toString());
+    } finally {
+      setState(() {
+        downloading = false;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -56,60 +202,6 @@ class _LaporanScreenState extends State<LaporanScreen> {
         tagihan_per_bulan = null;
         totalBiaya = null;
       });
-    }
-
-    void pickerSiswa(BuildContext context) {
-      Picker(
-        adapter: PickerDataAdapter(data: [
-          for (var data in siswa)
-            PickerItem(text: Text(data.namaLengkap), value: data),
-        ]),
-        hideHeader: true,
-        title: Text('Pilih Siswa'),
-        onConfirm: (Picker picker, List<int> value) {
-          setState(() {
-            selectedNama = picker.getSelectedValues()[0].namaLengkap;
-            selectedIdNama = picker.getSelectedValues()[0].id;
-          });
-        },
-      ).showDialog(context);
-    }
-
-    void pickerTahun(BuildContext context) {
-      Picker(
-        adapter: PickerDataAdapter(data: [
-          for (var data in spp)
-            PickerItem(text: Text(data.tahun_periode), value: data),
-        ]),
-        hideHeader: true,
-        title: Text('Pilih Periode'),
-        onConfirm: (Picker picker, List<int> value) {
-          setState(() {
-            selectedTahun = picker.getSelectedValues()[0].tahun_periode;
-            selectedIdTahun = picker.getSelectedValues()[0].id;
-            selectedTagihan = picker.getSelectedValues()[0].total_tagihan;
-            tagihan_per_bulan = int.parse(selectedTagihan!) / 12;
-          });
-        },
-      ).showDialog(context);
-    }
-
-    void pickerBulan(BuildContext context) {
-      Picker(
-        adapter: PickerDataAdapter(data: [
-          for (var data = 1; data <= 12; data++)
-            PickerItem(text: Text(data.toString()), value: data),
-        ]),
-        hideHeader: true,
-        title: Text('Pilih Bulan'),
-        onConfirm: (Picker picker, List<int> value) {
-          setState(() {
-            selectedBulan = picker.getSelectedValues()[0];
-            totalBiaya = tagihan_per_bulan! * selectedBulan!;
-            totalBiayaInt = totalBiaya?.round();
-          });
-        },
-      ).showDialog(context);
     }
 
     check() {
@@ -139,114 +231,132 @@ class _LaporanScreenState extends State<LaporanScreen> {
           ],
         ),
       ),
-      body: Obx(
-        () => Stack(
-          children: [
-            Form(
-              key: _key,
-              child: ListView(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
+      body: Stack(
+        children: [
+          Form(
+            key: _key,
+            child: ListView(
+              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+              children: <Widget>[
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        'Pilih Tahun Periode',
+                        style: h5,
+                      ),
+                    ),
+                    Expanded(
+                      child: MaterialButton(
+                        color: primaryColor,
+                        onPressed: () => _showYearPicker(context),
                         child: Text(
-                          'Pilih Tahun Periode',
-                          style: h5,
+                          'Cari periode',
+                          style: h5.copyWith(color: whiteColor),
                         ),
                       ),
-                      Expanded(
-                        child: MaterialButton(
-                          color: primaryColor,
-                          onPressed: () => pickerTahun(context),
-                          child: Text(
-                            'Cari periode',
-                            style: h5.copyWith(color: whiteColor),
-                          ),
-                        ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Tahun Periode',
+                        style: h5,
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Tahun Periode',
-                          style: h5,
-                        ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        tahun_periode == null
+                            ? ':     Silahkan pilih tahun'
+                            : ':     ${tahun_periode}',
+                        style: h5,
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          selectedTahun == null
-                              ? ':     Silahkan pilih tahun'
-                              : ':     ${selectedTahun}',
-                          style: h5,
-                        ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Divider(
+                  thickness: 3,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        'Pilih Jenis Laporan',
+                        style: h5.copyWith(fontWeight: bold),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Divider(
-                    thickness: 3,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Text(
-                          'Pilih Jenis Laporan',
-                          style: h5.copyWith(fontWeight: bold),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 30),
-                  MaterialButton(
-                    height: 50,
-                    padding: EdgeInsets.all(10.0),
-                    color: primaryColor,
-                    onPressed: () {},
-                    child: Text('Laporan Absensi',
-                        style: h5.copyWith(color: whiteColor)),
-                  ),
-                  SizedBox(height: 30),
-                  MaterialButton(
-                    height: 50,
-                    padding: EdgeInsets.all(10.0),
-                    color: primaryColor,
-                    onPressed: () {},
-                    child: Text('Laporan Spp',
-                        style: h5.copyWith(color: whiteColor)),
-                  ),
-                  SizedBox(height: 30),
-                  MaterialButton(
-                    height: 50,
-                    padding: EdgeInsets.all(10.0),
-                    color: primaryColor,
-                    onPressed: () {},
-                    child: Text('Laporan Kenaikan Tingkat',
-                        style: h5.copyWith(color: whiteColor)),
-                  ),
-
-                  // Nonaktifkan tombol jika isLoading bernilai true
-                  // atau jika form sedang diproses
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
+                MaterialButton(
+                  height: 50,
+                  padding: EdgeInsets.all(10.0),
+                  color: primaryColor,
+                  onPressed: () {
+                    tahun_periode == null
+                        ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Tahun periode harus dipilih'),
+                            backgroundColor: Colors
+                                .red, // Ganti dengan warna yang diinginkan
+                          ))
+                        : generateReport('absensi', tahun_periode.toString());
+                  },
+                  child: Text('Laporan Absensi',
+                      style: h5.copyWith(color: whiteColor)),
+                ),
+                SizedBox(height: 30),
+                MaterialButton(
+                  height: 50,
+                  padding: EdgeInsets.all(10.0),
+                  color: primaryColor,
+                  onPressed: () {
+                    tahun_periode == null
+                        ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Tahun periode harus dipilih'),
+                            backgroundColor: Colors
+                                .red, // Ganti dengan warna yang diinginkan
+                          ))
+                        : generateReport('spp', tahun_periode.toString());
+                  },
+                  child: Text('Laporan Spp',
+                      style: h5.copyWith(color: whiteColor)),
+                ),
+                SizedBox(height: 30),
+                MaterialButton(
+                  height: 50,
+                  padding: EdgeInsets.all(10.0),
+                  color: primaryColor,
+                  onPressed: () {
+                    tahun_periode == null
+                        ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Tahun periode harus dipilih'),
+                            backgroundColor: Colors
+                                .red, // Ganti dengan warna yang diinginkan
+                          ))
+                        : generateReport('tes', tahun_periode.toString());
+                  },
+                  child: Text('Laporan Kenaikan Tingkat',
+                      style: h5.copyWith(color: whiteColor)),
+                ),
+              ],
             ),
-            loadingWidget(context, sppcontroller.isLoading.value)
-          ],
-        ),
+          ),
+          loadingWidget(context, downloading)
+        ],
       ),
     );
   }

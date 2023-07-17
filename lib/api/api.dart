@@ -41,6 +41,7 @@ class BaseUrl {
 
   // TRANSAKSI SPP
   static String urlListTransSpp = "${url}api/transaksi-spp/list.php";
+  static String urlListTransSppDetail = "${url}api/transaksi-spp/detail.php";
   static String urlTambahTransSpp = "${url}api/transaksi-spp/add.php";
   static String urlHapusTransSpp = "${url}api/transaksi-spp/delete.php";
 

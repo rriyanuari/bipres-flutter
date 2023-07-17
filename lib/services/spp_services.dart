@@ -62,6 +62,39 @@ class SppServices {
     }
   }
 
+  Future<List<TransSppModel>?> getDetailTransaksi(String? id_user) async {
+    try {
+      var body = {
+        'id_user': '$id_user',
+      };
+
+      var jsonBody = convert.jsonEncode(body);
+
+      final response = await http.post(Uri.parse(BaseUrl.urlListTransSppDetail),
+          body: jsonBody,
+          headers: {
+            "user-key": user_key
+          }).timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("connection time out try again");
+      });
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> json = convert.jsonDecode(response.body);
+
+        List<dynamic> body = json['data'];
+
+        List<TransSppModel> listSpp =
+            body.map((dynamic item) => TransSppModel.fromJson(item)).toList();
+
+        return listSpp;
+      } else {
+        return null;
+      }
+    } on TimeoutException catch (_) {
+      print("response time out");
+    }
+  }
+
   Future addSpp(String? tahun_periode, total_tagihan) async {
     try {
       var body = {

@@ -91,6 +91,7 @@ class AuthController extends GetxController {
           () => Get.offNamed(RouteName.login_screen));
     } finally {
       isLoading.value = false;
+      // Get.deleteAll(force: true);
     }
   }
 

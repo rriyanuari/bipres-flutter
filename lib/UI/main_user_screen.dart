@@ -27,6 +27,11 @@ class _MainUserScreenState extends State<MainUserScreen> {
     MasterDataScreen(),
   ];
 
+  static List<Widget> _screensPelatih = <Widget>[
+    HomeScreen(),
+    ProfileScreen(),
+  ];
+
   static List<Widget> _screensAnggota = <Widget>[
     SiswaHomeScreen(),
     ProfileScreen(),
@@ -70,6 +75,31 @@ class _MainUserScreenState extends State<MainUserScreen> {
       ],
     );
 
+    Widget _tabBarPelatih = FlashyTabBar(
+      iconSize: 30,
+      height: 55,
+      selectedIndex: _selectedIndex,
+      showElevation: true,
+      onItemSelected: (index) => setState(() {
+        _selectedIndex = index;
+      }),
+      items: [
+        FlashyTabBarItem(
+          activeColor: primaryColor,
+          icon: Icon(Icons.home),
+          title: Text(
+            'Home',
+            style: h4,
+          ),
+        ),
+        FlashyTabBarItem(
+          activeColor: primaryColor,
+          icon: Icon(Icons.person),
+          title: Text('Profile', style: h4),
+        ),
+      ],
+    );
+
     Widget _tabBarAnggota = FlashyTabBar(
       iconSize: 30,
       height: 55,
@@ -95,14 +125,17 @@ class _MainUserScreenState extends State<MainUserScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: prefController.myDataPref.toJson()['role'] == 'admin'
-            ? _screensAdmin[_selectedIndex]
-            : _screensAnggota[_selectedIndex],
-        bottomNavigationBar:
-            prefController.myDataPref.toJson()['role'] == 'admin'
-                ? _tabBarAdmin
-                : _tabBarAnggota,
-      ),
+          body: prefController.myDataPref.toJson()['role'] == 'admin'
+              ? _screensAdmin[_selectedIndex]
+              : prefController.myDataPref.toJson()['role'] == 'pelatih'
+                  ? _screensPelatih[_selectedIndex]
+                  : _screensAnggota[_selectedIndex],
+          bottomNavigationBar:
+              prefController.myDataPref.toJson()['role'] == 'admin'
+                  ? _tabBarAdmin
+                  : prefController.myDataPref.toJson()['role'] == 'pelatih'
+                      ? _tabBarPelatih
+                      : _tabBarAnggota),
     );
   }
 }

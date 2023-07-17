@@ -55,6 +55,22 @@ class SppController extends GetxController {
     update();
   }
 
+  Future<void> getDetailTransSpp(String id_user) async {
+    try {
+      isLoading.value = true;
+      await Future.delayed(Duration(seconds: 1));
+
+      var result = await services.getDetailTransaksi(id_user);
+
+      if (result != null) {
+        TransSpp.assignAll(result);
+      }
+    } finally {
+      isLoading.value = false;
+    }
+    update();
+  }
+
   Future<void> addSpp(
     BuildContext context,
     String? tahun_periode,

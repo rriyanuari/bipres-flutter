@@ -51,15 +51,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(
-                        top: 80.0, left: 30.0, right: 30, bottom: 30),
+                        top: 40.0, left: 30.0, right: 30, bottom: 30),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           children: [
                             Container(
-                              width: 120,
-                              height: 120,
+                              width: 100,
+                              height: 100,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
@@ -253,7 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             ),
                             SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             MaterialButton(
                               shape: RoundedRectangleBorder(

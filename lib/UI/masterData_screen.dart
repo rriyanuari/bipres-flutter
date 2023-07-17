@@ -22,7 +22,7 @@ class MasterDataScreen extends StatelessWidget {
               style: h1.copyWith(fontWeight: bold, color: whiteColor),
             ),
             SizedBox(
-              height: 100,
+              height: 40,
             ),
             Container(
               child: Column(
@@ -33,7 +33,7 @@ class MasterDataScreen extends StatelessWidget {
                       new Expanded(
                         flex: 1,
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(vertical: 15),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             color: secondarySoftColor,
@@ -63,7 +63,7 @@ class MasterDataScreen extends StatelessWidget {
                                   style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18.0),
+                                      fontSize: 15.0),
                                 ),
                               ],
                             ),
@@ -76,7 +76,7 @@ class MasterDataScreen extends StatelessWidget {
                       new Expanded(
                         flex: 1,
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(vertical: 15),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             color: secondarySoftColor,
@@ -106,7 +106,7 @@ class MasterDataScreen extends StatelessWidget {
                                   style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18.0),
+                                      fontSize: 15.0),
                                 ),
                               ],
                             ),
@@ -118,13 +118,13 @@ class MasterDataScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: 30),
                   Row(
                     children: <Widget>[
                       new Expanded(
                         flex: 1,
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(vertical: 15),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             color: secondarySoftColor,
@@ -154,7 +154,7 @@ class MasterDataScreen extends StatelessWidget {
                                   style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18.0),
+                                      fontSize: 15.0),
                                 ),
                               ],
                             ),
@@ -167,7 +167,7 @@ class MasterDataScreen extends StatelessWidget {
                       new Expanded(
                         flex: 1,
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(vertical: 15),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             color: secondarySoftColor,
@@ -197,7 +197,7 @@ class MasterDataScreen extends StatelessWidget {
                                   style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18.0),
+                                      fontSize: 15.0),
                                 ),
                               ],
                             ),
@@ -209,13 +209,13 @@ class MasterDataScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: 30),
                   Row(
                     children: <Widget>[
                       new Expanded(
                         flex: 1,
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(vertical: 15),
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             color: secondarySoftColor,
@@ -245,7 +245,7 @@ class MasterDataScreen extends StatelessWidget {
                                   style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18.0),
+                                      fontSize: 15.0),
                                 ),
                               ],
                             ),

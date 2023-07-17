@@ -28,8 +28,8 @@ FontWeight regular = FontWeight.w500;
 FontWeight bold = FontWeight.w800;
 
 // Font Size
-TextStyle h1 = TextStyle(fontSize: 26);
-TextStyle h2 = TextStyle(fontSize: 24);
-TextStyle h3 = TextStyle(fontSize: 22);
-TextStyle h4 = TextStyle(fontSize: 18);
-TextStyle h5 = TextStyle(fontSize: 16);
+TextStyle h1 = TextStyle(fontSize: 24);
+TextStyle h2 = TextStyle(fontSize: 20);
+TextStyle h3 = TextStyle(fontSize: 18);
+TextStyle h4 = TextStyle(fontSize: 16);
+TextStyle h5 = TextStyle(fontSize: 14);

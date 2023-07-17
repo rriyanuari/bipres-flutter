@@ -66,8 +66,8 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            width: 100,
-                            height: 100,
+                            width: 80,
+                            height: 80,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
@@ -101,7 +101,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 30.0, vertical: 20),
+                            horizontal: 30.0, vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,8 +146,8 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              width: 80,
-                              height: 80,
+                              width: 70,
+                              height: 70,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
@@ -161,7 +161,7 @@ class HomeScreen extends StatelessWidget {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.5,
                       width: MediaQuery.of(context).size.width * 1,
-                      padding: EdgeInsets.only(left: 30, right: 30, top: 30),
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 0),
                       decoration: BoxDecoration(
                         color: primaryColor,
                       ),

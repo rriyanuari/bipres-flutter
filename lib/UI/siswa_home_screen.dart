@@ -7,7 +7,14 @@ import 'package:bipres/shared/theme.dart';
 
 import 'package:get/get.dart';
 
-class SiswaHomeScreen extends StatelessWidget {
+class SiswaHomeScreen extends StatefulWidget {
+  const SiswaHomeScreen({super.key});
+
+  @override
+  State<SiswaHomeScreen> createState() => _SiswaHomeScreenState();
+}
+
+class _SiswaHomeScreenState extends State<SiswaHomeScreen> {
   final profileController = Get.put(ProfileController());
 
   Widget menu(String textTitle, textIcon, textRoutes) {
@@ -66,8 +73,8 @@ class SiswaHomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            width: 100,
-                            height: 100,
+                            width: 80,
+                            height: 80,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
@@ -101,7 +108,7 @@ class SiswaHomeScreen extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 30.0, vertical: 20),
+                            horizontal: 30.0, vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,8 +153,8 @@ class SiswaHomeScreen extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              width: 80,
-                              height: 80,
+                              width: 70,
+                              height: 70,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
@@ -161,7 +168,7 @@ class SiswaHomeScreen extends StatelessWidget {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.5,
                       width: MediaQuery.of(context).size.width * 1,
-                      padding: EdgeInsets.only(left: 30, right: 30, top: 30),
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 0),
                       decoration: BoxDecoration(
                         color: primaryColor,
                       ),
@@ -176,7 +183,7 @@ class SiswaHomeScreen extends StatelessWidget {
                           menu("ABSEN", Icons.watch,
                               RouteName.siswa_absen_screen),
                           menu("SPP", Icons.attach_money,
-                              RouteName.trans_spp_screen),
+                              RouteName.siswa_trans_spp_screen),
                           menu("TES KENAIKAN", Icons.location_on,
                               RouteName.siswa_screen),
                         ],
