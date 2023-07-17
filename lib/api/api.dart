@@ -13,6 +13,8 @@ class BaseUrl {
   static String urlListSiswa = "${url}api/siswa/list.php";
   static String urlListSiswaWithTingkatan =
       "${url}api/siswa/list-with-tingkatan.php";
+  static String urlDetailSiswaWithTingkatan =
+      "${url}api/siswa/list-with-tingkatan-detail.php";
   static String urlTambahSiswa = "${url}api/siswa/add.php";
   static String urlUbahSiswa = "${url}api/siswa/edit.php";
   static String urlHapusSiswa = "${url}api/siswa/delete.php";

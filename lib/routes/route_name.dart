@@ -51,6 +51,9 @@ abstract class RouteName {
   static const tes_kenaikan_screen = '/tes_kenaikan_screen';
   static const tes_kenaikan_add_screen = '/tes_kenaikan_add_screen';
 
+  // SISWA TES KENAIKAN
+  static const siswa_tes_kenaikan_screen = '/siswa_tes_kenaikan_screen';
+
   // LAPORAN
   static const laporan_screen = '/laporan_screen';
 }

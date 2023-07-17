@@ -34,8 +34,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final profiles = profileController.Profile;
     final prefs = prefController.myDataPref;
 
-    inspect(prefs);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Obx(() => profileController.isLoading.value

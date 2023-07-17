@@ -64,6 +64,40 @@ class SiswaServices {
     }
   }
 
+  Future<List<SiswaModel>?> getSiswaWithTingkatan(String? id_user) async {
+    try {
+      var body = {
+        'id_user': '$id_user',
+      };
+
+      var jsonBody = convert.jsonEncode(body);
+
+      final response = await http.post(
+          Uri.parse(BaseUrl.urlDetailSiswaWithTingkatan),
+          body: jsonBody,
+          headers: {
+            "user-key": user_key
+          }).timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("connection time out try again");
+      });
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> json = convert.jsonDecode(response.body);
+
+        List<dynamic> body = json['data'];
+
+        List<SiswaModel> listSiswa =
+            body.map((dynamic item) => SiswaModel.fromJson(item)).toList();
+
+        return listSiswa;
+      } else {
+        return null;
+      }
+    } on TimeoutException catch (_) {
+      print("response time out");
+    }
+  }
+
   Future addSiswa(
       String? nama_depan,
       String? nama_belakang,

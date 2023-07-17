@@ -185,7 +185,7 @@ class _SiswaHomeScreenState extends State<SiswaHomeScreen> {
                           menu("SPP", Icons.attach_money,
                               RouteName.siswa_trans_spp_screen),
                           menu("TES KENAIKAN", Icons.location_on,
-                              RouteName.siswa_screen),
+                              RouteName.siswa_tes_kenaikan_screen),
                         ],
                       ),
                     )

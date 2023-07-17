@@ -10,15 +10,16 @@ import 'package:get/get.dart';
 
 class SiswaController extends GetxController {
   SiswaServices services = SiswaServices();
-  final userController = Get.put(PrefController());
+  final prefController = Get.put(PrefController());
 
   var siswa = <SiswaModel>[].obs;
+  var detailSiswa = <SiswaModel>[].obs;
   var isLoading = false.obs;
 
   @override
   void onInit() {
-    getSiswaWithTingkatan();
     super.onInit();
+    getSiswaWithTingkatan();
   }
 
   Future<void> getSiswa() async {
@@ -53,6 +54,23 @@ class SiswaController extends GetxController {
       }
     } finally {
       // isLoading.value = false;
+    }
+    update();
+  }
+
+  Future<void> getDetailSiswaWithTingkatan() async {
+    try {
+      isLoading.value = true;
+
+      final id_user = await prefController.myDataPref['id_user'];
+
+      var result = await services.getSiswaWithTingkatan(id_user);
+
+      if (result != null) {
+        detailSiswa.assignAll(result);
+      }
+    } finally {
+      isLoading.value = false;
     }
     update();
   }
@@ -113,7 +131,7 @@ class SiswaController extends GetxController {
       String? id_tempat_latihan,
       String? id_tingkatan) async {
     try {
-      final id_user = userController.myDataPref['id_user'];
+      final id_user = prefController.myDataPref['id_user'];
 
       isLoading.value = true;
 

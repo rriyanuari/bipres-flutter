@@ -1,4 +1,5 @@
 import 'package:bipres/UI/admin/laporan_screen.dart';
+import 'package:bipres/UI/siswa/tes_kenaikan_detail_screen.dart';
 import 'package:bipres/UI/siswa/trans_spp_detail_screen.dart';
 import 'package:get/get.dart';
 
@@ -104,6 +105,11 @@ class pageRouteApp {
     GetPage(
         name: RouteName.tes_kenaikan_add_screen,
         page: () => TesKenaikanAddScreen()),
+
+    // SISWA TES KENAIKAN
+    GetPage(
+        name: RouteName.siswa_tes_kenaikan_screen,
+        page: () => TesKenaikanDetailSiswaScreen()),
 
     // LAPORAN
     GetPage(name: RouteName.laporan_screen, page: () => LaporanScreen()),

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bipres/controller/pref_controller.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:bipres/shared/theme.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,11 @@ import 'package:bipres/services/spp_services.dart';
 
 class SppController extends GetxController {
   SppServices services = SppServices();
+  final prefController = Get.put(PrefController());
 
   var Spp = <SppModel>[].obs;
   var TransSpp = <TransSppModel>[].obs;
+  var DetailTransSpp = <TransSppModel>[].obs;
   var isLoading = false.obs;
 
   @override
@@ -55,15 +58,16 @@ class SppController extends GetxController {
     update();
   }
 
-  Future<void> getDetailTransSpp(String id_user) async {
+  Future<void> getDetailTransSpp() async {
     try {
       isLoading.value = true;
-      await Future.delayed(Duration(seconds: 1));
+
+      final id_user = await prefController.myDataPref['id_user'];
 
       var result = await services.getDetailTransaksi(id_user);
 
       if (result != null) {
-        TransSpp.assignAll(result);
+        DetailTransSpp.assignAll(result);
       }
     } finally {
       isLoading.value = false;
