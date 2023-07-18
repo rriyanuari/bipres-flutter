@@ -156,9 +156,15 @@ class SiswaAbsenScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           clipBehavior: Clip.antiAlias,
-                          child: MyExpansionTile(
-                            absen: data,
-                          ));
+                          child: LogAbsen.isNotEmpty
+                              ? MyExpansionTile(
+                                  absen: data,
+                                )
+                              : Center(
+                                  child: Text(
+                                      '-----   Belum pernah melakukan absen   -----'),
+                                ));
+
                       // Co
                     },
                   ),

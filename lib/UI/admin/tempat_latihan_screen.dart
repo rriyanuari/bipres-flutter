@@ -70,67 +70,80 @@ class _TempatLatihanScreenState extends State<TempatLatihanScreen> {
               ? Center(child: CircularProgressIndicator())
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                  child: ListView.builder(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: controller.tempatLatihan.length,
-                    itemBuilder: (context, index) {
-                      final data = controller.tempatLatihan[index];
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          'Jumlah Tempat Latihan : ${controller.tempatLatihan.length}'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: controller.tempatLatihan.length,
+                          itemBuilder: (context, index) {
+                            final data = controller.tempatLatihan[index];
 
-                      // Render data items
-                      return Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            margin: EdgeInsets.only(bottom: 25),
-                            decoration: BoxDecoration(
-                              color: secondarySoftColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
+                            // Render data items
+                            return Column(
                               children: [
-                                Expanded(
-                                  child: ListTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(data.tempatLatihan,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            )),
-                                      ],
-                                    ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  margin: EdgeInsets.only(bottom: 25),
+                                  decoration: BoxDecoration(
+                                    color: secondarySoftColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: ListTile(
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(data.tempatLatihan,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  )),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: primaryColor,
+                                        ),
+                                        onPressed: () {
+                                          Get.to(() =>
+                                              TempatLatihanEditScreen(data));
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: primaryColor,
+                                        ),
+                                        onPressed: () {
+                                          openDialog(
+                                            context,
+                                            data.id,
+                                            data.tempatLatihan,
+                                          );
+                                        },
+                                      )
+                                    ],
                                   ),
                                 ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.edit,
-                                    color: primaryColor,
-                                  ),
-                                  onPressed: () {
-                                    Get.to(() => TempatLatihanEditScreen(data));
-                                  },
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: primaryColor,
-                                  ),
-                                  onPressed: () {
-                                    openDialog(
-                                      context,
-                                      data.id,
-                                      data.tempatLatihan,
-                                    );
-                                  },
-                                )
                               ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
         ),

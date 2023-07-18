@@ -120,7 +120,7 @@ class _TransSppSiswaScreenState extends State<TransSppSiswaScreen> {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              ':   ${transSpp[0].nama_lengkap}',
+                              ':   ${transSpp[0].sabuk}',
                               style: h5.copyWith(fontWeight: light),
                             ),
                           ),

@@ -20,12 +20,14 @@ class TransSppModel {
   late String id;
   late String nama_lengkap;
   late String tempat_latihan;
+  late String sabuk;
   late List<TransaksiModel>? transaksi;
 
   TransSppModel({
     required this.id,
     required this.nama_lengkap,
     required this.tempat_latihan,
+    required this.sabuk,
     this.transaksi,
   });
 
@@ -33,6 +35,7 @@ class TransSppModel {
     id = json["id"];
     nama_lengkap = json["nama_lengkap"];
     tempat_latihan = json["tempat_latihan"];
+    sabuk = json["sabuk"];
     transaksi = (json["transaksi"].length != 0)
         ? List<TransaksiModel>.from(
             json["transaksi"].map((x) => TransaksiModel.fromJson(x)))

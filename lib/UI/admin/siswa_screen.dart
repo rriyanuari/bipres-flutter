@@ -221,30 +221,41 @@ class SiswaScreen extends StatelessWidget {
               ? Center(child: CircularProgressIndicator())
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                  child: ListView.builder(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: controller.siswa.length,
-                    itemBuilder: (context, index) {
-                      final data = controller.siswa[index];
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Jumlah siswa : ${controller.siswa.length}'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: controller.siswa.length,
+                          itemBuilder: (context, index) {
+                            final data = controller.siswa[index];
 
-                      // Render data items
-                      return Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          margin: EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: MyExpansionTile(
-                              siswa: data,
-                              namaLengkap: data.namaLengkap,
-                              id: data.id,
-                              idUser: data.idUser,
-                              jenisKelamin: data.jenisKelamin,
-                              sabuk: data.Sabuk,
-                              tanggalLahir: data.tanggalLahir,
-                              TempatLatihan: data.TempatLatihan));
-                    },
+                            // Render data items
+                            return Container(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                margin: EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: MyExpansionTile(
+                                    siswa: data,
+                                    namaLengkap: data.namaLengkap,
+                                    id: data.id,
+                                    idUser: data.idUser,
+                                    jenisKelamin: data.jenisKelamin,
+                                    sabuk: data.Sabuk,
+                                    tanggalLahir: data.tanggalLahir,
+                                    TempatLatihan: data.TempatLatihan));
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
         ),

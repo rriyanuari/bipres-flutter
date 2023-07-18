@@ -154,136 +154,136 @@ class _TesKenaikanDetailScreenState extends State<TesKenaikanDetailScreen> {
                         SizedBox(
                           height: 20,
                         ),
-                        Divider(
-                          thickness: 3,
-                        ),
-                        ListTile(
-                          contentPadding: EdgeInsets.all(0),
-                          title: Text(
-                            'Informasi Kemampuan',
-                            style: h4.copyWith(fontWeight: regular),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                'Nlai Fisik',
-                                style: h5,
-                              ),
-                            ),
-                            Expanded(
-                                flex: 2,
-                                child: siswa.NilaiFisik != ""
-                                    ? Text(
-                                        ':   ${siswa.NilaiFisik}',
-                                        style: h5,
-                                      )
-                                    : Text(
-                                        ':   Belum pernah tes',
-                                        style: h5,
-                                      )),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                              'Sikap Pasang 1 - 4',
-                              style: h5,
-                            )),
-                            Expanded(
-                              child: Checkbox(
-                                checkColor: Colors.white,
-                                value:
-                                    siswa.Tingkatan[0]['sikap_pasang_4'] == '0'
-                                        ? false
-                                        : true,
-                                onChanged: (bool? value) {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                              'Sikap Pasang 4 - 8',
-                              style: h5,
-                            )),
-                            Expanded(
-                              child: Checkbox(
-                                checkColor: Colors.white,
-                                value:
-                                    siswa.Tingkatan[0]['sikap_pasang_8'] == '0'
-                                        ? false
-                                        : true,
-                                onChanged: (bool? value) {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                              'Jurus Tangan Kosong',
-                              style: h5,
-                            )),
-                            Expanded(
-                              child: Checkbox(
-                                checkColor: Colors.white,
-                                value: siswa.Tingkatan[0]
-                                            ['jurus_tangan_kosong'] ==
-                                        '0'
-                                    ? false
-                                    : true,
-                                onChanged: (bool? value) {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                              'Jurus Senjata Golok',
-                              style: h5,
-                            )),
-                            Expanded(
-                              child: Checkbox(
-                                checkColor: Colors.white,
-                                value: siswa.Tingkatan[0]
-                                            ['jurus_senjata_golok'] ==
-                                        '0'
-                                    ? false
-                                    : true,
-                                onChanged: (bool? value) {},
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                              'Jurus Senjata Toya',
-                              style: h5,
-                            )),
-                            Expanded(
-                              child: Checkbox(
-                                checkColor: Colors.white,
-                                value: siswa.Tingkatan[0]
-                                            ['jurus_senjata_toya'] ==
-                                        '0'
-                                    ? false
-                                    : true,
-                                onChanged: (bool? value) {},
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Divider(
+                        //   thickness: 3,
+                        // ),
+                        // ListTile(
+                        //   contentPadding: EdgeInsets.all(0),
+                        //   title: Text(
+                        //     'Informasi Kemampuan',
+                        //     style: h4.copyWith(fontWeight: regular),
+                        //   ),
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       flex: 1,
+                        //       child: Text(
+                        //         'Nlai Fisik',
+                        //         style: h5,
+                        //       ),
+                        //     ),
+                        //     Expanded(
+                        //         flex: 2,
+                        //         child: siswa.NilaiFisik != ""
+                        //             ? Text(
+                        //                 ':   ${siswa.NilaiFisik}',
+                        //                 style: h5,
+                        //               )
+                        //             : Text(
+                        //                 ':   Belum pernah tes',
+                        //                 style: h5,
+                        //               )),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //         child: Text(
+                        //       'Sikap Pasang 1 - 4',
+                        //       style: h5,
+                        //     )),
+                        //     Expanded(
+                        //       child: Checkbox(
+                        //         checkColor: Colors.white,
+                        //         value:
+                        //             siswa.Tingkatan[0]['sikap_pasang_4'] == '0'
+                        //                 ? false
+                        //                 : true,
+                        //         onChanged: (bool? value) {},
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //         child: Text(
+                        //       'Sikap Pasang 4 - 8',
+                        //       style: h5,
+                        //     )),
+                        //     Expanded(
+                        //       child: Checkbox(
+                        //         checkColor: Colors.white,
+                        //         value:
+                        //             siswa.Tingkatan[0]['sikap_pasang_8'] == '0'
+                        //                 ? false
+                        //                 : true,
+                        //         onChanged: (bool? value) {},
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //         child: Text(
+                        //       'Jurus Tangan Kosong',
+                        //       style: h5,
+                        //     )),
+                        //     Expanded(
+                        //       child: Checkbox(
+                        //         checkColor: Colors.white,
+                        //         value: siswa.Tingkatan[0]
+                        //                     ['jurus_tangan_kosong'] ==
+                        //                 '0'
+                        //             ? false
+                        //             : true,
+                        //         onChanged: (bool? value) {},
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //         child: Text(
+                        //       'Jurus Senjata Golok',
+                        //       style: h5,
+                        //     )),
+                        //     Expanded(
+                        //       child: Checkbox(
+                        //         checkColor: Colors.white,
+                        //         value: siswa.Tingkatan[0]
+                        //                     ['jurus_senjata_golok'] ==
+                        //                 '0'
+                        //             ? false
+                        //             : true,
+                        //         onChanged: (bool? value) {},
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //         child: Text(
+                        //       'Jurus Senjata Toya',
+                        //       style: h5,
+                        //     )),
+                        //     Expanded(
+                        //       child: Checkbox(
+                        //         checkColor: Colors.white,
+                        //         value: siswa.Tingkatan[0]
+                        //                     ['jurus_senjata_toya'] ==
+                        //                 '0'
+                        //             ? false
+                        //             : true,
+                        //         onChanged: (bool? value) {},
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Divider(
                           thickness: 3,
                         ),
