@@ -100,7 +100,7 @@ class _TesKenaikanDetailSiswaScreenState
                           Expanded(
                             flex: 1,
                             child: Text(
-                              ':   ${siswa[0].TempatLatihan}',
+                              ':   ${siswa[0].tempatLatihan}',
                               style: h5.copyWith(fontWeight: light),
                             ),
                           ),
@@ -121,7 +121,7 @@ class _TesKenaikanDetailSiswaScreenState
                           Expanded(
                             flex: 1,
                             child: Text(
-                              ':   ${siswa[0].Sabuk}',
+                              ':   ${siswa[0].sabuk}',
                               style: h5.copyWith(fontWeight: light),
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bipres/UI/admin/siswa_edit_screen.dart';
 import 'package:bipres/api/api.dart';
@@ -15,32 +16,6 @@ import 'package:bipres/shared/theme.dart';
 import 'package:bipres/shared/loadingWidget.dart';
 
 final controller = Get.put(SiswaController());
-
-void openDialog(BuildContext context, String id, idUser, nama) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Hapus Siswa'),
-        content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Tutup'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text('Hapus'),
-            onPressed: () {
-              controller.deleteSiswa(context, id, idUser);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
 
 class MyExpansionTile extends StatefulWidget {
   final siswa;
@@ -69,6 +44,40 @@ class MyExpansionTile extends StatefulWidget {
 
 class _MyExpansionTileState extends State<MyExpansionTile> {
   bool _isExpanded = false;
+
+  void openDialog(BuildContext context, String id, idUser, nama) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Hapus Siswa'),
+          content: Text('Apakah anda yakin ingin menghapus data ( $nama )?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Tutup'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Hapus'),
+              onPressed: () {
+                controller.deleteSiswa(context, id, idUser);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _formattingDate(date) {
+    // Parse the original date string to a DateTime object
+    DateTime newDate = DateFormat("yyyy-MM-dd").parse(date);
+
+    // Format the DateTime object to the desired format "dd-MMM-yyyy"
+    return DateFormat("dd-MMM-yyyy").format(newDate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +115,12 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                         children: [
                           Expanded(
                               child: Text(
-                            'Tanggal Lahir',
+                            'Username',
                             style: h5,
                           )),
                           Expanded(
                               child: Text(
-                            ':   ${widget.tanggalLahir}',
+                            ':   ${widget.siswa.username}',
                             style: h5,
                           )),
                         ],
@@ -129,6 +138,23 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
                           Expanded(
                               child: Text(
                             ':   ${widget.jenisKelamin}',
+                            style: h5,
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'Tanggal Lahir',
+                            style: h5,
+                          )),
+                          Expanded(
+                              child: Text(
+                            ':   ${_formattingDate(widget.tanggalLahir)}',
                             style: h5,
                           )),
                         ],
@@ -192,11 +218,38 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
   }
 }
 
-class SiswaScreen extends StatelessWidget {
+class SiswaScreen extends StatefulWidget {
+  const SiswaScreen({super.key});
+
+  @override
+  State<SiswaScreen> createState() => _SiswaScreenState();
+}
+
+class _SiswaScreenState extends State<SiswaScreen> {
+  final data = controller.siswa;
+  List<SiswaModel> siswa = <SiswaModel>[];
+
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    siswa = data;
+    // inspect(data);
+    inspect(siswa);
+    super.initState();
+  }
+
+  void filterSearchResults(String query) {
+    setState(() {
+      siswa = data
+          .where((item) =>
+              item.namaLengkap.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final siswa = controller.siswa;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
@@ -224,16 +277,58 @@ class SiswaScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Jumlah siswa : ${controller.siswa.length}'),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: TextField(
+                                onChanged: (value) {
+                                  filterSearchResults(value);
+                                },
+                                controller: searchController,
+                                decoration: const InputDecoration(
+                                  labelText: "Cari nama",
+                                  prefixIcon: Icon(Icons.search),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(5.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          ElevatedButton(
+                            onPressed: () => {
+                              setState(() {
+                                searchController.value = TextEditingValue.empty;
+                                siswa = data;
+                              })
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: primaryColor),
+                            child: const Icon(
+                              Icons.refresh,
+                              size: 22,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text('Jumlah siswa : ${siswa.length}'),
                       SizedBox(
                         height: 20,
                       ),
                       Expanded(
                         child: ListView.builder(
                           physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: controller.siswa.length,
+                          itemCount: siswa.length,
                           itemBuilder: (context, index) {
-                            final data = controller.siswa[index];
+                            final data = siswa[index];
 
                             // Render data items
                             return Container(
@@ -249,9 +344,9 @@ class SiswaScreen extends StatelessWidget {
                                     id: data.id,
                                     idUser: data.idUser,
                                     jenisKelamin: data.jenisKelamin,
-                                    sabuk: data.Sabuk,
+                                    sabuk: data.sabuk,
                                     tanggalLahir: data.tanggalLahir,
-                                    TempatLatihan: data.TempatLatihan));
+                                    TempatLatihan: data.tempatLatihan));
                           },
                         ),
                       ),

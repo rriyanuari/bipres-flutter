@@ -19,28 +19,77 @@ import 'package:bipres/shared/loadingWidget.dart';
 final siswaController = Get.put(SiswaController());
 final transController = Get.put(SppController());
 
-void openDialog(BuildContext context, String id, tanggal_bayar) {
-  showDialog(
+void _showBottomModal(BuildContext context, transSpp) {
+  double screenHeight = MediaQuery.of(context).size.height;
+  double halfScreenHeight = screenHeight / 1.2;
+
+  // CONVERT CURRENCY RP. FORMAT
+  NumberFormat currencyFormat =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp. ');
+  currencyFormat.maximumFractionDigits = 0;
+
+  showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Hapus Siswa'),
-        content:
-            Text('Apakah anda yakin ingin menghapus data ( $tanggal_bayar )?'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Tutup'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text('Hapus'),
-            onPressed: () {
-              transController.deleteTransSpp(context, id);
-            },
-          ),
-        ],
+      // Return the widget that you want to show as the bottom modal
+      return Container(
+        height: halfScreenHeight,
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Riwayat Pembayaran',
+              style: h4,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            (transSpp.transaksi != null)
+                ? Expanded(
+                    child: ListView.builder(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      itemCount: transSpp.transaksi?.length,
+                      itemBuilder: (context, index) {
+                        final data = transSpp.transaksi![index];
+                        int nominal_bayar = int.parse(data.nominal_bayar);
+
+                        // Render data items
+                        return Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            margin: EdgeInsets.only(bottom: 20),
+                            decoration: BoxDecoration(
+                              color: secondaryColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: ListTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${currencyFormat.format(nominal_bayar)} ( ${data.tanggal_bayar} )',
+                                          style:
+                                              h5.copyWith(fontWeight: regular),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ));
+
+                        // Co
+                      },
+                    ),
+                  )
+                : Text('----- Belum ada transaksi -----')
+          ],
+        ),
       );
     },
   );
@@ -61,7 +110,6 @@ class _TransSppDetailScreenState extends State<TransSppDetailScreen> {
     final siswa = siswaController.siswa;
     final transSpp = widget.data;
     final informasi_pembayaran = widget.informasi_pembayaran;
-    inspect(transSpp);
 
     return Scaffold(
       appBar: AppBar(
@@ -275,86 +323,70 @@ class _TransSppDetailScreenState extends State<TransSppDetailScreen> {
                         SizedBox(
                           height: 50,
                         ),
-                        (transSpp.transaksi != null)
-                            ? Expanded(
-                                child: ListView.builder(
-                                  physics: AlwaysScrollableScrollPhysics(),
-                                  itemCount: transSpp.transaksi?.length,
-                                  itemBuilder: (context, index) {
-                                    final data = transSpp.transaksi![index];
+                        MaterialButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          minWidth: 400.0,
+                          height: 50.0,
+                          color: primaryColor,
+                          child: Text(
+                            "Riwayat Pembayaran",
+                            style: h4.copyWith(
+                                fontWeight: bold, color: whiteColor),
+                          ),
+                          onPressed: () {
+                            _showBottomModal(context, transSpp);
+                          },
+                        ),
+                        // (transSpp.transaksi != null)
+                        //     ? Expanded(
+                        //         child: ListView.builder(
+                        //           physics: AlwaysScrollableScrollPhysics(),
+                        //           itemCount: transSpp.transaksi?.length,
+                        //           itemBuilder: (context, index) {
+                        //             final data = transSpp.transaksi![index];
+                        //             int nominal_bayar =
+                        //                 int.parse(data.nominal_bayar);
 
-                                    // Render data items
-                                    return Container(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        margin: EdgeInsets.only(bottom: 25),
-                                        decoration: BoxDecoration(
-                                          color: secondaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: ListTile(
-                                                title: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      '${data.nominal_bayar} ( ${data.tanggal_bayar} )',
-                                                      style: h5.copyWith(
-                                                          fontWeight: regular),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                // IconButton(
-                                                //   icon: Icon(
-                                                //     Icons.edit,
-                                                //     color: primaryColor,
-                                                //   ),
-                                                //   onPressed: () {
-                                                //     // Navigator.of(context).push(
-                                                //     //     MaterialPageRoute(
-                                                //     //         builder: (context) =>
-                                                //     //             TempatLatihanEditScreen(
-                                                //     //                 data, _lihatData)));
-                                                //   },
-                                                // ),
-                                                IconButton(
-                                                  icon: Icon(
-                                                    Icons.delete,
-                                                    color: primaryColor,
-                                                  ),
-                                                  onPressed: () {
-                                                    openDialog(
-                                                      context,
-                                                      data.id,
-                                                      data.tanggal_bayar,
-                                                    );
-                                                  },
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ));
+                        //             // Render data items
+                        //             return Container(
+                        //                 padding:
+                        //                     EdgeInsets.symmetric(vertical: 10),
+                        //                 margin: EdgeInsets.only(bottom: 25),
+                        //                 decoration: BoxDecoration(
+                        //                   color: secondaryColor,
+                        //                   borderRadius:
+                        //                       BorderRadius.circular(10),
+                        //                 ),
+                        //                 child: Row(
+                        //                   mainAxisAlignment:
+                        //                       MainAxisAlignment.spaceBetween,
+                        //                   children: [
+                        //                     Expanded(
+                        //                       child: ListTile(
+                        //                         title: Row(
+                        //                           mainAxisAlignment:
+                        //                               MainAxisAlignment
+                        //                                   .spaceBetween,
+                        //                           children: [
+                        //                             Text(
+                        //                               '${currencyFormat.format(nominal_bayar)} ( ${data.tanggal_bayar} )',
+                        //                               style: h5.copyWith(
+                        //                                   fontWeight: regular),
+                        //                             ),
+                        //                           ],
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ],
+                        //                 ));
 
-                                    // Co
-                                  },
-                                ),
-                              )
-                            : Text('----- Belum ada transaksi -----')
+                        //             // Co
+                        //           },
+                        //         ),
+                        //       )
+                        //     : Text('----- Belum ada transaksi -----')
                       ],
                     ),
                   )),

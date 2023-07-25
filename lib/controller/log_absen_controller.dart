@@ -67,7 +67,7 @@ class LogAbsenController extends GetxController {
         throw result['message'];
       }
 
-      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Tempat latihan berhasil ditambahkan"),
         backgroundColor: Colors.green,
       ));
@@ -76,7 +76,7 @@ class LogAbsenController extends GetxController {
 
       getLogAbsen();
     } catch (error) {
-      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("$error"),
         backgroundColor: Colors.red,
       ));
@@ -97,14 +97,14 @@ class LogAbsenController extends GetxController {
         throw result['message'];
       }
 
-      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Berhasil melakukan absensi"),
         backgroundColor: Colors.green,
       ));
 
       // getLogAbsen();
     } catch (error) {
-      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("$error"),
         backgroundColor: Colors.red,
       ));

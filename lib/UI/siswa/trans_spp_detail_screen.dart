@@ -258,7 +258,7 @@ class _TransSppSiswaScreenState extends State<TransSppSiswaScreen> {
                                   // Render data items
                                   return Container(
                                       padding:
-                                          EdgeInsets.symmetric(vertical: 10),
+                                          EdgeInsets.symmetric(vertical: 5),
                                       margin: EdgeInsets.only(bottom: 25),
                                       decoration: BoxDecoration(
                                         color: secondaryColor,
@@ -270,26 +270,30 @@ class _TransSppSiswaScreenState extends State<TransSppSiswaScreen> {
                                         children: [
                                           Expanded(
                                             child: ListTile(
-                                              title: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '${data.nominal_bayar} ( ${data.tanggal_bayar} )',
-                                                    style: h5.copyWith(
-                                                        fontWeight: regular),
-                                                  ),
-                                                ],
+                                              title: Container(
+                                                margin: EdgeInsets.only(
+                                                    bottom: 8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      '${data.tanggal_bayar} ',
+                                                      style: h5.copyWith(
+                                                        fontWeight: regular,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              subtitle: Text(
+                                                '${data.nominal_bayar}',
+                                                style: h3.copyWith(
+                                                    fontWeight: regular,
+                                                    color: blackColor),
                                               ),
                                             ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [],
                                           ),
                                         ],
                                       ));

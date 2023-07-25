@@ -64,6 +64,13 @@ class _SiswaEditScreenState extends State<SiswaEditScreen> {
   @override
   void initState() {
     super.initState();
+
+    setState(() {
+      selectedDate = DateTime.parse(widget.data.tanggalLahir);
+      selectedJenisKelamin = widget.data.jenisKelamin;
+      selectedTempatLatihan = widget.data.idTempatLatihan;
+      selectedTingkatan = widget.data.idTingkatan;
+    });
   }
 
   @override

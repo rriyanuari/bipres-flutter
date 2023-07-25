@@ -8,8 +8,9 @@ class SiswaModel {
   late String tanggalLahir;
   late String idTempatLatihan;
   late String idTingkatan;
-  late String TempatLatihan;
-  late String Sabuk;
+  late String tempatLatihan;
+  late String sabuk;
+  String? username;
   var NilaiFisik;
   var Tingkatan;
   var Tes;
@@ -24,8 +25,9 @@ class SiswaModel {
     required this.tanggalLahir,
     required this.idTempatLatihan,
     required this.idTingkatan,
-    required this.TempatLatihan,
-    required this.Sabuk,
+    required this.tempatLatihan,
+    required this.sabuk,
+    this.username,
     this.NilaiFisik,
     this.Tingkatan,
     this.Tes,
@@ -41,8 +43,9 @@ class SiswaModel {
     tanggalLahir = json["tanggal_lahir"];
     idTempatLatihan = json["id_tempat_latihan"];
     idTingkatan = json["id_tingkatan"];
-    TempatLatihan = json["tempat_latihan"];
-    Sabuk = json["sabuk"];
+    tempatLatihan = json["tempat_latihan"];
+    sabuk = json["sabuk"];
+    username = json["username"];
     NilaiFisik = (json["nilai_fisik"] != '') ? (json["nilai_fisik"]) : "";
     Tingkatan = (json["tingkatan"] != null) ? (json["tingkatan"]) : [];
     Tes = (json["tes"] != null) ? (json["tes"]) : [];

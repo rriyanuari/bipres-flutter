@@ -56,7 +56,7 @@ class _MyExpansionTileState extends State<MyExpansionTile> {
     double sisa_bulan_bayar = sisa_tagihan / tagihan_per_bulan;
 
     String val_bulan_bayar = bulan_bayar.toStringAsFixed(0);
-    String val_sisa_bulan_bayar = bulan_bayar.toStringAsFixed(0);
+    String val_sisa_bulan_bayar = sisa_bulan_bayar.toStringAsFixed(0);
 
     // CONVERT CURRENCY RP. FORMAT
     NumberFormat currencyFormat =

@@ -74,7 +74,7 @@ class _TesKenaikanDetailScreenState extends State<TesKenaikanDetailScreen> {
       ),
       body: Obx(
         () => RefreshIndicator(
-            onRefresh: siswaController.getSiswa,
+            onRefresh: (siswaController.getSiswa),
             child: siswaController.isLoading.value
                 ? Center(child: CircularProgressIndicator())
                 : Padding(
@@ -124,7 +124,7 @@ class _TesKenaikanDetailScreenState extends State<TesKenaikanDetailScreen> {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   ${siswa.TempatLatihan}',
+                                ':   ${siswa.tempatLatihan}',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),
@@ -145,7 +145,7 @@ class _TesKenaikanDetailScreenState extends State<TesKenaikanDetailScreen> {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                ':   ${siswa.Sabuk}',
+                                ':   ${siswa.sabuk}',
                                 style: h5.copyWith(fontWeight: light),
                               ),
                             ),

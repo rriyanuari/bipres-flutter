@@ -284,9 +284,9 @@ class TesKenaikanScreen extends StatelessWidget {
                               id: data.id,
                               idUser: data.idUser,
                               jenisKelamin: data.jenisKelamin,
-                              sabuk: data.Sabuk,
+                              sabuk: data.sabuk,
                               tanggalLahir: data.tanggalLahir,
-                              tempatLatihan: data.TempatLatihan,
+                              tempatLatihan: data.tempatLatihan,
                               tingkatan: data.Tingkatan));
                     },
                   ),

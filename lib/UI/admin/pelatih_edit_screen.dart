@@ -33,14 +33,6 @@ class _PelatihEditScreenState extends State<PelatihEditScreen> {
   final tempatController = Get.put(TempatLatihanController());
   final pelatihController = Get.put(PelatihController());
 
-  final _key = new GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    inspect(widget.data);
-  }
-
   String? selectedJenisKelamin = dropdownJenisKelaminItems.first.value;
   String? selectedTempatLatihan;
   DateTime selectedDate = DateTime.now();
@@ -48,6 +40,22 @@ class _PelatihEditScreenState extends State<PelatihEditScreen> {
   int tahun_pengesahan = DateTime.now().year;
   int startYear = DateTime.now().year - 50;
   int endYear = DateTime.now().year;
+
+  final _key = new GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    setState(
+      () {
+        selectedDate = DateTime.parse(widget.data.tanggalLahir);
+        tahun_pengesahan = int.parse(widget.data.tahunPengesahan);
+        selectedJenisKelamin = widget.data.jenisKelamin;
+        selectedTempatLatihan = widget.data.idTempatLatihan;
+      },
+    );
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(

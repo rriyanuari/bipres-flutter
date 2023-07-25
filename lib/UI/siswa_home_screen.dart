@@ -48,6 +48,13 @@ class _SiswaHomeScreenState extends State<SiswaHomeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    // profileController.getProfile();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final profiles = profileController.Profile;
 

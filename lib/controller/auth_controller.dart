@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:bipres/controller/pref_controller.dart';
 import 'package:bipres/routes/route_name.dart';
 import 'package:bipres/services/auth_services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,7 +33,7 @@ class AuthController extends GetxController {
       final data = response['data'];
 
       if (value == 'success') {
-        await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('$pesan, anda akan dialihkan'),
           backgroundColor: Colors.green, // Ganti dengan warna yang diinginkan
         ));
@@ -56,20 +53,26 @@ class AuthController extends GetxController {
         isLoggedIn.value = true;
         // END SAVE PREF ISLOGGEDIN
 
+        print('jalan');
+
         // REDIRECT
-        await Future.delayed(const Duration(seconds: 2),
+        await Future.delayed(const Duration(seconds: 3),
             () => Get.offNamed(RouteName.main_user_screen));
       } else {
         await Future.delayed(const Duration(seconds: 1));
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text('Username atau password salah'),
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Username atau password salah'),
           backgroundColor: Colors.red, // Ganti dengan warna yang diinginkan
         ));
       }
+
+      print('jalan setelah redirect');
+      isLoading.value = false;
     } finally {
       isLoading.value = false;
     }
+    update();
   }
 
   Future<void> logout(context) async {
@@ -82,17 +85,28 @@ class AuthController extends GetxController {
 
       prefController.clearPref();
 
-      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Berhasil logout, anda akan dialihkan"),
         backgroundColor: Colors.red,
       ));
 
-      await Future.delayed(const Duration(seconds: 2),
+      // await Future.delayed(const Duration(seconds: 1));
+      // await QuickAlert.show(
+      //   context: context,
+      //   type: QuickAlertType.success,
+      //   text: 'Berhasil logout, anda akan dialihkan',
+      // );
+
+      await Future.delayed(const Duration(seconds: 3),
           () => Get.offNamed(RouteName.login_screen));
+
+      print('jalan setelah redirect');
+      isLoading.value = false;
     } finally {
       isLoading.value = false;
-      // Get.deleteAll(force: true);
+      print(isLoading.value);
     }
+    update();
   }
 
   Future<void> editPassword(
@@ -123,8 +137,9 @@ class AuthController extends GetxController {
         backgroundColor: Colors.red, // Ganti dengan warna yang diinginkan
       ));
     } finally {
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
       isLoading.value = false;
     }
+    update();
   }
 }

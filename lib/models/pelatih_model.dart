@@ -8,20 +8,21 @@ class PelatihModel {
   late String tanggalLahir;
   late String tahunPengesahan;
   late String idTempatLatihan;
-  late String TempatLatihan;
+  String? TempatLatihan;
+  String? username;
 
-  PelatihModel({
-    required this.id,
-    required this.idUser,
-    required this.namaDepan,
-    required this.namaBelakang,
-    required this.namaLengkap,
-    required this.jenisKelamin,
-    required this.tanggalLahir,
-    required this.tahunPengesahan,
-    required this.idTempatLatihan,
-    required this.TempatLatihan,
-  });
+  PelatihModel(
+      {required this.id,
+      required this.idUser,
+      required this.namaDepan,
+      required this.namaBelakang,
+      required this.namaLengkap,
+      required this.jenisKelamin,
+      required this.tanggalLahir,
+      required this.tahunPengesahan,
+      required this.idTempatLatihan,
+      required this.TempatLatihan,
+      this.username});
 
   PelatihModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
@@ -35,5 +36,6 @@ class PelatihModel {
     idTempatLatihan = json["id_tempat_latihan"];
     TempatLatihan =
         (json["tempat_latihan"] != null) ? json["tempat_latihan"] : '';
+    username = (json["username"] != null) ? json["username"] : '';
   }
 }

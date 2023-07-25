@@ -18,12 +18,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Future autoLogin(isLoggedIn) async {
     // Check ada data?
     if (isLoggedIn) {
-      print('sudah login');
       Future.delayed(const Duration(seconds: 2), () {
         Get.offNamed(RouteName.main_user_screen);
       });
     } else {
-      print('belum login');
       Future.delayed(const Duration(seconds: 2), () {
         Get.offNamed(RouteName.login_screen);
       });
